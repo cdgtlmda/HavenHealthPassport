@@ -1,0 +1,129 @@
+{
+  "accent_specific_models": {
+    "arabic_accented_english": {
+      "common_substitutions": {
+        "p": ["b", "often substitute P with B"],
+        "v": ["f", "often substitute V with F"],
+        "th": ["s", "z", "dental fricatives difficult"]
+      },
+      "medical_adjustments": [
+        {
+          "term": "prescription",
+          "expected_variations": ["brescription", "berescription"],
+          "training_note": "Train on P/B initial substitution"
+        },
+        {
+          "term": "vaccine",
+          "expected_variations": ["faccine", "waccine"],
+          "training_note": "V/F and V/W variations common"
+        },
+        {
+          "term": "breathing",
+          "expected_variations": ["breasing", "breazing"],
+          "training_note": "TH substitution patterns"
+        }
+      ]
+    },
+    "spanish_accented_english": {
+      "common_patterns": {
+        "initial_s": "Often add 'e' before S+consonant",
+        "b_v": "B and V often interchanged",
+        "h": "Silent H often pronounced"
+      },
+      "medical_adjustments": [
+        {
+          "term": "stress",
+          "expected_variations": ["estress", "es-tress"],
+          "training_note": "E-addition before ST cluster"
+        },
+        {
+          "term": "diabetes",
+          "expected_variations": ["diabetis", "dee-ah-beh-tes"],
+          "training_note": "Spanish pronunciation influence"
+        }
+      ]
+    },
+    "french_accented_english": {
+      "common_patterns": {
+        "h": "Often dropped",
+        "r": "Uvular R instead of alveolar",
+        "th": "Replaced with Z or S"
+      },
+      "medical_adjustments": [
+        {
+          "term": "hypertension",
+          "expected_variations": ["ipertension", "'ypertension"],
+          "training_note": "H-dropping common"
+        }
+      ]
+    }
+  },
+  "dialect_specific_terminology": {
+    "arabic_dialects": {
+      "egyptian": {
+        "blood_pressure": "ضغط الدم",
+        "diabetes": "السكر",
+        "headache": "صداع",
+        "fever": "سخونية"
+      },
+      "levantine": {
+        "blood_pressure": "ضغط",
+        "diabetes": "سكري",
+        "headache": "وجع راس",
+        "fever": "حرارة"
+      },
+      "gulf": {
+        "blood_pressure": "الضغط",
+        "diabetes": "السكري",
+        "headache": "صداع",
+        "fever": "حمى"
+      },
+      "maghrebi": {
+        "blood_pressure": "تونسيون",
+        "diabetes": "مرض السكر",
+        "headache": "وجع الراس",
+        "fever": "سخانة"
+      }
+    },
+    "spanish_dialects": {
+      "mexican": {
+        "prescription": "receta",
+        "shot": "inyección",
+        "pregnant": "embarazada",
+        "sick": "enfermo"
+      },
+      "caribbean": {
+        "prescription": "receta",
+        "shot": "pinchazo",
+        "pregnant": "preñada",
+        "sick": "malo"
+      },
+      "argentinian": {
+        "prescription": "receta",
+        "shot": "pinchazo",
+        "pregnant": "embarazada",
+        "sick": "enfermo"
+      }
+    },
+    "swahili_dialects": {
+      "kenyan": {
+        "hospital": "hospitali",
+        "medicine": "dawa",
+        "doctor": "daktari",
+        "nurse": "nesi"
+      },
+      "tanzanian": {
+        "hospital": "hospitali",
+        "medicine": "dawa",
+        "doctor": "daktari",
+        "nurse": "muuguzi"
+      },
+      "congolese": {
+        "hospital": "lopitalo",
+        "medicine": "nkisi",
+        "doctor": "monganga",
+        "nurse": "infirmier"
+      }
+    }
+  }
+}

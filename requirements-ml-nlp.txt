@@ -1,0 +1,29 @@
+# ML/NLP Requirements for Punctuation and Text Processing
+
+# Transformer models for punctuation restoration
+transformers>=4.36.0  # Already in medical models requirements
+torch>=2.0.0         # Already in medical models requirements
+
+# Medical Imaging
+pydicom>=2.4.0       # For DICOM file handling
+pillow>=10.0.0       # For image processing (often needed with DICOM)
+
+# Office Document Processing
+python-docx>=1.1.0   # For Word document (.docx) processing
+openpyxl>=3.1.0      # For Excel document (.xlsx) processing
+python-pptx>=0.6.21  # For PowerPoint processing (optional)
+
+# Audio processing (already in requirements-audio.txt but listed for completeness)
+pydub>=0.25.1        # For audio segmentation
+librosa>=0.10.0      # For audio analysis
+
+# AWS SDK (already in main requirements)
+boto3>=1.28.0        # For S3 uploads
+
+# Additional NLP utilities
+nltk>=3.8            # Natural Language Toolkit for additional text processing
+spacy>=3.7.0         # Advanced NLP (optional, for enhanced punctuation)
+
+# Note for punctuation model:
+# The model "oliverguhr/fullstop-punctuation-multilang-large" will be downloaded
+# automatically on first use (approximately 1.4GB)

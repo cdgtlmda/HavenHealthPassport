@@ -1,0 +1,155 @@
+version: '3.8'
+
+services:
+  # Test PostgreSQL Database
+  test-postgres:
+    image: postgres:15-alpine
+    container_name: haven-test-postgres
+    ports:
+      - "5433:5432"  # Different port to avoid conflicts
+    environment:
+      POSTGRES_DB: haven_test
+      POSTGRES_USER: test
+      POSTGRES_PASSWORD: test
+      POSTGRES_INITDB_ARGS: "-E UTF8"
+    volumes:
+      - test-postgres-data:/var/lib/postgresql/data
+    networks:
+      - haven-test-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U test -d haven_test"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # Test Redis Cache
+  test-redis:
+    image: redis:7-alpine
+    container_name: haven-test-redis
+    ports:
+      - "6380:6379"  # Different port to avoid conflicts
+    networks:
+      - haven-test-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # LocalStack for AWS Services Mocking
+  localstack:
+    image: localstack/localstack:latest
+    container_name: haven-test-localstack
+    ports:
+      - "4566:4566"  # LocalStack gateway
+      - "4510-4559:4510-4559"  # External service ports
+    environment:
+      - SERVICES=s3,dynamodb,kms,sns,sqs,cloudwatch
+      - DEBUG=1
+      - DATA_DIR=/tmp/localstack/data
+      - LAMBDA_EXECUTOR=local
+      - DOCKER_HOST=unix:///var/run/docker.sock
+    volumes:
+      - test-localstack-data:/tmp/localstack
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    networks:
+      - haven-test-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:4566/_localstack/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Test FHIR Server
+  test-fhir:
+    image: hapiproject/hapi:latest
+    container_name: haven-test-fhir
+    ports:
+      - "8081:8080"
+    environment:
+      - hapi.fhir.server_address=http://localhost:8081/fhir
+      - hapi.fhir.subscription.resthook_enabled=true
+      - hapi.fhir.cors.allowed_origin=*
+      - hapi.fhir.validation.enabled=true
+    networks:
+      - haven-test-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/fhir/metadata"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Mock OAuth Provider (for testing OAuth flows)
+  mock-oauth:
+    image: ghcr.io/navikt/mock-oauth2-server:latest
+    container_name: haven-test-oauth
+    ports:
+      - "9090:8080"
+    environment:
+      - LOG_LEVEL=DEBUG
+    networks:
+      - haven-test-network
+
+  # Test Mail Server (MailHog)
+  mailhog:
+    image: mailhog/mailhog:latest
+    container_name: haven-test-mailhog
+    ports:
+      - "1025:1025"  # SMTP server
+      - "8025:8025"  # Web UI
+    networks:
+      - haven-test-network
+
+  # Test Application Service
+  test-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: test  # Use test stage from multi-stage build
+    container_name: haven-test-app
+    depends_on:
+      test-postgres:
+        condition: service_healthy
+      test-redis:
+        condition: service_healthy
+      localstack:
+        condition: service_healthy
+    environment:
+      - TESTING=true
+      - DATABASE_URL=postgresql://test:test@test-postgres:5432/haven_test
+      - REDIS_URL=redis://test-redis:6379/1
+      - AWS_ENDPOINT_URL=http://localstack:4566
+      - AWS_ACCESS_KEY_ID=test
+      - AWS_SECRET_ACCESS_KEY=test
+      - FHIR_SERVER_URL=http://test-fhir:8080/fhir
+      - OAUTH_PROVIDER_URL=http://mock-oauth:8080
+      - SMTP_HOST=mailhog
+      - SMTP_PORT=1025
+      - SECRET_KEY=test-secret-key-for-testing-only
+    volumes:
+      - ./src:/app/src
+      - ./tests:/app/tests
+      - test-coverage:/app/coverage
+    networks:
+      - haven-test-network
+    command: >
+      sh -c "
+        echo 'Waiting for services to be ready...' &&
+        sleep 5 &&
+        echo 'Running database migrations...' &&
+        alembic upgrade head &&
+        echo 'Running tests with coverage...' &&
+        pytest --cov=src --cov-report=html --cov-report=term -v
+      "
+
+volumes:
+  test-postgres-data:
+  test-localstack-data:
+  test-coverage:
+
+networks:
+  haven-test-network:
+    driver: bridge
+
+# Override configuration for CI environments
+# Use docker-compose -f docker-compose.test.yml up --abort-on-container-exit --exit-code-from test-app

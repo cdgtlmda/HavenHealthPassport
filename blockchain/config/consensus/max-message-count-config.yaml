@@ -1,0 +1,387 @@
+# Maximum Message Count Configuration
+# Haven Health Passport - Block Size Optimization
+
+# Overview
+# Maximum message count determines the maximum number of transactions
+# that can be included in a single block before it must be cut
+
+maxMessageCount:
+  # Production configuration
+  production:
+    # Default maximum messages per block
+    default: 500
+
+    # Dynamic sizing based on transaction characteristics
+    dynamic:
+      enabled: true
+
+      # Bounds for dynamic adjustment
+      bounds:
+        minimum: 100      # Never less than 100 messages
+        maximum: 2000     # Never more than 2000 messages
+
+      # Adjustment strategy
+      strategy:
+        # Base adjustment on average transaction size
+        basedOn: "average-transaction-size"
+
+        # Size thresholds and corresponding message counts
+        sizeBrackets:
+          - avgSize: "< 1KB"
+            maxMessages: 1000
+            description: "Small transactions (e.g., access logs)"
+
+          - avgSize: "1KB - 10KB"
+            maxMessages: 500
+            description: "Medium transactions (e.g., prescriptions)"
+
+          - avgSize: "10KB - 100KB"
+            maxMessages: 100
+            description: "Large transactions (e.g., lab results)"
+
+          - avgSize: "> 100KB"
+            maxMessages: 50
+            description: "Very large transactions (e.g., imaging data)"
+
+        # Real-time adjustment parameters
+        realTimeAdjustment:
+          # Sampling window for calculating average
+          samplingWindow: "5m"
+
+          # How often to recalculate
+          recalculationInterval: "1m"
+
+          # Smoothing factor (0-1, higher = more responsive)
+          smoothingFactor: 0.3
+
+          # Memory pressure threshold (percentage)
+          memoryPressureThreshold: 80
+
+          # Reduce count when memory pressure detected
+          memoryPressureReduction: 0.5
+
+    # Channel-specific configurations
+    channelConfigs:
+      # System channel for administrative operations
+      "system-channel":
+        maxMessages: 100
+        rationale: "Admin operations are infrequent but important"
+
+      # Main healthcare data channel
+      "healthcare-data":
+        maxMessages: 500
+        rationale: "Balance between throughput and latency"
+
+      # Emergency response channel
+      "emergency-response":
+        maxMessages: 200
+        rationale: "Smaller blocks for faster propagation"
+
+      # Bulk data transfer channel
+      "bulk-transfer":
+        maxMessages: 1000
+        rationale: "Optimize for throughput over latency"
+
+      # Audit and compliance channel
+      "audit-compliance":
+        maxMessages: 1000
+        rationale: "Audit logs are small and numerous"
+
+  # Development configuration
+  development:
+    default: 10
+    dynamic:
+      enabled: false
+    rationale: "Small blocks for easier debugging"
+
+  # Testing configuration
+  testing:
+    default: 100
+    dynamic:
+      enabled: true
+    rationale: "Moderate size for performance testing"
+
+# Transaction type classifications
+transactionTypes:
+  # Healthcare record transactions
+  healthcareRecords:
+    - type: "patient-registration"
+      avgSize: "2KB"
+      frequency: "low"
+      priority: "high"
+
+    - type: "medical-history"
+      avgSize: "50KB"
+      frequency: "medium"
+      priority: "high"
+
+    - type: "prescription"
+      avgSize: "5KB"
+      frequency: "high"
+      priority: "critical"
+
+    - type: "lab-result"
+      avgSize: "20KB"
+      frequency: "medium"
+      priority: "high"
+
+    - type: "imaging-metadata"
+      avgSize: "100KB"
+      frequency: "low"
+      priority: "normal"
+
+    - type: "appointment"
+      avgSize: "1KB"
+      frequency: "high"
+      priority: "normal"
+
+    - type: "vaccination-record"
+      avgSize: "3KB"
+      frequency: "medium"
+      priority: "high"
+
+  # Access control transactions
+  accessControl:
+    - type: "access-grant"
+      avgSize: "500B"
+      frequency: "high"
+      priority: "high"
+
+    - type: "access-revoke"
+      avgSize: "500B"
+      frequency: "medium"
+      priority: "critical"
+
+    - type: "access-audit"
+      avgSize: "1KB"
+      frequency: "very-high"
+      priority: "low"
+
+  # Verification transactions
+  verification:
+    - type: "credential-verification"
+      avgSize: "2KB"
+      frequency: "medium"
+      priority: "high"
+
+    - type: "identity-verification"
+      avgSize: "5KB"
+      frequency: "low"
+      priority: "critical"
+
+# Optimization strategies
+optimizationStrategies:
+  # Transaction batching
+  batching:
+    enabled: true
+
+    # Batch similar transactions together
+    groupBy: "transaction-type"
+
+    # Maximum time to wait for batch
+    maxWaitTime: "500ms"
+
+    # Minimum batch size to trigger
+    minBatchSize: 10
+
+    # Priority handling
+    priorityOverride:
+      # Critical transactions bypass batching
+      critical: "immediate"
+      high: "max-wait-100ms"
+      normal: "standard-batching"
+      low: "aggressive-batching"
+
+  # Block packing optimization
+  blockPacking:
+    # Algorithm for packing transactions
+    algorithm: "first-fit-decreasing"
+
+    # Consider transaction dependencies
+    respectDependencies: true
+
+    # Leave headroom for system transactions
+    systemReserve: "10%"
+
+    # Optimize for
+    optimizeFor: "throughput"  # Options: throughput, latency, balanced
+
+  # Memory management
+  memoryManagement:
+    # Maximum memory per block assembly
+    maxBlockMemory: "100MB"
+
+    # Transaction buffer size
+    bufferSize: "50MB"
+
+    # Garbage collection trigger
+    gcTrigger: "80%"
+
+# Performance metrics
+performanceTargets:
+  # Block creation metrics
+  blockCreation:
+    # Target time to assemble block
+    targetAssemblyTime: "100ms"
+
+    # Maximum assembly time before timeout
+    maxAssemblyTime: "1s"
+
+    # Target block utilization
+    targetUtilization: "85%"
+
+  # Throughput targets
+  throughput:
+    # Transactions per second by type
+    targetTPS:
+      overall: 1000
+      healthcareRecords: 500
+      accessControl: 300
+      verification: 200
+
+    # Peak handling
+    peakMultiplier: 3
+
+    # Sustained performance duration
+    sustainedDuration: "1h"
+
+  # Latency targets
+  latency:
+    # End-to-end transaction confirmation
+    p50: "2s"
+    p95: "5s"
+    p99: "10s"
+
+    # Block propagation time
+    propagation:
+      sameAZ: "50ms"
+      crossAZ: "100ms"
+      crossRegion: "500ms"
+
+# Monitoring configuration
+monitoring:
+  # Metrics to track
+  metrics:
+    - name: "MessagesPerBlock"
+      type: "histogram"
+      buckets: [10, 50, 100, 200, 500, 1000, 2000]
+      unit: "count"
+
+    - name: "BlockUtilization"
+      type: "gauge"
+      unit: "percentage"
+      description: "Percentage of max messages used"
+
+    - name: "TransactionQueueDepth"
+      type: "gauge"
+      unit: "count"
+      description: "Number of pending transactions"
+
+    - name: "BlockAssemblyTime"
+      type: "histogram"
+      unit: "milliseconds"
+      description: "Time to assemble a block"
+
+    - name: "RejectedTransactions"
+      type: "counter"
+      unit: "count"
+      description: "Transactions rejected due to size limits"
+
+  # CloudWatch alarms
+  alarms:
+    - name: "LowBlockUtilization"
+      metric: "BlockUtilization"
+      threshold: 20
+      comparison: "LessThan"
+      description: "Blocks are under-utilized"
+      action: "Increase max message count"
+
+    - name: "HighQueueDepth"
+      metric: "TransactionQueueDepth"
+      threshold: 5000
+      comparison: "GreaterThan"
+      description: "Transaction backlog building up"
+      action: "Increase max message count or reduce batch timeout"
+
+    - name: "ExcessiveBlockAssemblyTime"
+      metric: "BlockAssemblyTime"
+      threshold: 500
+      comparison: "GreaterThan"
+      statistic: "p95"
+      description: "Block assembly taking too long"
+      action: "Reduce max message count"
+
+# Testing scenarios
+testScenarios:
+  # Load patterns to test
+  patterns:
+    - name: "steady-state"
+      description: "Consistent load"
+      messagesPerSecond: 500
+      messageSize: "5KB"
+      duration: "30m"
+      expectedBlockSize: 500
+
+    - name: "burst-traffic"
+      description: "Sudden spike in transactions"
+      messagesPerSecond: 2000
+      messageSize: "2KB"
+      duration: "5m"
+      expectedBlockSize: 1000
+
+    - name: "mixed-sizes"
+      description: "Varied transaction sizes"
+      distribution:
+        - size: "1KB"
+          percentage: 60
+        - size: "10KB"
+          percentage: 30
+        - size: "100KB"
+          percentage: 10
+      duration: "20m"
+
+    - name: "memory-pressure"
+      description: "Test under memory constraints"
+      messagesPerSecond: 1000
+      messageSize: "50KB"
+      memoryLimit: "500MB"
+      duration: "15m"
+
+# Best practices
+bestPractices:
+  # General recommendations
+  general:
+    - "Monitor block utilization regularly"
+    - "Adjust based on actual transaction patterns"
+    - "Consider peak vs. average load"
+    - "Test changes in staging first"
+    - "Coordinate with batch timeout settings"
+
+  # Size recommendations by network
+  networkSize:
+    small:
+      nodes: "< 10"
+      recommended: 100
+      rationale: "Faster consensus with smaller blocks"
+
+    medium:
+      nodes: "10-50"
+      recommended: 500
+      rationale: "Balance between efficiency and latency"
+
+    large:
+      nodes: "50-100"
+      recommended: 1000
+      rationale: "Optimize for throughput"
+
+    xlarge:
+      nodes: "> 100"
+      recommended: 2000
+      rationale: "Maximum throughput for large networks"
+
+  # Healthcare-specific considerations
+  healthcare:
+    - "Emergency transactions should use separate channel with lower count"
+    - "Bulk data imports should use dedicated high-count channel"
+    - "Consider HIPAA audit requirements for sizing"
+    - "Account for encryption overhead in size calculations"

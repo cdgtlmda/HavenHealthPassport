@@ -1,0 +1,246 @@
+# Heartbeat Interval Configuration
+# Haven Health Passport - Raft Consensus Timing
+
+# This configuration defines the heartbeat interval settings for the Raft consensus
+# protocol in the Haven Health Passport blockchain network
+
+heartbeatConfiguration:
+  # Metadata
+  metadata:
+    name: "haven-health-heartbeat-config"
+    description: "Heartbeat interval configuration for Raft consensus"
+    version: "1.0.0"
+    lastUpdated: "2025-05-31T00:00:00Z"
+
+  # Core Heartbeat Settings
+  core:
+    # Primary heartbeat interval (milliseconds)
+    # This is the base interval at which the leader sends heartbeats
+    interval: 500
+
+    # Interval unit for clarity
+    intervalUnit: "milliseconds"
+
+    # Human-readable interval
+    intervalHuman: "500ms"
+
+    # Heartbeat timing precision
+    precision:
+      # Jitter to add randomness and prevent thundering herd
+      jitterEnabled: true
+      jitterRange: 50  # +/- 50ms jitter
+
+      # Clock synchronization tolerance
+      clockTolerance: 100  # 100ms clock drift tolerance
+
+  # Adaptive Heartbeat Configuration
+  adaptive:
+    # Enable adaptive heartbeat based on network conditions
+    enabled: true
+
+    # Network latency-based adjustment
+    latencyAdjustment:
+      # Measure round-trip time to followers
+      measureRTT: true
+
+      # Adjust interval based on P95 latency
+      targetPercentile: 95
+
+      # Minimum multiplier of RTT for heartbeat interval
+      minMultiplier: 2.0
+
+      # Maximum multiplier of RTT for heartbeat interval
+      maxMultiplier: 5.0
+
+    # Load-based adjustment
+    loadAdjustment:
+      # Adjust based on transaction load
+      enabled: true
+
+      # High load threshold (transactions per second)
+      highLoadThreshold: 1000
+
+      # Low load threshold (transactions per second)
+      lowLoadThreshold: 100
+
+      # Heartbeat interval during high load
+      highLoadInterval: 250
+
+      # Heartbeat interval during low load
+      lowLoadInterval: 1000
+
+    # Network condition thresholds
+    networkConditions:
+      # Packet loss threshold for adjustment
+      packetLossThreshold: 0.01  # 1%
+
+      # Increase interval if packet loss detected
+      packetLossMultiplier: 1.5
+
+  # Follower Timeout Configuration
+  followerTimeout:
+    # Base timeout multiplier (timeout = interval * multiplier)
+    baseMultiplier: 10
+
+    # Minimum timeout regardless of interval
+    minTimeout: 2000  # 2 seconds
+
+    # Maximum timeout to prevent excessive delays
+    maxTimeout: 10000  # 10 seconds
+
+    # Grace period for network delays
+    gracePeriod: 500  # Additional 500ms before timeout
+
+  # Leader Lease Integration
+  leaderLease:
+    # Heartbeat requirement for lease renewal
+    renewalHeartbeats: 3  # Must send 3 successful heartbeats to renew
+
+    # Lease duration as multiple of heartbeat interval
+    leaseDurationMultiplier: 20  # 20 * 500ms = 10 seconds
+
+    # Early renewal threshold
+    earlyRenewalRatio: 0.75  # Renew at 75% of lease expiration
+
+  # Performance Optimization
+  optimization:
+    # Batching heartbeats with other messages
+    batching:
+      enabled: true
+
+      # Maximum wait time for batching
+      maxWaitTime: 100  # 100ms
+
+      # Maximum batch size
+      maxBatchSize: 10
+
+    # Compression for heartbeat messages
+    compression:
+      enabled: true
+      algorithm: "snappy"  # Fast compression
+
+    # Connection pooling
+    connectionPool:
+      # Reuse connections for heartbeats
+      reuseConnections: true
+
+      # Keep-alive for idle connections
+      keepAliveInterval: 30000  # 30 seconds
+
+  # Monitoring and Metrics
+  monitoring:
+    # Heartbeat-specific metrics
+    metrics:
+      - name: "heartbeat_interval_current"
+        type: "gauge"
+        description: "Current heartbeat interval in milliseconds"
+
+      - name: "heartbeat_send_duration"
+        type: "histogram"
+        description: "Time to send heartbeat to all followers"
+        buckets: [10, 25, 50, 100, 250, 500, 1000]
+
+      - name: "heartbeat_success_rate"
+        type: "gauge"
+        description: "Percentage of successful heartbeats"
+
+      - name: "heartbeat_failures_total"
+        type: "counter"
+        description: "Total number of heartbeat failures"
+
+      - name: "follower_last_heartbeat"
+        type: "gauge"
+        description: "Time since last heartbeat per follower"
+        labels: ["follower_id"]
+
+    # Alerting thresholds
+    alerts:
+      - name: "HeartbeatFailureRate"
+        condition: "heartbeat_success_rate < 0.95"
+        severity: "warning"
+        description: "Heartbeat success rate below 95%"
+
+      - name: "HeartbeatLatencyHigh"
+        condition: "heartbeat_send_duration > 250"
+        severity: "warning"
+        description: "Heartbeat taking longer than 250ms"
+
+      - name: "FollowerNotResponding"
+        condition: "follower_last_heartbeat > 5000"
+        severity: "critical"
+        description: "Follower hasn't received heartbeat in 5 seconds"
+
+  # Fault Tolerance
+  faultTolerance:
+    # Behavior when heartbeat fails
+    onFailure:
+      # Retry configuration
+      retries:
+        enabled: true
+        maxAttempts: 3
+        backoffType: "exponential"
+        initialDelay: 100
+        maxDelay: 1000
+
+      # Circuit breaker for persistent failures
+      circuitBreaker:
+        enabled: true
+        failureThreshold: 5
+        resetTimeout: 30000  # 30 seconds
+
+    # Follower isolation detection
+    followerIsolation:
+      # Mark follower as isolated after consecutive failures
+      consecutiveFailures: 5
+
+      # Isolation duration
+      isolationDuration: 60000  # 1 minute
+
+      # Probe interval for isolated followers
+      probeInterval: 5000  # 5 seconds
+
+  # Integration Points
+  integration:
+    # AWS Managed Blockchain specific settings
+    awsManaged:
+      # Use AWS health checks
+      useAWSHealthChecks: true
+
+      # CloudWatch namespace for metrics
+      cloudWatchNamespace: "HavenHealth/Blockchain/Heartbeat"
+
+    # Fabric SDK integration
+    fabricSDK:
+      # Event type for heartbeat events
+      eventType: "RAFT_HEARTBEAT"
+
+      # Include heartbeat status in peer gossip
+      gossipHeartbeatStatus: true
+
+  # Testing and Validation
+  testing:
+    # Heartbeat simulation for testing
+    simulation:
+      enabled: false
+
+      # Simulate network delays
+      simulateLatency:
+        enabled: false
+        minLatency: 10
+        maxLatency: 200
+
+      # Simulate packet loss
+      simulatePacketLoss:
+        enabled: false
+        lossRate: 0.05
+
+    # Validation rules
+    validation:
+      # Ensure interval is within bounds
+      intervalBounds:
+        min: 100   # 100ms minimum
+        max: 5000  # 5 seconds maximum
+
+      # Ensure timeout is greater than interval
+      timeoutValidation:
+        minMultiplier: 3  # Timeout must be at least 3x interval

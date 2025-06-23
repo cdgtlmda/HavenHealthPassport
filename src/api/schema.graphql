@@ -1,0 +1,743 @@
+# Haven Health Passport GraphQL Schema
+# This schema defines the API for managing refugee health records
+# with blockchain verification and multi-language support
+
+# Custom scalar types for common data formats
+scalar DateTime
+scalar Date
+scalar JSON
+scalar UUID
+scalar Upload
+
+# Enums for standardized values
+enum Gender {
+  MALE
+  FEMALE
+  OTHER
+  UNKNOWN
+  TRANSGENDER_MALE
+  TRANSGENDER_FEMALE
+  NON_BINARY
+  PREFER_NOT_TO_SAY
+}
+
+enum VerificationStatus {
+  UNVERIFIED
+  PENDING
+  VERIFIED
+  EXPIRED
+  REVOKED
+  DISPUTED
+}
+
+enum RecordType {
+  PATIENT_DEMOGRAPHICS
+  OBSERVATION
+  MEDICATION
+  PROCEDURE
+  DIAGNOSTIC_REPORT
+  IMMUNIZATION
+  ALLERGY
+  CONDITION
+  ENCOUNTER
+  DOCUMENT
+}
+
+enum RecordAccess {
+  PUBLIC
+  PRIVATE
+  EMERGENCY_ONLY
+  PROVIDER_ONLY
+  PATIENT_CONTROLLED
+}
+
+enum LanguageProficiency {
+  NATIVE
+  FLUENT
+  ADVANCED
+  INTERMEDIATE
+  BASIC
+  NONE
+  RECEPTIVE_ONLY
+  WRITTEN_ONLY
+}
+
+# Core Types
+
+type Patient {
+  id: UUID!
+  identifiers: [PatientIdentifier!]!
+  name: [HumanName!]!
+  gender: Gender!
+  birthDate: Date
+  birthDateAccuracy: String
+  deceased: Boolean
+  deceasedDate: DateTime
+  maritalStatus: CodeableConcept
+  
+  # Contact information
+  telecom: [ContactPoint!]
+  address: [Address!]
+  
+  # Communication
+  communication: [PatientCommunication!]
+  preferredLanguage: String
+  
+  # Refugee specific
+  refugeeStatus: RefugeeStatus
+  familyGroup: FamilyGroup
+  protectionConcerns: [String!]
+  
+  # Relationships
+  links: [PatientLink!]
+  emergencyContacts: [EmergencyContact!]
+  
+  # Health records
+  healthRecords(
+    type: RecordType
+    startDate: Date
+    endDate: Date
+    verified: Boolean
+    limit: Int
+    offset: Int
+  ): HealthRecordConnection!
+  
+  # Metadata
+  created: DateTime!
+  updated: DateTime!
+  createdBy: String!
+  lastAccessedBy: String
+  accessLog: [AccessLogEntry!]
+}
+
+type PatientIdentifier {
+  system: String!
+  value: String!
+  use: String
+  period: Period
+  assigner: String
+  isPrimary: Boolean!
+}
+
+type HumanName {
+  use: String
+  text: String
+  family: String
+  given: [String!]
+  prefix: [String!]
+  suffix: [String!]
+  period: Period
+  
+  # Multi-language support
+  language: String
+  script: String
+  phoneticSpelling: String
+}
+
+type ContactPoint {
+  system: String!
+  value: String!
+  use: String
+  rank: Int
+  period: Period
+  verified: Boolean
+  verifiedDate: DateTime
+}
+
+type Address {
+  use: String
+  type: String
+  text: String
+  line: [String!]
+  city: String
+  district: String
+  state: String
+  postalCode: String
+  country: String
+  period: Period
+  
+  # Refugee specific
+  campName: String
+  blockNumber: String
+  tentNumber: String
+  gpsCoordinates: GPSCoordinates
+}
+
+type GPSCoordinates {
+  latitude: Float!
+  longitude: Float!
+  accuracy: Float
+}
+
+type CodeableConcept {
+  coding: [Coding!]
+  text: String
+}
+
+type Coding {
+  system: String
+  version: String
+  code: String
+  display: String
+}
+
+type Period {
+  start: DateTime
+  end: DateTime
+}
+
+type PatientCommunication {
+  language: CodeableConcept!
+  preferred: Boolean!
+  proficiency: LanguageProficiency
+  interpreterNeeded: Boolean
+  modes: [String!]
+}
+
+type RefugeeStatus {
+  status: String!
+  unhcrNumber: String
+  countryOfOrigin: String
+  dateOfDisplacement: Date
+  campLocation: String
+  asylumCountry: String
+  resettlementStatus: String
+  familyCaseNumber: String
+}
+
+type FamilyGroup {
+  id: UUID!
+  caseNumber: String
+  headOfHousehold: Patient
+  members: [FamilyMember!]!
+  missingMembers: [MissingFamilyMember!]
+  size: Int!
+  registrationDate: Date
+  lastVerified: Date
+}
+
+type FamilyMember {
+  patient: Patient!
+  relationship: String!
+  role: String!
+}
+
+type MissingFamilyMember {
+  name: String!
+  relationship: String!
+  lastSeenDate: Date
+  lastSeenLocation: String
+  reportedDate: Date!
+  searchStatus: String
+}
+
+type PatientLink {
+  other: PatientReference!
+  type: String!
+  status: String!
+  verificationMethod: String
+  verifiedDate: Date
+  verifiedBy: String
+  period: Period
+}
+
+type PatientReference {
+  reference: String
+  identifier: PatientIdentifier
+  display: String
+}
+
+type EmergencyContact {
+  name: String!
+  relationship: String!
+  telecom: [ContactPoint!]!
+  languages: [String!]
+  priority: Int!
+  notes: String
+}
+
+type HealthRecord {
+  id: UUID!
+  type: RecordType!
+  patient: Patient!
+  
+  # FHIR resource data
+  resource: JSON!
+  resourceType: String!
+  
+  # Verification
+  verificationStatus: VerificationStatus!
+  verificationDetails: Verification
+  blockchainHash: String
+  
+  # Access control
+  accessLevel: RecordAccess!
+  sharedWith: [String!]
+  
+  # Metadata
+  created: DateTime!
+  updated: DateTime!
+  createdBy: String!
+  facility: HealthcareFacility
+  
+  # Audit trail
+  versions: [RecordVersion!]!
+  accessLog: [AccessLogEntry!]!
+}
+
+type HealthcareFacility {
+  id: UUID!
+  name: String!
+  type: String!
+  address: Address
+  telecom: [ContactPoint!]
+  coordinates: GPSCoordinates
+}
+
+type Verification {
+  id: UUID!
+  status: VerificationStatus!
+  method: String!
+  verifiedBy: String!
+  verifiedAt: DateTime!
+  expiresAt: DateTime
+  evidence: [VerificationEvidence!]
+  blockchainTransactionId: String
+  smartContractAddress: String
+}
+
+type VerificationEvidence {
+  type: String!
+  value: String!
+  source: String
+  dateCollected: DateTime!
+}
+
+type RecordVersion {
+  version: Int!
+  created: DateTime!
+  createdBy: String!
+  changes: JSON
+  changeReason: String
+}
+
+type AccessLogEntry {
+  id: UUID!
+  accessedAt: DateTime!
+  accessedBy: String!
+  action: String!
+  purpose: String
+  ipAddress: String
+  userAgent: String
+  location: String
+  authorized: Boolean!
+}
+
+# Connection types for pagination
+
+type PatientConnection {
+  edges: [PatientEdge!]!
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+type PatientEdge {
+  node: Patient!
+  cursor: String!
+}
+
+type HealthRecordConnection {
+  edges: [HealthRecordEdge!]!
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+type HealthRecordEdge {
+  node: HealthRecord!
+  cursor: String!
+}
+
+type PageInfo {
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  startCursor: String
+  endCursor: String
+}
+
+# Input Types
+
+input PatientInput {
+  identifiers: [PatientIdentifierInput!]
+  name: [HumanNameInput!]!
+  gender: Gender!
+  birthDate: Date
+  birthDateAccuracy: String
+  telecom: [ContactPointInput!]
+  address: [AddressInput!]
+  communication: [PatientCommunicationInput!]
+  refugeeStatus: RefugeeStatusInput
+  emergencyContacts: [EmergencyContactInput!]
+}
+
+input PatientIdentifierInput {
+  system: String!
+  value: String!
+  use: String
+  isPrimary: Boolean
+}
+
+input HumanNameInput {
+  use: String
+  text: String
+  family: String
+  given: [String!]
+  prefix: [String!]
+  suffix: [String!]
+  language: String
+  script: String
+  phoneticSpelling: String
+}
+
+input ContactPointInput {
+  system: String!
+  value: String!
+  use: String
+  rank: Int
+}
+
+input AddressInput {
+  use: String
+  type: String
+  text: String
+  line: [String!]
+  city: String
+  district: String
+  state: String
+  postalCode: String
+  country: String
+  campName: String
+  blockNumber: String
+  tentNumber: String
+  gpsCoordinates: GPSCoordinatesInput
+}
+
+input GPSCoordinatesInput {
+  latitude: Float!
+  longitude: Float!
+  accuracy: Float
+}
+
+input PatientCommunicationInput {
+  language: CodeableConceptInput!
+  preferred: Boolean!
+  proficiency: LanguageProficiency
+  interpreterNeeded: Boolean
+  modes: [String!]
+}
+
+input CodeableConceptInput {
+  coding: [CodingInput!]
+  text: String
+}
+
+input CodingInput {
+  system: String
+  version: String
+  code: String
+  display: String
+}
+
+input RefugeeStatusInput {
+  status: String!
+  unhcrNumber: String
+  countryOfOrigin: String
+  dateOfDisplacement: Date
+  campLocation: String
+  asylumCountry: String
+  resettlementStatus: String
+  familyCaseNumber: String
+}
+
+input EmergencyContactInput {
+  name: String!
+  relationship: String!
+  telecom: [ContactPointInput!]!
+  languages: [String!]
+  priority: Int
+  notes: String
+}
+
+input HealthRecordInput {
+  type: RecordType!
+  patientId: UUID!
+  resource: JSON!
+  resourceType: String!
+  accessLevel: RecordAccess
+  sharedWith: [String!]
+  facility: String
+}
+
+input SearchCriteria {
+  query: String
+  fields: [String!]
+  fuzzy: Boolean
+  maxDistance: Int
+}
+
+input FilterOptions {
+  field: String!
+  operator: FilterOperator!
+  value: JSON!
+}
+
+enum FilterOperator {
+  EQUALS
+  NOT_EQUALS
+  GREATER_THAN
+  LESS_THAN
+  GREATER_THAN_OR_EQUAL
+  LESS_THAN_OR_EQUAL
+  IN
+  NOT_IN
+  CONTAINS
+  STARTS_WITH
+  ENDS_WITH
+  BETWEEN
+  IS_NULL
+  IS_NOT_NULL
+}
+
+input DateRangeFilter {
+  start: Date
+  end: Date
+  inclusive: Boolean
+}
+
+input PaginationInput {
+  limit: Int
+  offset: Int
+  cursor: String
+}
+
+input SortInput {
+  field: String!
+  direction: SortDirection!
+}
+
+enum SortDirection {
+  ASC
+  DESC
+}
+
+# Root Query Type
+
+type Query {
+  # Patient queries
+  getPatientById(id: UUID!): Patient
+  getPatientByIdentifier(system: String!, value: String!): Patient
+  
+  searchPatients(
+    search: SearchCriteria
+    filters: [FilterOptions!]
+    sort: [SortInput!]
+    pagination: PaginationInput
+  ): PatientConnection!
+  
+  getPatientHistory(
+    patientId: UUID!
+    startDate: Date
+    endDate: Date
+  ): [HealthRecord!]!
+  
+  getPatientVerifications(patientId: UUID!): [Verification!]!
+  
+  # Health record queries
+  getHealthRecordById(id: UUID!): HealthRecord
+  
+  searchHealthRecords(
+    patientId: UUID
+    type: RecordType
+    dateRange: DateRangeFilter
+    verified: Boolean
+    search: SearchCriteria
+    filters: [FilterOptions!]
+    sort: [SortInput!]
+    pagination: PaginationInput
+  ): HealthRecordConnection!
+  
+  getRecordVersions(recordId: UUID!): [RecordVersion!]!
+  
+  # Verification queries
+  getVerificationStatus(recordId: UUID!): Verification
+  getVerificationHistory(recordId: UUID!): [Verification!]!
+  checkVerification(blockchainHash: String!): Verification
+  getVerifiers: [Verifier!]!
+  
+  # Family queries
+  getFamilyGroup(groupId: UUID!): FamilyGroup
+  searchFamilyMembers(
+    caseNumber: String
+    familyName: String
+    includemissing: Boolean
+  ): [FamilyGroup!]!
+  
+  # Reference data queries
+  getSupportedLanguages: [Language!]!
+  getHealthcareFacilities(
+    location: GPSCoordinatesInput
+    radius: Float
+    type: String
+  ): [HealthcareFacility!]!
+}
+
+# Root Mutation Type
+
+type Mutation {
+  # Patient mutations
+  createPatient(input: PatientInput!): PatientPayload!
+  updatePatient(id: UUID!, input: PatientInput!): PatientPayload!
+  deletePatient(id: UUID!): DeletePayload!
+  mergePatients(primaryId: UUID!, mergeIds: [UUID!]!): PatientPayload!
+  
+  # Health record mutations
+  createHealthRecord(input: HealthRecordInput!): HealthRecordPayload!
+  updateHealthRecord(id: UUID!, input: HealthRecordInput!): HealthRecordPayload!
+  deleteHealthRecord(id: UUID!): DeletePayload!
+  attachDocument(recordId: UUID!, document: Upload!): HealthRecordPayload!
+  
+  # Verification mutations
+  requestVerification(recordId: UUID!, method: String!): VerificationPayload!
+  approveVerification(verificationId: UUID!, evidence: [String!]): VerificationPayload!
+  revokeVerification(verificationId: UUID!, reason: String!): VerificationPayload!
+  
+  # Family mutations
+  createFamilyGroup(headOfHouseholdId: UUID!): FamilyGroupPayload!
+  addFamilyMember(groupId: UUID!, patientId: UUID!, relationship: String!): FamilyGroupPayload!
+  reportMissingFamilyMember(groupId: UUID!, member: MissingFamilyMemberInput!): FamilyGroupPayload!
+  
+  # Access control mutations
+  grantAccess(recordId: UUID!, granteeId: String!, level: RecordAccess!): AccessGrantPayload!
+  revokeAccess(recordId: UUID!, granteeId: String!): AccessRevokePayload!
+  
+  # Emergency access
+  requestEmergencyAccess(patientId: UUID!, reason: String!): EmergencyAccessPayload!
+}
+
+# Root Subscription Type
+
+type Subscription {
+  # Patient subscriptions
+  patientUpdated(patientId: UUID!): Patient!
+  patientVerificationChanged(patientId: UUID!): Verification!
+  
+  # Health record subscriptions
+  healthRecordAdded(patientId: UUID!): HealthRecord!
+  healthRecordUpdated(recordId: UUID!): HealthRecord!
+  
+  # Verification subscriptions
+  verificationStatusChanged(recordId: UUID!): Verification!
+  
+  # Access subscriptions
+  accessRequested(patientId: UUID!): AccessRequest!
+  accessGranted(granteeId: String!): AccessGrant!
+}
+
+# Payload Types
+
+type PatientPayload {
+  patient: Patient
+  errors: [Error!]
+}
+
+type HealthRecordPayload {
+  healthRecord: HealthRecord
+  errors: [Error!]
+}
+
+type VerificationPayload {
+  verification: Verification
+  errors: [Error!]
+}
+
+type FamilyGroupPayload {
+  familyGroup: FamilyGroup
+  errors: [Error!]
+}
+
+type AccessGrantPayload {
+  grant: AccessGrant
+  errors: [Error!]
+}
+
+type AccessRevokePayload {
+  success: Boolean!
+  errors: [Error!]
+}
+
+type DeletePayload {
+  success: Boolean!
+  errors: [Error!]
+}
+
+type EmergencyAccessPayload {
+  accessToken: String
+  expiresAt: DateTime
+  errors: [Error!]
+}
+
+# Supporting Types
+
+type Error {
+  field: String
+  message: String!
+  code: String!
+}
+
+type Language {
+  code: String!
+  name: String!
+  nativeName: String!
+  script: String
+  direction: String!
+}
+
+type Verifier {
+  id: UUID!
+  name: String!
+  type: String!
+  credentials: [String!]
+  verified: Boolean!
+}
+
+type AccessRequest {
+  id: UUID!
+  requestorId: String!
+  patientId: UUID!
+  recordIds: [UUID!]
+  reason: String!
+  requestedAt: DateTime!
+  status: String!
+}
+
+type AccessGrant {
+  id: UUID!
+  granteeId: String!
+  recordId: UUID!
+  level: RecordAccess!
+  grantedAt: DateTime!
+  expiresAt: DateTime
+}
+
+input MissingFamilyMemberInput {
+  name: String!
+  relationship: String!
+  lastSeenDate: Date
+  lastSeenLocation: String
+}
+
+# Schema definition
+schema {
+  query: Query
+  mutation: Mutation
+  subscription: Subscription
+}

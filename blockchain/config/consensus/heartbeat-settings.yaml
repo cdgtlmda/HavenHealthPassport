@@ -1,0 +1,15 @@
+# Heartbeat Interval Settings
+# Haven Health Passport - Final Configuration
+
+heartbeat:
+  interval: 500          # milliseconds
+  tick: 1               # Raft tick units
+  followerTimeout: 5000 # 10x interval
+  gracePeriod: 500      # Additional buffer
+  jitter:
+    enabled: true
+    range: 50           # ±50ms
+  adaptive:
+    enabled: true
+    min: 100           # 100ms minimum
+    max: 5000          # 5s maximum

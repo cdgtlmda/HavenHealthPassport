@@ -1,0 +1,134 @@
+# LangChain Community Packages for Haven Health Passport
+# Comprehensive community integrations for medical AI/ML use cases
+# Python 3.11+ required
+
+# Core community package with latest version
+langchain-community==0.1.0
+
+# Vector Store Integrations
+faiss-cpu>=1.7.4  # CPU-optimized FAISS for embeddings
+chromadb>=0.4.22  # Vector database for medical documents
+qdrant-client>=1.7.0  # Alternative vector store
+weaviate-client>=4.4.0  # Graph-based vector search
+pinecone-client>=3.0.0  # Managed vector database
+opensearch-py>=2.4.0  # OpenSearch integration
+elasticsearch>=8.11.0  # Elasticsearch support
+
+# Document Loaders
+pypdf>=3.17.0  # PDF processing for medical documents
+python-docx>=1.1.0  # DOCX file support
+openpyxl>=3.1.2  # Excel file support
+python-pptx>=0.6.23  # PowerPoint support
+pypandoc>=1.12  # Universal document converter
+pdfplumber>=0.10.3  # Advanced PDF extraction
+pymupdf>=1.23.0  # High-performance PDF processing
+camelot-py>=0.11.0  # Table extraction from PDFs
+unstructured>=0.11.0  # Multi-format document parsing
+pytesseract>=0.3.10  # OCR support for scanned documents
+
+# Medical-specific integrations
+fhirclient>=4.1.0  # FHIR standard support
+hl7>=0.5.0  # HL7 message parsing
+python-dicom>=2.4.0  # DICOM medical imaging
+pydicom>=2.4.0  # Alternative DICOM library
+nibabel>=5.2.0  # Neuroimaging format support
+
+# Embedding Models
+sentence-transformers>=2.2.2  # Sentence embeddings
+transformers>=4.36.0  # Hugging Face transformers
+torch>=2.1.0  # PyTorch for neural models
+tensorflow-hub>=0.15.0  # TensorFlow Hub models
+openai>=1.6.0  # OpenAI embeddings (backup)
+
+# Language Detection and Translation
+langdetect>=1.0.9  # Language detection
+googletrans>=4.0.0rc1  # Google Translate integration
+deep-translator>=1.11.4  # Multiple translation APIs
+polyglot>=16.7.4  # Multilingual NLP
+lingua-language-detector>=2.0.0  # Advanced language detection
+# Text Processing
+nltk>=3.8.1  # Natural Language Toolkit
+spacy>=3.7.0  # Industrial-strength NLP
+textblob>=0.17.1  # Simple text processing
+gensim>=4.3.0  # Topic modeling
+wordcloud>=1.9.3  # Word cloud generation
+textstat>=0.7.3  # Text statistics
+
+# Audio Processing
+speechrecognition>=3.10.0  # Speech to text
+pydub>=0.25.1  # Audio manipulation
+soundfile>=0.12.1  # Audio file I/O
+librosa>=0.10.1  # Audio analysis
+webrtcvad>=2.0.10  # Voice activity detection
+
+# Image Processing
+pillow>=10.2.0  # Image manipulation
+opencv-python>=4.9.0  # Computer vision
+scikit-image>=0.22.0  # Image processing
+easyocr>=1.7.0  # Multilingual OCR
+
+# Database Connectors
+psycopg2-binary>=2.9.9  # PostgreSQL
+pymongo>=4.6.0  # MongoDB
+redis>=5.0.1  # Redis
+cassandra-driver>=3.28.0  # Cassandra
+neo4j>=5.16.0  # Neo4j graph database
+
+# API Integrations
+requests-oauthlib>=1.3.1  # OAuth support
+httpx>=0.26.0  # Modern HTTP client
+websocket-client>=1.7.0  # WebSocket support
+grpcio>=1.60.0  # gRPC support
+
+# Monitoring and Logging
+prometheus-client>=0.19.0  # Metrics collection
+opentelemetry-api>=1.22.0  # Distributed tracing
+structlog>=24.1.0  # Structured logging
+loguru>=0.7.2  # Advanced logging
+
+# Caching and Performance
+diskcache>=5.6.3  # Disk-based caching
+joblib>=1.3.2  # Parallel computing
+dask>=2023.12.0  # Distributed computing
+ray>=2.9.0  # Distributed AI/ML
+# Medical NLP Models
+scispacy>=0.5.3  # Scientific/medical spaCy models
+medspacy>=1.1.2  # Clinical NLP with spaCy
+# Note: Clinical BERT models to be loaded dynamically
+
+# Data Validation
+pandas>=2.1.0  # Data manipulation
+pyarrow>=14.0.0  # Arrow format support
+marshmallow>=3.20.0  # Object serialization
+cerberus>=1.3.5  # Data validation
+voluptuous>=0.14.0  # Data validation
+
+# Testing and Quality
+hypothesis>=6.92.0  # Property-based testing
+faker>=22.0.0  # Fake data generation
+responses>=0.24.0  # HTTP mocking
+freezegun>=1.4.0  # Time mocking
+
+# Async Support
+aiofiles>=23.2.1  # Async file operations
+aiodns>=3.1.1  # Async DNS
+aioredis>=2.0.1  # Async Redis
+motor>=3.3.2  # Async MongoDB
+
+# Security
+cryptography>=41.0.7  # Encryption
+pyjwt>=2.8.0  # JWT tokens
+passlib>=1.7.4  # Password hashing
+python-jose>=3.3.0  # JOSE implementation
+
+# Development Tools
+python-dotenv>=1.0.0  # Environment variables
+click>=8.1.7  # CLI creation
+rich>=13.7.0  # Rich terminal output
+tqdm>=4.66.0  # Progress bars
+tabulate>=0.9.0  # Table formatting
+
+# Optional specialized packages (comment out if not needed)
+# biopython>=1.82  # Biological computation
+# SimpleITK>=2.3.0  # Medical image processing
+# radiomics>=3.1.0  # Radiomics feature extraction

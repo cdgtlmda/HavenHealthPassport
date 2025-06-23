@@ -1,0 +1,29 @@
+# LlamaIndex Core Dependencies for Haven Health Passport
+# Python 3.11+ required (tested with 3.13.1)
+
+# Core LlamaIndex library - let pip resolve the latest compatible version
+llama-index
+llama-index-core
+
+# Essential dependencies - minimal version constraints
+tiktoken
+openai>=1.0.0
+pandas
+numpy
+SQLAlchemy[asyncio]>=2.0.0
+aiohttp
+httpx
+nest-asyncio
+tenacity
+tqdm
+
+# Medical document processing
+pypdf
+Pillow
+python-magic
+
+# Development dependencies (optional)
+pytest
+pytest-asyncio
+black
+mypy

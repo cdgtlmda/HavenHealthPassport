@@ -1,0 +1,166 @@
+flowchart TB
+    subgraph "Health Records Management - AWS HealthLake + AI"
+        HR_Core[Records Core<br/>Lambda + Step Functions]
+        HR_FHIR[FHIR Manager<br/>HealthLake API]
+        HR_Profiles[Patient Profiles<br/>DynamoDB + Personalize]
+        HR_Documents[Document Management<br/>S3 + Textract]
+        HR_History[Version History<br/>S3 Versioning + QLDB]
+        HR_Encryption[Field-level Encryption<br/>KMS + CloudHSM]
+        HR_Audit[Audit Logging<br/>CloudTrail + CloudWatch]
+        HR_AI[AI Processing<br/>Comprehend Medical]
+
+        HR_Core --> HR_FHIR
+        HR_Core --> HR_Profiles
+        HR_Core --> HR_Documents
+        HR_Core --> HR_History
+        HR_Core --> HR_Encryption
+        HR_Core --> HR_Audit
+        HR_Core --> HR_AI
+    end
+    
+    subgraph "Authentication Service - AWS Cognito + AI"
+        Auth_Core[Auth Core<br/>Cognito User Pools]
+        Auth_Identity[Identity Provider<br/>Cognito Identity]
+        Auth_MFA[Multi-Factor Auth<br/>Cognito MFA + SMS]
+        Auth_Biometric[Biometric Verification<br/>Rekognition + Voice ID]
+        Auth_RBAC[Role-Based Access<br/>IAM + Cognito Groups]
+        Auth_Session[Session Management<br/>DynamoDB + ElastiCache]
+        Auth_Fraud[Fraud Detection<br/>Amazon Fraud Detector]
+
+        Auth_Core --> Auth_Identity
+        Auth_Core --> Auth_MFA
+        Auth_Core --> Auth_Biometric
+        Auth_Core --> Auth_RBAC
+        Auth_Core --> Auth_Session
+        Auth_Core --> Auth_Fraud
+    end
+
+    subgraph "Translation Service - AWS Bedrock + AI"
+        Trans_Core[Translation Core<br/>Lambda + Bedrock]
+        Trans_Detection[Language Detection<br/>Comprehend Languages]
+        Trans_Medical[Medical Terminology<br/>Custom Terminology + Translate]
+        Trans_Cultural[Cultural Adaptation<br/>Bedrock Claude 3]
+        Trans_QA[Quality Assurance<br/>Bedrock Guardrails]
+        Trans_Cache[Translation Cache<br/>ElastiCache + DynamoDB]
+        Trans_RAG[RAG Pipeline<br/>OpenSearch + LangChain]
+
+        Trans_Core --> Trans_Detection
+        Trans_Core --> Trans_Medical
+        Trans_Core --> Trans_Cultural
+        Trans_Core --> Trans_QA
+        Trans_Core --> Trans_Cache
+        Trans_Core --> Trans_RAG
+    end
+    
+    subgraph "Verification Service - AWS Blockchain + AI"
+        Verify_Core[Verification Core<br/>Managed Blockchain]
+        Verify_Identity[Identity Verification<br/>Rekognition + Textract]
+        Verify_Document[Document Authenticity<br/>ML Forgery Detection]
+        Verify_Cross[Cross-Border Protocols<br/>Step Functions + Rules]
+        Verify_Fraud[Fraud Detection<br/>SageMaker + Fraud Detector]
+        Verify_Emergency[Emergency Access<br/>Lambda + EventBridge]
+        Verify_Smart[Smart Contracts<br/>Hyperledger Fabric]
+
+        Verify_Core --> Verify_Identity
+        Verify_Core --> Verify_Document
+        Verify_Core --> Verify_Cross
+        Verify_Core --> Verify_Fraud
+        Verify_Core --> Verify_Emergency
+        Verify_Core --> Verify_Smart
+    end
+
+    subgraph "Voice Processing Service - AWS Transcribe + AI"
+        Voice_Core[Voice Core<br/>Transcribe Medical]
+        Voice_Recognition[Speech Recognition<br/>Multi-Language STT]
+        Voice_Medical[Medical Terminology<br/>Custom Vocabularies]
+        Voice_Emotion[Emotion Analysis<br/>Comprehend + SageMaker]
+        Voice_Translation[Real-time Translation<br/>Translate + Polly]
+        Voice_Biometric[Voice Biometrics<br/>Connect Voice ID]
+
+        Voice_Core --> Voice_Recognition
+        Voice_Core --> Voice_Medical
+        Voice_Core --> Voice_Emotion
+        Voice_Core --> Voice_Translation
+        Voice_Core --> Voice_Biometric
+    end
+    
+    subgraph "Notification Service - AWS Pinpoint + AI"
+        Notify_Core[Notification Core<br/>Pinpoint + SNS]
+        Notify_Channels[Multi-Channel<br/>SMS/Email/Push/In-App]
+        Notify_Templates[Message Templates<br/>Personalize + Bedrock]
+        Notify_Priority[Priority Management<br/>SQS + Lambda]
+        Notify_Delivery[Delivery Tracking<br/>Kinesis + Analytics]
+        Notify_Optimize[Send Time Optimization<br/>SageMaker Forecast]
+
+        Notify_Core --> Notify_Channels
+        Notify_Core --> Notify_Templates
+        Notify_Core --> Notify_Priority
+        Notify_Core --> Notify_Delivery
+        Notify_Core --> Notify_Optimize
+    end
+
+    %% Event Bus and ML Pipeline
+    EventBus[Event Bus<br/>EventBridge]
+    MLPipeline[ML Pipeline<br/>SageMaker Pipelines]
+    DataLake[Data Lake<br/>S3 + Glue]
+
+    %% Core Service Connections to Event Bus
+    HR_Core <--> EventBus
+    Auth_Core <--> EventBus
+    Trans_Core <--> EventBus
+    Verify_Core <--> EventBus
+    Voice_Core <--> EventBus
+    Notify_Core <--> EventBus
+
+    %% ML Pipeline Connections
+    EventBus <--> MLPipeline
+    MLPipeline <--> DataLake
+    DataLake <--> HR_AI
+    DataLake <--> Auth_Fraud
+    DataLake <--> Trans_RAG
+    DataLake <--> Verify_Fraud
+    DataLake <--> Voice_Emotion
+    DataLake <--> Notify_Optimize
+
+    %% Cross-Component AI Integrations
+    HR_FHIR <-->|"Medical Entities"| Trans_Medical
+    Auth_Identity <-->|"Identity Match"| Verify_Identity
+    Voice_Recognition <-->|"Transcription"| Trans_Core
+    Verify_Core <-->|"Audit Trail"| HR_Audit
+    Notify_Core <-->|"User Preferences"| HR_Profiles
+    Auth_RBAC <-->|"Access Control"| HR_Encryption
+    Trans_Cultural <-->|"Context"| Notify_Templates
+    Voice_Biometric <-->|"Voice Auth"| Auth_Biometric
+    HR_AI <-->|"Medical NLP"| Trans_Medical
+    Verify_Smart <-->|"Blockchain"| HR_History
+
+    %% AWS Service Integrations
+    subgraph "AWS AI/ML Services"
+        Bedrock_Service[Bedrock Models]
+        SageMaker_Service[SageMaker Endpoints]
+        Comprehend_Service[Comprehend APIs]
+    end
+
+    Trans_Cultural -.-> Bedrock_Service
+    Voice_Emotion -.-> SageMaker_Service
+    HR_AI -.-> Comprehend_Service
+
+    %% Style definitions
+    classDef health fill:#ffebee,stroke:#c62828,stroke-width:2px,color:#000;
+    classDef auth fill:#e3f2fd,stroke:#1565c0,stroke-width:2px,color:#000;
+    classDef trans fill:#e8f5e9,stroke:#2e7d32,stroke-width:2px,color:#000;
+    classDef verify fill:#f3e5f5,stroke:#6a1b9a,stroke-width:2px,color:#000;
+    classDef voice fill:#e0f7fa,stroke:#00838f,stroke-width:2px,color:#000;
+    classDef notify fill:#fff8e1,stroke:#f57f17,stroke-width:2px,color:#000;
+    classDef bus fill:#f5f5f5,stroke:#424242,stroke-width:2px,color:#000;
+    classDef awsai fill:#fce4ec,stroke:#ad1457,stroke-width:2px,color:#000;
+
+    %% Apply styles
+    class HR_Core,HR_FHIR,HR_Profiles,HR_Documents,HR_History,HR_Encryption,HR_Audit,HR_AI health;
+    class Auth_Core,Auth_Identity,Auth_MFA,Auth_Biometric,Auth_RBAC,Auth_Session,Auth_Fraud auth;
+    class Trans_Core,Trans_Detection,Trans_Medical,Trans_Cultural,Trans_QA,Trans_Cache,Trans_RAG trans;
+    class Verify_Core,Verify_Identity,Verify_Document,Verify_Cross,Verify_Fraud,Verify_Emergency,Verify_Smart verify;
+    class Voice_Core,Voice_Recognition,Voice_Medical,Voice_Emotion,Voice_Translation,Voice_Biometric voice;
+    class Notify_Core,Notify_Channels,Notify_Templates,Notify_Priority,Notify_Delivery,Notify_Optimize notify;
+    class EventBus,MLPipeline,DataLake bus;
+    class Bedrock_Service,SageMaker_Service,Comprehend_Service awsai;

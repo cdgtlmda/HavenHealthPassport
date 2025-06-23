@@ -1,0 +1,365 @@
+# Batch Timeout Configuration
+# Haven Health Passport - Blockchain Performance Tuning
+
+# Overview
+# Batch timeout determines how long the ordering service waits before creating a block
+# even if the block doesn't contain the maximum number of transactions
+
+batchTimeout:
+  # Production configuration
+  production:
+    # Default batch timeout for normal operations
+    default: "2s"
+
+    # Dynamic timeout adjustment based on network conditions
+    dynamic:
+      enabled: true
+
+      # Minimum and maximum timeout bounds
+      minTimeout: "500ms"
+      maxTimeout: "5s"
+
+      # Adjustment parameters
+      adjustment:
+        # Increase timeout when network is idle
+        idleMultiplier: 2.5
+
+        # Decrease timeout when network is busy
+        busyDivisor: 2
+
+        # Threshold for considering network busy (TPS)
+        busyThreshold: 100
+
+        # Threshold for considering network idle (TPS)
+        idleThreshold: 10
+
+        # Time window for calculating average TPS
+        samplingWindow: "30s"
+
+        # How often to adjust timeout
+        adjustmentInterval: "10s"
+
+    # Channel-specific overrides
+    channelOverrides:
+      # System channel (for orderer administration)
+      "system-channel":
+        timeout: "1s"
+        priority: "high"
+
+      # Healthcare data channel
+      "healthcare-data":
+        timeout: "2s"
+        priority: "normal"
+
+      # Emergency response channel
+      "emergency-response":
+        timeout: "500ms"
+        priority: "critical"
+
+      # Audit channel
+      "audit-channel":
+        timeout: "5s"
+        priority: "low"
+
+  # Development configuration
+  development:
+    default: "1s"
+    dynamic:
+      enabled: false
+
+  # Testing configuration
+  testing:
+    default: "100ms"
+    dynamic:
+      enabled: false
+
+# Performance profiles
+performanceProfiles:
+  # Low latency profile (for critical operations)
+  lowLatency:
+    batchTimeout: "500ms"
+    maxMessageCount: 100
+    absoluteMaxBytes: 2097152  # 2 MB
+    preferredMaxBytes: 524288  # 512 KB
+
+  # Balanced profile (default)
+  balanced:
+    batchTimeout: "2s"
+    maxMessageCount: 500
+    absoluteMaxBytes: 10485760  # 10 MB
+    preferredMaxBytes: 2097152   # 2 MB
+
+  # High throughput profile (for bulk operations)
+  highThroughput:
+    batchTimeout: "5s"
+    maxMessageCount: 1000
+    absoluteMaxBytes: 104857600  # 100 MB
+    preferredMaxBytes: 10485760   # 10 MB
+
+  # Power saving profile (for low activity periods)
+  powerSaving:
+    batchTimeout: "10s"
+    maxMessageCount: 2000
+    absoluteMaxBytes: 52428800   # 50 MB
+    preferredMaxBytes: 5242880    # 5 MB
+
+# Time-based scheduling
+scheduling:
+  # Enable time-based profile switching
+  enabled: true
+
+  # Schedule definitions (UTC time)
+  schedules:
+    # Business hours (Monday-Friday)
+    - name: "business-hours"
+      profile: "balanced"
+      days: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
+      startTime: "08:00"
+      endTime: "18:00"
+      timezone: "America/New_York"
+
+    # Peak hours
+    - name: "peak-hours"
+      profile: "lowLatency"
+      days: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
+      startTime: "09:00"
+      endTime: "11:00"
+      timezone: "America/New_York"
+
+    - name: "afternoon-peak"
+      profile: "lowLatency"
+      days: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
+      startTime: "14:00"
+      endTime: "16:00"
+      timezone: "America/New_York"
+
+    # Night hours
+    - name: "night-hours"
+      profile: "powerSaving"
+      days: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+      startTime: "00:00"
+      endTime: "06:00"
+      timezone: "America/New_York"
+
+    # Weekends
+    - name: "weekends"
+      profile: "powerSaving"
+      days: ["Saturday", "Sunday"]
+      startTime: "00:00"
+      endTime: "23:59"
+      timezone: "America/New_York"
+
+# Adaptive timeout algorithm
+adaptiveAlgorithm:
+  # Algorithm type
+  type: "exponential-weighted-moving-average"  # Options: fixed, linear, exponential-weighted-moving-average
+
+  # EWMA parameters
+  ewma:
+    # Weight for new samples (0-1)
+    alpha: 0.3
+
+    # Target block fill percentage
+    targetFillPercentage: 75
+
+    # Adjustment factors
+    factors:
+      # When blocks are under-filled
+      underfilledAdjustment: 1.2
+
+      # When blocks are over-filled
+      overfilledAdjustment: 0.8
+
+      # When at target
+      targetBandwidth: 0.1  # ±10% is considered at target
+
+  # Constraints
+  constraints:
+    # Never go below this timeout
+    absoluteMinimum: "100ms"
+
+    # Never go above this timeout
+    absoluteMaximum: "30s"
+
+    # Maximum change per adjustment
+    maxChangePercentage: 50
+
+    # Require N consistent samples before adjusting
+    consistencySamples: 3
+
+# Monitoring and metrics
+monitoring:
+  # Metrics to track
+  metrics:
+    - name: "BatchTimeout"
+      type: "gauge"
+      unit: "milliseconds"
+      description: "Current batch timeout value"
+
+    - name: "BlockFillPercentage"
+      type: "histogram"
+      unit: "percentage"
+      description: "Percentage of block capacity used"
+
+    - name: "TimeToBlock"
+      type: "histogram"
+      unit: "milliseconds"
+      description: "Time from first transaction to block creation"
+
+    - name: "TimeoutTriggeredBlocks"
+      type: "counter"
+      unit: "count"
+      description: "Number of blocks created due to timeout"
+
+    - name: "SizeTriggeredBlocks"
+      type: "counter"
+      unit: "count"
+      description: "Number of blocks created due to size limit"
+
+  # CloudWatch integration
+  cloudWatch:
+    namespace: "HavenHealth/Blockchain/Batching"
+
+    # Alarms
+    alarms:
+      - name: "HighTimeoutRate"
+        metric: "TimeoutTriggeredBlocks"
+        statistic: "Sum"
+        period: 300
+        evaluationPeriods: 2
+        threshold: 100
+        comparisonOperator: "GreaterThanThreshold"
+        description: "Too many blocks created by timeout (low traffic)"
+
+      - name: "LowBlockUtilization"
+        metric: "BlockFillPercentage"
+        statistic: "Average"
+        period: 300
+        evaluationPeriods: 3
+        threshold: 25
+        comparisonOperator: "LessThanThreshold"
+        description: "Blocks are under-utilized"
+
+      - name: "ExcessiveTimeout"
+        metric: "BatchTimeout"
+        statistic: "Maximum"
+        period: 60
+        evaluationPeriods: 1
+        threshold: 10000  # 10 seconds
+        comparisonOperator: "GreaterThanThreshold"
+        description: "Batch timeout is too high"
+
+# Integration with ordering service
+orderingServiceIntegration:
+  # Configuration file references
+  configFiles:
+    - path: "/etc/hyperledger/fabric/orderer.yaml"
+      section: "General.Batchtimeout"
+
+    - path: "/var/hyperledger/production/orderer/orderer.yaml"
+      section: "General.Batchtimeout"
+
+  # Environment variable overrides
+  environmentVariables:
+    - name: "ORDERER_GENERAL_BATCHTIMEOUT"
+      precedence: "highest"
+
+    - name: "ORDERER_BATCHTIMEOUT"
+      precedence: "high"
+
+  # Dynamic configuration update
+  dynamicUpdate:
+    # Channel configuration update method
+    method: "channel-config-update"
+
+    # Required signatures
+    policy: "/Channel/Orderer/Writers"
+
+    # Update process
+    process:
+      - step: "fetch-config"
+        command: "peer channel fetch config"
+
+      - step: "decode-config"
+        command: "configtxlator proto_decode"
+
+      - step: "modify-timeout"
+        command: "jq update BatchTimeout"
+
+      - step: "encode-config"
+        command: "configtxlator proto_encode"
+
+      - step: "compute-update"
+        command: "configtxlator compute_update"
+
+      - step: "sign-update"
+        command: "peer channel signconfigtx"
+
+      - step: "submit-update"
+        command: "peer channel update"
+
+# Best practices and recommendations
+recommendations:
+  # For healthcare applications
+  healthcare:
+    normalOperations: "2s"
+    emergencyMode: "500ms"
+    batchReporting: "5s"
+
+  # Network size considerations
+  networkSize:
+    small:  # < 10 nodes
+      timeout: "1s"
+
+    medium:  # 10-50 nodes
+      timeout: "2s"
+
+    large:  # 50-100 nodes
+      timeout: "3s"
+
+    xlarge:  # > 100 nodes
+      timeout: "5s"
+
+  # Transaction size considerations
+  transactionSize:
+    small:  # < 1KB average
+      timeout: "1s"
+      maxCount: 1000
+
+    medium:  # 1-10KB average
+      timeout: "2s"
+      maxCount: 500
+
+    large:  # 10-100KB average
+      timeout: "3s"
+      maxCount: 100
+
+    xlarge:  # > 100KB average
+      timeout: "5s"
+      maxCount: 50
+
+# Testing configuration
+testing:
+  # Load test scenarios
+  scenarios:
+    - name: "steady-state"
+      tps: 100
+      duration: "10m"
+      expectedTimeout: "2s"
+
+    - name: "burst-traffic"
+      tps: 1000
+      duration: "1m"
+      expectedTimeout: "500ms"
+
+    - name: "idle-network"
+      tps: 1
+      duration: "5m"
+      expectedTimeout: "5s"
+
+    - name: "mixed-load"
+      pattern: "sine-wave"
+      minTps: 10
+      maxTps: 500
+      period: "5m"
+      duration: "30m"

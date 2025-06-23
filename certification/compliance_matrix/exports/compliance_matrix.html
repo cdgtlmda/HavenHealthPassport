@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Compliance Matrix Report</title>
+<style>
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f7fa;
+            color: #333;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        .timestamp {
+            color: #7f8c8d;
+            font-size: 14px;
+            margin-bottom: 30px;
+        }
+        .metrics-section, .standards-section {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+        .metric-card {
+            text-align: center;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 6px;
+        }
+        .metric-value {
+            font-size: 32px;
+            font-weight: bold;
+            color: #3498db;
+        }
+        .metric-label {
+            font-size: 14px;
+            color: #7f8c8d;
+            margin-top: 5px;
+        }
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        .data-table th, .data-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .data-table th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+        }
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background-color: #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            background-color: #3498db;
+            transition: width 0.3s ease;
+        }
+        
+</style>
+</head>
+<body>
+<div class="container">
+<h1>Compliance Matrix Report</h1>
+<p class="timestamp">Generated: 2025-06-09 01:19 UTC</p>
+<div class="metrics-section">
+<h2>Overall Compliance Status</h2>
+<div class="metrics-grid">
+<div class="metric-card">
+<div class="metric-value">0.0%</div>
+<div class="metric-label">Overall Readiness</div>
+</div>
+<div class="metric-card">
+<div class="metric-value">Not Ready</div>
+<div class="metric-label">Certification Status</div>
+</div>
+<div class="metric-card">
+<div class="metric-value">1</div>
+<div class="metric-label">Days to Compliance</div>
+</div>
+</div>
+</div>
+<div class="standards-section">
+<h2>Standards Compliance</h2>
+<table class="data-table">
+<thead>
+<tr>
+<th>Standard</th>
+<th>Readiness</th>
+<th>Progress</th>
+<th>Blocking Items</th>
+<th>Est. Days</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>HIPAA</td>
+<td>✗</td>
+<td><div class="progress-bar"><div class="progress-fill" style="width: 0.0%"></div></div></td>
+<td>1</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</body>
+</html>

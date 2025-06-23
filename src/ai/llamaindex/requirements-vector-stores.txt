@@ -1,0 +1,48 @@
+# Vector Store Integrations for LlamaIndex
+# Haven Health Passport - Medical Document Indexing
+
+# Primary vector store for production (OpenSearch)
+opensearch-py>=2.4.2
+llama-index-vector-stores-opensearch>=0.1.10
+
+# Alternative vector stores for different deployment scenarios
+# AWS native option
+llama-index-vector-stores-docstore>=0.1.3
+
+# Pinecone for managed vector database
+llama-index-vector-stores-pinecone>=0.1.5
+pinecone-client>=3.0.0
+
+# Chroma for local development/testing
+llama-index-vector-stores-chroma>=0.1.6
+chromadb>=0.4.22
+
+# Qdrant for high-performance scenarios
+llama-index-vector-stores-qdrant>=0.1.3
+qdrant-client>=1.7.0
+
+# Redis for caching and simple vector operations
+llama-index-vector-stores-redis>=0.1.2
+redis>=5.0.1
+
+# PostgreSQL with pgvector for hybrid storage
+llama-index-vector-stores-postgres>=0.1.4
+psycopg2-binary>=2.9.9
+pgvector>=0.2.4
+
+# FAISS for efficient similarity search
+llama-index-vector-stores-faiss>=0.1.2
+faiss-cpu>=1.7.4  # Use faiss-gpu for GPU support
+
+# Medical-specific optimizations
+# BioASQ for medical question answering
+sentence-transformers>=2.3.0  # For medical embeddings
+
+# Additional utilities
+numpy>=1.24.0,<2.0.0  # Version constraint for compatibility
+scikit-learn>=1.3.2  # For similarity metrics
+
+# Monitoring and observability
+opentelemetry-api>=1.21.0
+opentelemetry-sdk>=1.21.0
+opentelemetry-instrumentation>=0.42b0

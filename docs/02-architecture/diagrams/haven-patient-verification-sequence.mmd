@@ -1,0 +1,166 @@
+sequenceDiagram
+    participant P as Patient
+    participant M as Mobile App<br/>(React Native + Amplify)
+    participant AG as API Gateway<br/>(AppSync + REST)
+    participant COG as Cognito<br/>(User Pools + Identity)
+    participant REK as Rekognition<br/>(Face + Liveness)
+    participant FD as Fraud Detector<br/>(ML Risk Scoring)
+    participant CM as Comprehend Medical<br/>(Entity Extraction)
+    participant BED as Bedrock<br/>(Claude 3 + Titan)
+    participant HL as HealthLake<br/>(FHIR Store)
+    participant BC as Managed Blockchain<br/>(Hyperledger Fabric)
+    participant S3 as S3<br/>(Document Storage)
+    participant OS as OpenSearch<br/>(Vector Database)
+    participant DDB as DynamoDB<br/>(Metadata Store)
+
+    Note over P,DDB: Patient Registration Flow with AI Enhancement
+
+    P->>M: Start Registration
+    M->>M: Capture Face Photo
+    M->>AG: GraphQL Mutation<br/>createPatient
+    AG->>COG: Create User Pool Entry
+    
+    par Parallel AI Processing
+        AG->>REK: Face Analysis
+        REK-->>AG: Liveness Score<br/>Age Estimation
+    and
+        AG->>FD: Risk Assessment
+        FD-->>AG: Fraud Score<br/>Risk Level
+    end
+    
+    AG->>COG: Enhanced Authentication<br/>Based on Risk
+    COG-->>AG: User Created<br/>+ Tokens
+    
+    AG->>HL: Create FHIR Patient
+    HL-->>AG: Patient Resource ID
+    
+    AG->>BC: Register Identity Hash
+    BC-->>AG: Blockchain TX ID
+    
+    AG->>DDB: Store Metadata
+    DDB-->>AG: Confirmation
+    
+    AG-->>M: Registration Success
+    M-->>P: Display QR Code
+
+    Note over P,DDB: Health Record Upload with AI Processing
+
+    P->>M: Upload Document
+    M->>M: Camera/File Selection
+    M->>AG: Multipart Upload
+    AG->>S3: Store Raw Document
+    S3-->>AG: S3 Object Key
+    
+    AG->>CM: Process Document
+    
+    alt Document is Image
+        CM->>CM: Run Textract Medical
+        CM->>CM: Extract Medical Entities
+    else Document is Voice
+        CM->>CM: Transcribe Medical
+        CM->>CM: Extract from Transcript
+    end
+    
+    CM-->>AG: Entities + ICD-10<br/>RxNorm Codes
+    
+    AG->>BED: Enhance with AI
+    BED->>BED: Claude 3: Summarize
+    BED->>BED: Titan: Generate Embeddings
+    BED-->>AG: Enhanced Data<br/>+ Vectors
+    
+    AG->>HL: Create FHIR Resources
+    HL-->>AG: Resource IDs
+    
+    AG->>OS: Index Vectors
+    OS-->>AG: Index Confirmation
+    
+    AG->>BC: Record Hash
+    BC-->>AG: Verification Hash
+    
+    AG-->>M: Upload Complete
+    M-->>P: Show Verified Status
+
+    Note over P,DDB: Cross-Border Verification with AI
+
+    P->>M: Request Border Crossing
+    M->>AG: Verification Request
+    
+    AG->>BC: Initiate Multi-Party<br/>Consensus
+    
+    par Multi-Region Verification
+        BC->>BC: Origin Country Node
+        BC->>BC: Destination Country Node
+        BC->>BC: Transit Country Nodes
+    end
+    
+    BC-->>AG: Consensus Result
+    
+    AG->>CM: Extract Requirements
+    CM-->>AG: Health Requirements<br/>for Destination
+    
+    AG->>BED: Translate Documents
+    BED->>BED: Detect Target Language
+    BED->>BED: Medical Translation
+    BED-->>AG: Localized Documents
+    
+    AG->>HL: Query Authorized Records
+    HL-->>AG: Filtered FHIR Bundle
+    
+    AG->>BED: Generate Summary
+    BED-->>AG: Border-Specific Report
+    
+    AG-->>M: Verification Package
+    M-->>P: Display Status<br/>+ QR Code
+
+    Note over P,DDB: Real-time Updates via Subscriptions
+
+    M->>AG: Subscribe to Updates<br/>(WebSocket)
+    AG-->>M: Subscription Confirmed
+    
+    loop Health Status Changes
+        HL->>AG: FHIR Subscription Event
+        AG->>BED: Process Update
+        BED-->>AG: Translated Alert
+        AG-->>M: Real-time Update
+        M-->>P: Push Notification
+    end
+
+    Note over P,DDB: Emergency Access Flow
+
+    M->>AG: Emergency Access Request
+    AG->>FD: Evaluate Emergency<br/>Context
+    FD-->>AG: Risk Assessment
+    
+    alt High Risk Emergency
+        AG->>REK: Additional Verification
+        REK-->>AG: Biometric Match
+    end
+    
+    AG->>BC: Log Emergency Access
+    BC-->>AG: Audit Entry
+    
+    AG->>HL: Grant Time-Limited<br/>Access (24h)
+    HL-->>AG: Access Token
+    
+    par Notification
+        AG->>DDB: Log Access
+    and
+        AG->>M: Send Notification
+        M-->>P: Emergency Access Alert
+    end
+    
+    AG-->>M: Emergency Records
+    M-->>P: Display Critical Info
+
+    %% Styling
+    rect rgb(240, 248, 255)
+        Note right of BED: AI Services:<br/>- Claude 3 Opus<br/>- Titan Embeddings<br/>- Guardrails<br/>- Knowledge Base
+    end
+    
+    rect rgb(255, 243, 224)
+        Note right of BC: Blockchain:<br/>- Identity Verification<br/>- Document Hashing<br/>- Access Logging<br/>- Multi-party Consensus
+    end
+    
+    rect rgb(240, 255, 240)
+        Note right of HL: Healthcare AI:<br/>- FHIR Compliance<br/>- Medical NLP<br/>- Population Analytics<br/>- Clinical Insights
+    end

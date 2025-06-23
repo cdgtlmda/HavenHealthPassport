@@ -1,0 +1,178 @@
+version: "3.8"
+
+services:
+  # Local S3 (MinIO)
+  minio:
+    image: minio/minio:latest
+    container_name: haven-minio
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin
+    command: server /data --console-address ":9001"
+    volumes:
+      - minio-data:/data
+    networks:
+      - haven-network
+
+  # Redis Cache
+  redis:
+    image: redis:7-alpine
+    container_name: haven-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    networks:
+      - haven-network
+
+  # PostgreSQL (for local development)
+  postgres:
+    image: postgres:15-alpine
+    container_name: haven-postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: haven_health
+      POSTGRES_USER: haven_user
+      POSTGRES_PASSWORD: haven_password
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./docker-config/init-scripts:/docker-entrypoint-initdb.d
+    networks:
+      - haven-network
+
+  # OpenSearch (for vector store)
+  opensearch:
+    image: opensearchproject/opensearch:2.11.0
+    container_name: haven-opensearch
+    environment:
+      - discovery.type=single-node
+      - OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx512m
+      - DISABLE_SECURITY_PLUGIN=true
+    ports:
+      - "9200:9200"
+      - "9600:9600"
+    volumes:
+      - opensearch-data:/usr/share/opensearch/data
+    networks:
+      - haven-network
+
+  # Localstack (for AWS services)
+  localstack:
+    image: localstack/localstack:latest
+    container_name: haven-localstack
+    ports:
+      - "4566:4566"
+    environment:
+      - SERVICES=s3,dynamodb,secretsmanager,kms,cognito
+      - DEBUG=1
+      - DATA_DIR=/tmp/localstack/data
+    volumes:
+      - localstack-data:/tmp/localstack
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - haven-network
+
+  # HAPI FHIR Server with Custom Authorization
+  fhir-server:
+    build:
+      context: ./fhir-server
+      dockerfile: Dockerfile
+    container_name: haven-fhir-server
+    ports:
+      - "8080:8080"
+    environment:
+      - FHIR_AUTH_ENABLED=true
+      - FHIR_TOKEN_ENDPOINT=http://web:8000/api/v1/auth/validate
+      - hapi.fhir.tester.home.server_address=http://localhost:8080/fhir
+      - hapi.fhir.server_address=http://localhost:8080/fhir
+      - hapi.fhir.fhir_version=R4
+      - hapi.fhir.subscription.resthook_enabled=true
+      - hapi.fhir.subscription.websocket_enabled=true
+      - hapi.fhir.cors.allow_credentials=true
+      - hapi.fhir.cors.allowed_origin=*
+      - hapi.fhir.bulk_export_enabled=true
+      - hapi.fhir.allow_external_references=true
+      - hapi.fhir.enforce_referential_integrity_on_delete=false
+      - hapi.fhir.enforce_referential_integrity_on_write=false
+      - hapi.fhir.advanced_lucene_indexing=true
+      - spring.datasource.url=jdbc:postgresql://postgres:5432/haven_health_fhir
+      - spring.datasource.username=haven_user
+      - spring.datasource.password=haven_password
+      - spring.datasource.driver-class-name=org.postgresql.Driver
+      - spring.jpa.properties.hibernate.dialect=ca.uhn.fhir.jpa.model.dialect.HapiFhirPostgres94Dialect
+    depends_on:
+      - postgres
+    volumes:
+      - ./fhir-server/config:/config
+      - fhir-data:/data/hapi
+    networks:
+      - haven-network
+
+  # Main Backend API Service
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: haven-api
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql://haven_user:haven_password@postgres:5432/haven_health
+      - REDIS_URL=redis://redis:6379
+      - AWS_ENDPOINT_URL=http://localstack:4566
+      - FHIR_SERVER_URL=http://fhir-server:8080/fhir
+      - OPENSEARCH_URL=http://opensearch:9200
+      - S3_ENDPOINT_URL=http://minio:9000
+      - AWS_ACCESS_KEY_ID=minioadmin
+      - AWS_SECRET_ACCESS_KEY=minioadmin
+      - SECRET_KEY=your-secret-key-here-change-in-production
+      - ENVIRONMENT=development
+    depends_on:
+      - postgres
+      - redis
+      - minio
+      - opensearch
+      - localstack
+      - fhir-server
+    volumes:
+      - .:/app
+      - ./storage:/app/storage
+    networks:
+      - haven-network
+    command: uvicorn app:app --host 0.0.0.0 --port 8000 --reload
+
+  # Web Portal (React App)
+  web-portal:
+    build:
+      context: ./web
+      dockerfile: ../Dockerfile.web
+    container_name: haven-web-portal
+    ports:
+      - "3000:3000"
+    environment:
+      - REACT_APP_API_BASE_URL=http://localhost:8000/graphql
+      - REACT_APP_REST_API_BASE_URL=http://localhost:8000/api/v2
+      - REACT_APP_WS_URL=ws://localhost:8000/ws
+    depends_on:
+      - web
+    volumes:
+      - ./web:/app
+      - /app/node_modules
+    networks:
+      - haven-network
+
+networks:
+  haven-network:
+    driver: bridge
+
+volumes:
+  minio-data:
+  redis-data:
+  postgres-data:
+  opensearch-data:
+  localstack-data:
+  fhir-data:

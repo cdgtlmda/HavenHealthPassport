@@ -1,0 +1,45 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://postgres-cert:5432/haven_cert
+    username: haven_cert_user
+    password: ${POSTGRES_CERT_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    properties:
+      hibernate:
+        dialect: ca.uhn.fhir.jpa.model.dialect.HapiFhirPostgres94Dialect
+        format_sql: true
+        show_sql: false
+        hbm2ddl.auto: update
+        jdbc.batch_size: 20
+        cache.use_second_level_cache: false
+
+hapi:
+  fhir:
+    version: R4
+    server:
+      path: /fhir/*
+    rest:
+      server-name: Haven Health Passport Certification Server
+      server-version: 1.0.0
+      implementation-description: FHIR R4 Certification Test Server
+      default-response-encoding: json
+      default-pretty-print: true
+    validation:
+      enabled: true
+      request-only: false
+    cors:
+      enabled: true
+      allowed-origins:
+        - "*"
+    narrative:
+      enabled: true
+    subscription:
+      enabled: true
+    audit:
+      enabled: true
+      log-client-info: true
+    bulk-export:
+      enabled: true
+    terminology:
+      enabled: true

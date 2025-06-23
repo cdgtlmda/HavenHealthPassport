@@ -1,0 +1,394 @@
+# Orderer Addresses Configuration
+# Haven Health Passport - Blockchain Network Topology
+
+# Network Overview
+network:
+  name: "haven-health-blockchain"
+  region: "us-east-1"
+  environment: "production"
+
+# Orderer Node Addresses
+ordererAddresses:
+  # Production orderer nodes distributed across availability zones
+  production:
+    # Primary orderer cluster
+    - orderer0:
+        # Node identification
+        id: "orderer0.haven-health.com"
+        organizationId: "HavenHealthOrdererOrg"
+
+        # Network addresses
+        addresses:
+          # Internal cluster communication
+          internal:
+            host: "orderer0.internal.haven-health.com"
+            port: 7050
+            ip: "10.0.1.10"
+
+          # External client connections
+          external:
+            host: "orderer0.haven-health.com"
+            port: 7050
+            domain: "haven-health.com"
+
+          # Operations endpoint
+          operations:
+            host: "orderer0.internal.haven-health.com"
+            port: 8443
+            path: "/metrics"
+
+          # Admin endpoint
+          admin:
+            host: "orderer0.internal.haven-health.com"
+            port: 9443
+
+        # AWS specific configuration
+        aws:
+          availabilityZone: "us-east-1a"
+          instanceId: "i-1234567890abcdef0"
+          privateIp: "10.0.1.10"
+          publicIp: "52.23.45.67"  # Elastic IP
+
+        # Load balancer configuration
+        loadBalancer:
+          enabled: true
+          targetGroup: "arn:aws:elasticloadbalancing:us-east-1:123456789012:targetgroup/orderer-tg/1234567890"
+          healthCheck:
+            path: "/healthz"
+            interval: 30
+            timeout: 5
+
+    - orderer1:
+        id: "orderer1.haven-health.com"
+        organizationId: "HavenHealthOrdererOrg"
+
+        addresses:
+          internal:
+            host: "orderer1.internal.haven-health.com"
+            port: 7050
+            ip: "10.0.2.10"
+
+          external:
+            host: "orderer1.haven-health.com"
+            port: 7050
+            domain: "haven-health.com"
+
+          operations:
+            host: "orderer1.internal.haven-health.com"
+            port: 8443
+            path: "/metrics"
+
+          admin:
+            host: "orderer1.internal.haven-health.com"
+            port: 9443
+
+        aws:
+          availabilityZone: "us-east-1b"
+          instanceId: "i-0987654321fedcba0"
+          privateIp: "10.0.2.10"
+          publicIp: "52.23.45.68"
+
+    - orderer2:
+        id: "orderer2.haven-health.com"
+        organizationId: "HavenHealthOrdererOrg"
+
+        addresses:
+          internal:
+            host: "orderer2.internal.haven-health.com"
+            port: 7050
+            ip: "10.0.3.10"
+
+          external:
+            host: "orderer2.haven-health.com"
+            port: 7050
+            domain: "haven-health.com"
+
+          operations:
+            host: "orderer2.internal.haven-health.com"
+            port: 8443
+            path: "/metrics"
+
+          admin:
+            host: "orderer2.internal.haven-health.com"
+            port: 9443
+
+        aws:
+          availabilityZone: "us-east-1c"
+          instanceId: "i-abcdef1234567890"
+          privateIp: "10.0.3.10"
+          publicIp: "52.23.45.69"
+
+    - orderer3:
+        id: "orderer3.haven-health.com"
+        organizationId: "HavenHealthOrdererOrg"
+
+        addresses:
+          internal:
+            host: "orderer3.internal.haven-health.com"
+            port: 7050
+            ip: "10.0.1.11"
+
+          external:
+            host: "orderer3.haven-health.com"
+            port: 7050
+            domain: "haven-health.com"
+
+          operations:
+            host: "orderer3.internal.haven-health.com"
+            port: 8443
+            path: "/metrics"
+
+          admin:
+            host: "orderer3.internal.haven-health.com"
+            port: 9443
+
+        aws:
+          availabilityZone: "us-east-1a"
+          instanceId: "i-fedcba0987654321"
+          privateIp: "10.0.1.11"
+          publicIp: "52.23.45.70"
+
+    - orderer4:
+        id: "orderer4.haven-health.com"
+        organizationId: "HavenHealthOrdererOrg"
+
+        addresses:
+          internal:
+            host: "orderer4.internal.haven-health.com"
+            port: 7050
+            ip: "10.0.2.11"
+
+          external:
+            host: "orderer4.haven-health.com"
+            port: 7050
+            domain: "haven-health.com"
+
+          operations:
+            host: "orderer4.internal.haven-health.com"
+            port: 8443
+            path: "/metrics"
+
+          admin:
+            host: "orderer4.internal.haven-health.com"
+            port: 9443
+
+        aws:
+          availabilityZone: "us-east-1b"
+          instanceId: "i-1234567890fedcba"
+          privateIp: "10.0.2.11"
+          publicIp: "52.23.45.71"
+
+  # Development environment orderers
+  development:
+    - orderer0:
+        id: "orderer0.dev.haven-health.local"
+        addresses:
+          internal:
+            host: "localhost"
+            port: 7050
+            ip: "127.0.0.1"
+          external:
+            host: "localhost"
+            port: 7050
+          operations:
+            host: "localhost"
+            port: 8443
+          admin:
+            host: "localhost"
+            port: 9443
+
+# Network topology configuration
+networkTopology:
+  # DNS configuration
+  dns:
+    provider: "route53"
+    hostedZoneId: "Z1234567890ABC"
+    ttl: 300
+
+    # DNS records for orderers
+    records:
+      # A records for individual orderers
+      - type: "A"
+        name: "orderer0.haven-health.com"
+        value: "52.23.45.67"
+
+      - type: "A"
+        name: "orderer1.haven-health.com"
+        value: "52.23.45.68"
+
+      - type: "A"
+        name: "orderer2.haven-health.com"
+        value: "52.23.45.69"
+
+      - type: "A"
+        name: "orderer3.haven-health.com"
+        value: "52.23.45.70"
+
+      - type: "A"
+        name: "orderer4.haven-health.com"
+        value: "52.23.45.71"
+
+      # CNAME for load balanced endpoint
+      - type: "CNAME"
+        name: "orderer.haven-health.com"
+        value: "orderer-nlb-1234567890.elb.us-east-1.amazonaws.com"
+
+  # Load balancer configuration
+  loadBalancer:
+    type: "network"  # Network Load Balancer for low latency
+    name: "haven-orderer-nlb"
+    scheme: "internet-facing"
+
+    # Listeners
+    listeners:
+      - protocol: "TCP"
+        port: 7050
+        targetPort: 7050
+
+      - protocol: "TCP"
+        port: 8443
+        targetPort: 8443
+
+    # Target groups
+    targetGroups:
+      - name: "orderer-consensus-tg"
+        protocol: "TCP"
+        port: 7050
+        healthCheck:
+          protocol: "TCP"
+          interval: 10
+          timeout: 5
+          healthyThreshold: 2
+          unhealthyThreshold: 2
+
+      - name: "orderer-operations-tg"
+        protocol: "HTTPS"
+        port: 8443
+        healthCheck:
+          protocol: "HTTPS"
+          path: "/healthz"
+          interval: 30
+          timeout: 5
+
+  # Security groups
+  securityGroups:
+    - name: "orderer-sg"
+      description: "Security group for orderer nodes"
+
+      ingressRules:
+        # Orderer consensus port
+        - protocol: "tcp"
+          port: 7050
+          source: "10.0.0.0/16"  # VPC CIDR
+          description: "Orderer consensus traffic"
+
+        # Operations port
+        - protocol: "tcp"
+          port: 8443
+          source: "10.0.0.0/16"
+          description: "Operations and metrics"
+
+        # Admin port
+        - protocol: "tcp"
+          port: 9443
+          source: "10.0.0.0/16"
+          description: "Admin operations"
+
+        # Raft consensus
+        - protocol: "tcp"
+          port: 7051
+          source: "sg-orderer"  # Self-reference for cluster
+          description: "Raft cluster communication"
+
+      egressRules:
+        - protocol: "-1"
+          port: -1
+          destination: "0.0.0.0/0"
+          description: "Allow all outbound"
+
+# Service discovery configuration
+serviceDiscovery:
+  # AWS Cloud Map configuration
+  cloudMap:
+    enabled: true
+    namespace: "haven-health-blockchain"
+    service: "orderer-service"
+
+    # Service instances
+    instances:
+      - id: "orderer0"
+        attributes:
+          AWS_INSTANCE_IPV4: "10.0.1.10"
+          AWS_INSTANCE_PORT: "7050"
+          AVAILABILITY_ZONE: "us-east-1a"
+
+      - id: "orderer1"
+        attributes:
+          AWS_INSTANCE_IPV4: "10.0.2.10"
+          AWS_INSTANCE_PORT: "7050"
+          AVAILABILITY_ZONE: "us-east-1b"
+
+  # Consul configuration (alternative)
+  consul:
+    enabled: false
+    datacenter: "us-east-1"
+    service: "orderer"
+
+# Connection pool configuration
+connectionPool:
+  # Client connection settings
+  client:
+    maxConnections: 100
+    connectionTimeout: "30s"
+    keepAlive:
+      enabled: true
+      interval: "30s"
+      timeout: "10s"
+
+  # Orderer-to-orderer settings
+  cluster:
+    maxConnections: 50
+    connectionTimeout: "10s"
+    keepAlive:
+      enabled: true
+      interval: "15s"
+      timeout: "5s"
+
+# Monitoring endpoints
+monitoring:
+  # Prometheus metrics
+  prometheus:
+    enabled: true
+    path: "/metrics"
+    port: 8443
+
+  # Health check endpoints
+  healthCheck:
+    liveness:
+      path: "/healthz"
+      port: 8443
+
+    readiness:
+      path: "/ready"
+      port: 8443
+
+# Disaster recovery
+disasterRecovery:
+  # Multi-region configuration
+  multiRegion:
+    enabled: true
+
+    # Standby region
+    standbyRegion:
+      region: "us-west-2"
+      ordererAddresses:
+        - host: "orderer0.dr.haven-health.com"
+          ip: "10.1.1.10"
+        - host: "orderer1.dr.haven-health.com"
+          ip: "10.1.2.10"
+
+    # Failover configuration
+    failover:
+      automatic: false
+      rto: "15m"  # Recovery Time Objective
+      rpo: "5m"   # Recovery Point Objective

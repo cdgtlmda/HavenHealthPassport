@@ -1,0 +1,101 @@
+{
+  "total_codes": 5,
+  "languages": [
+    "ar",
+    "fr",
+    "es",
+    "sw",
+    "fa",
+    "ps",
+    "ur",
+    "bn",
+    "hi"
+  ],
+  "codes": [
+    {
+      "code": "A00.0",
+      "description_en": "Cholera due to Vibrio cholerae 01, biovar cholerae",
+      "category": "Infectious diseases",
+      "is_emergency": false,
+      "needs_translation": [
+        "ar",
+        "fr",
+        "es",
+        "sw",
+        "fa",
+        "ps",
+        "ur",
+        "bn",
+        "hi"
+      ]
+    },
+    {
+      "code": "A00.1",
+      "description_en": "Cholera due to Vibrio cholerae 01, biovar eltor",
+      "category": "Infectious diseases",
+      "is_emergency": false,
+      "needs_translation": [
+        "ar",
+        "fr",
+        "es",
+        "sw",
+        "fa",
+        "ps",
+        "ur",
+        "bn",
+        "hi"
+      ]
+    },
+    {
+      "code": "A00.9",
+      "description_en": "Cholera, unspecified",
+      "category": "Infectious diseases",
+      "is_emergency": false,
+      "needs_translation": [
+        "ar",
+        "fr",
+        "es",
+        "sw",
+        "fa",
+        "ps",
+        "ur",
+        "bn",
+        "hi"
+      ]
+    },
+    {
+      "code": "J00",
+      "description_en": "Acute nasopharyngitis [common cold]",
+      "category": "Respiratory system",
+      "is_emergency": true,
+      "needs_translation": [
+        "ar",
+        "fr",
+        "es",
+        "sw",
+        "fa",
+        "ps",
+        "ur",
+        "bn",
+        "hi"
+      ]
+    },
+    {
+      "code": "J45.909",
+      "description_en": "Unspecified asthma, uncomplicated",
+      "category": "Respiratory system",
+      "is_emergency": false,
+      "needs_translation": [
+        "ar",
+        "fr",
+        "es",
+        "sw",
+        "fa",
+        "ps",
+        "ur",
+        "bn",
+        "hi"
+      ]
+    }
+  ]
+}

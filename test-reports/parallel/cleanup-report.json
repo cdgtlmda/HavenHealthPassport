@@ -1,0 +1,42 @@
+{
+  "startTime": 2877.992042005062,
+  "steps": [
+    {
+      "step": "Database cleanup skipped (PostgreSQL not available)",
+      "duration": 0.0022079944610595703,
+      "success": true,
+      "timestamp": "2025-06-11T21:12:49.006Z"
+    },
+    {
+      "step": "AWS cleanup skipped (AWS SDK not available)",
+      "duration": 0.0006669759750366211,
+      "success": true,
+      "timestamp": "2025-06-11T21:12:49.006Z"
+    },
+    {
+      "step": "Monitoring stopped",
+      "duration": 0.012915968894958496,
+      "success": true,
+      "timestamp": "2025-06-11T21:12:49.006Z"
+    },
+    {
+      "step": "Test artifacts archived",
+      "duration": 1.7643749713897705,
+      "success": true,
+      "timestamp": "2025-06-11T21:12:49.008Z"
+    }
+  ],
+  "errors": [],
+  "retries": [],
+  "endTime": 2880.290458023548,
+  "totalDuration": 2.30179101228714,
+  "summary": {
+    "totalSteps": 4,
+    "successfulSteps": 4,
+    "failedSteps": 0,
+    "totalErrors": 0,
+    "totalRetries": 0,
+    "successfulRetries": 0
+  },
+  "recommendations": []
+}

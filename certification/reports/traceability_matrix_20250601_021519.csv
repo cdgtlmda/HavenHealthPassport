@@ -1,0 +1,6 @@
+Standard,Requirement ID,Title,Mandatory,Status,Evidence Count,Evidence Types,Evidence IDs
+hipaa,HIPAA-1,Access Control,Yes,Satisfied,1,test_result,8454c453
+hipaa,HIPAA-2,Audit Logging,Yes,Not Satisfied,1,audit_log,c02429d3
+gdpr,GDPR-1,Data Protection,Yes,Not Satisfied,1,security_assessment,72aaaf91
+gdpr,GDPR-2,Right to Access,No,Not Satisfied,0,,
+hl7_fhir,FHIR-1,Resource Validation,Yes,Not Satisfied,0,,

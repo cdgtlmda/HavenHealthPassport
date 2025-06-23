@@ -1,0 +1,158 @@
+# AWS Managed Blockchain Member Admin Configuration
+# Haven Health Passport - Member Admin Settings
+
+memberAdmin:
+  # Admin user identifier
+  username: "haven-health-admin"
+
+  # Admin user attributes
+  attributes:
+    - name: "admin"
+      value: "true"
+    - name: "department"
+      value: "blockchain-operations"
+    - name: "role"
+      value: "network-administrator"
+    - name: "organization"
+      value: "haven-health-passport"
+
+  # Certificate configuration
+  certificate:
+    # Certificate validity period (in days)
+    validity: 365
+
+    # Key algorithm
+    algorithm: "ecdsa"
+    keySize: "256"
+
+    # Certificate subject
+    subject:
+      country: "US"
+      state: "Global"
+      locality: "International"
+      organization: "Haven Health Passport"
+      organizationalUnit: "Blockchain Administration"
+      commonName: "haven-health-admin"
+
+  # Access control policies
+  policies:
+    # Channel creation permissions
+    channelCreation: true
+
+    # Chaincode lifecycle permissions
+    chaincodeLifecycle:
+      install: true
+      instantiate: true
+      upgrade: true
+      invoke: true
+      query: true
+
+    # Peer management permissions
+    peerManagement:
+      addPeer: true
+      removePeer: true
+      updatePeer: true
+
+    # Certificate management
+    certificateManagement:
+      issue: true
+      revoke: true
+      renew: true
+
+    # Policy management
+    policyManagement:
+      create: true
+      update: true
+      delete: true
+
+  # Security settings
+  security:
+    # Password policy
+    passwordPolicy:
+      minLength: 16
+      requireUppercase: true
+      requireLowercase: true
+      requireNumbers: true
+      requireSpecialChars: true
+      expirationDays: 90
+      historyCount: 12
+
+    # Multi-factor authentication
+    mfa:
+      enabled: true
+      type: "TOTP"
+      backupCodes: 10
+
+    # Session management
+    session:
+      timeout: 1800  # 30 minutes in seconds
+      maxConcurrent: 2
+      ipRestriction: false
+
+  # Notification settings
+  notifications:
+    email:
+      enabled: true
+      address: "blockchain-admin@havenhealthpassport.org"
+      alerts:
+        - "certificate-expiration"
+        - "unauthorized-access"
+        - "policy-changes"
+        - "chaincode-deployment"
+        - "network-issues"
+
+    sms:
+      enabled: false
+
+    webhook:
+      enabled: true
+      url: "https://api.havenhealthpassport.org/webhooks/blockchain-events"
+      secret: "${WEBHOOK_SECRET}"
+
+  # Audit settings
+  audit:
+    enabled: true
+    logLevel: "INFO"
+    retention: 2555  # 7 years in days
+    encryption: true
+
+    # Actions to audit
+    actions:
+      - "login"
+      - "logout"
+      - "channel-creation"
+      - "chaincode-deployment"
+      - "policy-modification"
+      - "certificate-operations"
+      - "peer-management"
+      - "data-access"
+
+# AWS IAM Role Mapping
+awsIntegration:
+  # IAM role for blockchain admin
+  iamRole: "arn:aws:iam::${AWS_ACCOUNT_ID}:role/HavenHealthBlockchainAdmin"
+
+  # Required AWS permissions
+  requiredPermissions:
+    - "managedblockchain:CreateMember"
+    - "managedblockchain:DeleteMember"
+    - "managedblockchain:UpdateMember"
+    - "managedblockchain:CreateNode"
+    - "managedblockchain:DeleteNode"
+    - "managedblockchain:UpdateNode"
+    - "managedblockchain:CreateProposal"
+    - "managedblockchain:VoteOnProposal"
+    - "managedblockchain:ListNetworks"
+    - "managedblockchain:GetNetwork"
+    - "managedblockchain:GetMember"
+    - "managedblockchain:GetNode"
+    - "cloudwatch:PutMetricData"
+    - "cloudwatch:GetMetricStatistics"
+    - "logs:CreateLogGroup"
+    - "logs:CreateLogStream"
+    - "logs:PutLogEvents"
+    - "logs:DescribeLogStreams"
+    - "s3:GetObject"
+    - "s3:PutObject"
+    - "kms:Decrypt"
+    - "kms:GenerateDataKey"

@@ -1,0 +1,460 @@
+{
+  "version": "2.0",
+  "generated_at": "2025-06-06T11:53:27.661295",
+  "total_concepts": 5,
+  "languages": [
+    "bn",
+    "ar",
+    "hi",
+    "sw",
+    "fr",
+    "es",
+    "ps",
+    "ur",
+    "fa"
+  ],
+  "concepts": [
+    {
+      "code": "A15-A19",
+      "system": "ICD-10",
+      "primary_term": "Tuberculosis",
+      "category": "infectious_diseases",
+      "definition": "An infectious disease caused by Mycobacterium tuberculosis affecting primarily the lungs",
+      "patient_explanation": "A contagious disease that mainly affects the lungs and spreads through the air when infected people cough",
+      "emergency_relevant": false,
+      "common_in_refugees": true,
+      "synonyms": [
+        "Consumption",
+        "Phthisis",
+        "TB"
+      ],
+      "translations": {
+        "ar": {
+          "translation": "السل",
+          "transliteration": "as-sul",
+          "patient_friendly": "مرض معدٍ يصيب الرئتين بشكل رئيسي",
+          "cultural_notes": "مرض له وصمة اجتماعية؛ السرية مهمة جداً",
+          "verified": true,
+          "confidence_score": 0.95
+        },
+        "bn": {
+          "translation": "যক্ষ্মা",
+          "transliteration": "jokhma",
+          "patient_friendly": "একটি সংক্রামক রোগ যা প্রধানত ফুসফুসকে প্রভাবিত করে",
+          "cultural_notes": "সামাজিক কলঙ্কের রোগ; গোপনীয়তা জরুরি",
+          "verified": true,
+          "confidence_score": 0.95
+        },
+        "es": {
+          "translation": "Tuberculosis",
+          "transliteration": null,
+          "patient_friendly": "Una enfermedad contagiosa que afecta principalmente los pulmones",
+          "cultural_notes": "Enfermedad con estigma social; requiere apoyo familiar",
+          "verified": true,
+          "confidence_score": 0.95
+        },
+        "fa": {
+          "translation": "سل",
+          "transliteration": "sol",
+          "patient_friendly": "بیماری مسری که عمدتاً ریه‌ها را درگیر می‌کند",
+          "cultural_notes": "بیماری با انگ اجتماعی؛ محرمانگی ضروری است",
+          "verified": true,
+          "confidence_score": 0.95
+        },
+        "fr": {
+          "translation": "Tuberculose",
+          "transliteration": null,
+          "patient_friendly": "Une maladie contagieuse qui affecte principalement les poumons",
+          "cultural_notes": "Maladie stigmatisée; nécessite un soutien familial",
+          "verified": true,
+          "confidence_score": 0.95
+        },
+        "hi": {
+          "translation": "क्षय रोग",
+          "transliteration": "kshay rog",
+          "patient_friendly": "एक संक्रामक बीमारी जो मुख्य रूप से फेफड़ों को प्रभावित करती है",
+          "cultural_notes": "सामाजिक कलंक की बीमारी; गोपनीयता आवश्यक",
+          "verified": true,
+          "confidence_score": 0.95
+        },
+        "ps": {
+          "translation": "نري رنځ",
+          "transliteration": "naray ranj",
+          "patient_friendly": "یو ساري ناروغي چې په عمده توګه سږي اغیزمنوي",
+          "cultural_notes": "د ټولنیز بدنامۍ ناروغي؛ محرمیت ډیر مهم دی",
+          "verified": true,
+          "confidence_score": 0.95
+        },
+        "sw": {
+          "translation": "Kifua kikuu",
+          "transliteration": null,
+          "patient_friendly": "Ugonjwa wa kuambukiza unaoshambulia mapafu",
+          "cultural_notes": "Ugonjwa wenye unyanyapaa; usiri ni muhimu",
+          "verified": true,
+          "confidence_score": 0.95
+        },
+        "ur": {
+          "translation": "تپ دق",
+          "transliteration": "tap-e-diq",
+          "patient_friendly": "پھیپھڑوں کی ایک متعدی بیماری جو کھانسی سے پھیلتی ہے",
+          "cultural_notes": "اس بیماری میں سماجی رسوائی کا خطرہ ہے",
+          "verified": true,
+          "confidence_score": 0.95
+        }
+      }
+    },
+    {
+      "code": "B50-B54",
+      "system": "ICD-10",
+      "primary_term": "Malaria",
+      "category": "infectious_diseases",
+      "definition": "A mosquito-borne infectious disease caused by Plasmodium parasites",
+      "patient_explanation": "A disease spread by mosquito bites that causes fever, chills, and flu-like symptoms",
+      "emergency_relevant": true,
+      "common_in_refugees": true,
+      "synonyms": [
+        "Marsh fever",
+        "Paludism"
+      ],
+      "translations": {
+        "ar": {
+          "translation": "الملاريا",
+          "transliteration": "al-malaria",
+          "patient_friendly": "مرض ينتقل عن طريق لدغات البعوض ويسبب الحمى",
+          "cultural_notes": "استخدام الناموسيات يختلف حسب الممارسات الثقافية",
+          "verified": true,
+          "confidence_score": 0.95
+        },
+        "bn": {
+          "translation": "ম্যালেরিয়া",
+          "transliteration": "maleria",
+          "patient_friendly": "মশার কামড় থেকে ছড়ানো রোগ যা জ্বর সৃষ্টি করে",
+          "cultural_notes": "মশারি ব্যবহার সাংস্কৃতিক অনুশীলন অনুযায়ী পরিবর্তিত হয়",
+          "verified": true,
+          "confidence_score": 0.95
+        },
+        "es": {
+          "translation": "Malaria",
+          "transliteration": null,
+          "patient_friendly": "Una enfermedad transmitida por picaduras de mosquitos que causa fiebre",
+          "cultural_notes": "Uso de mosquiteros varía según prácticas culturales",
+          "verified": true,
+          "confidence_score": 0.95
+        },
+        "fa": {
+          "translation": "مالاریا",
+          "transliteration": "malaria",
+          "patient_friendly": "بیماری که از طریق نیش پشه منتقل می‌شود و تب ایجاد می‌کند",
+          "cultural_notes": "استفاده از پشه‌بند بسته به رسوم فرهنگی متفاوت است",
+          "verified": true,
+          "confidence_score": 0.95
+        },
+        "fr": {
+          "translation": "Paludisme",
+          "transliteration": null,
+          "patient_friendly": "Une maladie transmise par les piqûres de moustiques causant de la fièvre",
+          "cultural_notes": "L'utilisation de moustiquaires varie selon les pratiques culturelles",
+          "verified": true,
+          "confidence_score": 0.95
+        },
+        "hi": {
+          "translation": "मलेरिया",
+          "transliteration": "malaria",
+          "patient_friendly": "मच्छर के काटने से फैलने वाली बीमारी जो बुखार का कारण बनती है",
+          "cultural_notes": "मच्छरदानी का उपयोग सांस्कृतिक प्रथाओं के अनुसार भिन्न होता है",
+          "verified": true,
+          "confidence_score": 0.95
+        },
+        "ps": {
+          "translation": "ملاریا",
+          "transliteration": "malaria",
+          "patient_friendly": "د ماشو د چیچلو څخه خپریدونکې ناروغي چې تبه راولي",
+          "cultural_notes": "د مچ د جالونو کارول د کلتوري دودونو سره توپیر لري",
+          "verified": true,
+          "confidence_score": 0.95
+        },
+        "sw": {
+          "translation": "Malaria",
+          "transliteration": null,
+          "patient_friendly": "Ugonjwa unaoenezwa na wadudu wa mbu ukisababisha homa",
+          "cultural_notes": "Matumizi ya vyandarua yanatofautiana kulingana na mila",
+          "verified": true,
+          "confidence_score": 0.95
+        },
+        "ur": {
+          "translation": "ملیریا",
+          "transliteration": "malaria",
+          "patient_friendly": "مچھر کے کاٹنے سے پھیلنے والی بیماری جو بخار کا باعث بنتی ہے",
+          "cultural_notes": "مچھردانی کا استعمال ثقافتی طریقوں کے مطابق مختلف ہوتا ہے",
+          "verified": true,
+          "confidence_score": 0.95
+        }
+      }
+    },
+    {
+      "code": "F43.1",
+      "system": "ICD-10",
+      "primary_term": "Post-Traumatic Stress Disorder",
+      "category": "mental_health",
+      "definition": "A mental health condition triggered by experiencing or witnessing a traumatic event",
+      "patient_explanation": "Anxiety and distress that can occur after experiencing or seeing something very frightening or harmful",
+      "emergency_relevant": true,
+      "common_in_refugees": true,
+      "synonyms": [
+        "Combat stress",
+        "PTSD",
+        "Shell shock"
+      ],
+      "translations": {
+        "ar": {
+          "translation": "اضطراب ما بعد الصدمة",
+          "transliteration": null,
+          "patient_friendly": "القلق والضيق بعد التعرض لحدث صادم",
+          "cultural_notes": "وصمة الصحة النفسية عالية؛ دمج العلاج التقليدي",
+          "verified": true,
+          "confidence_score": 0.95
+        },
+        "bn": {
+          "translation": "দুর্ঘটনা পরবর্তী মানসিক চাপ",
+          "transliteration": null,
+          "patient_friendly": "ভয়ংকর ঘটনার পর উদ্বেগ এবং কষ্ট",
+          "cultural_notes": "মানসিক স্বাস্থ্যের কলঙ্ক বেশি; ঐতিহ্যবাহী চিকিৎসা সংযুক্ত করুন",
+          "verified": true,
+          "confidence_score": 0.95
+        },
+        "es": {
+          "translation": "Trastorno de Estrés Postraumático",
+          "transliteration": null,
+          "patient_friendly": "Ansiedad y angustia después de experimentar algo traumático",
+          "cultural_notes": "El estigma de salud mental es alto; integrar con sanación tradicional",
+          "verified": true,
+          "confidence_score": 0.95
+        },
+        "fa": {
+          "translation": "اختلال استرس پس از سانحه",
+          "transliteration": null,
+          "patient_friendly": "اضطراب و پریشانی پس از تجربه رویداد آسیب‌زا",
+          "cultural_notes": "انگ سلامت روان بالاست؛ ادغام با درمان‌های سنتی",
+          "verified": true,
+          "confidence_score": 0.95
+        },
+        "fr": {
+          "translation": "Trouble de stress post-traumatique",
+          "transliteration": null,
+          "patient_friendly": "Anxiété et détresse après avoir vécu un traumatisme",
+          "cultural_notes": "Stigmatisation élevée; intégrer guérison traditionnelle",
+          "verified": true,
+          "confidence_score": 0.95
+        },
+        "hi": {
+          "translation": "अभिघातजन्य तनाव विकार",
+          "transliteration": null,
+          "patient_friendly": "किसी आघात के बाद चिंता और परेशानी",
+          "cultural_notes": "मानसिक स्वास्थ्य का कलंक अधिक है; पारंपरिक उपचार शामिल करें",
+          "verified": true,
+          "confidence_score": 0.95
+        },
+        "ps": {
+          "translation": "د صدمې وروسته فشار اختلال",
+          "transliteration": null,
+          "patient_friendly": "د ډارونکي پیښې څخه وروسته اضطراب او کړاو",
+          "cultural_notes": "د رواني روغتیا بدنامي لوړه ده؛ دودیز درملنه وګډوئ",
+          "verified": true,
+          "confidence_score": 0.95
+        },
+        "sw": {
+          "translation": "Mshtuko wa Baada ya Kiwewe",
+          "transliteration": null,
+          "patient_friendly": "Wasiwasi na dhiki baada ya kupitia jambo la kutisha",
+          "cultural_notes": "Unyanyapaa wa afya ya akili ni mkubwa; unganisha matibabu ya jadi",
+          "verified": true,
+          "confidence_score": 0.95
+        },
+        "ur": {
+          "translation": "صدمے کے بعد کا تناؤ",
+          "transliteration": null,
+          "patient_friendly": "کسی صدمے کے بعد پریشانی اور تکلیف",
+          "cultural_notes": "ذہنی صحت کی بدنامی زیادہ ہے؛ روایتی علاج شامل کریں",
+          "verified": true,
+          "confidence_score": 0.95
+        }
+      }
+    },
+    {
+      "code": "O80",
+      "system": "ICD-10",
+      "primary_term": "Normal Delivery",
+      "category": "pregnancy_childbirth",
+      "definition": "Spontaneous vertex delivery without complications",
+      "patient_explanation": "A natural birth where the baby is born head first without any problems",
+      "emergency_relevant": false,
+      "common_in_refugees": true,
+      "synonyms": [
+        "Normal birth",
+        "Vaginal delivery"
+      ],
+      "translations": {
+        "ar": {
+          "translation": "ولادة طبيعية",
+          "transliteration": null,
+          "patient_friendly": "ولادة طبيعية حيث يولد الطفل برأسه أولاً دون مشاكل",
+          "cultural_notes": "يُفضل بشدة مقدمات الرعاية الصحية من النساء",
+          "verified": true,
+          "confidence_score": 0.95
+        },
+        "bn": {
+          "translation": "স্বাভাবিক প্রসব",
+          "transliteration": null,
+          "patient_friendly": "প্রাকৃতিক জন্ম যেখানে শিশু মাথা প্রথমে সমস্যা ছাড়াই জন্মায়",
+          "cultural_notes": "মহিলা স্বাস্থ্যসেবা প্রদানকারীদের অগ্রাধিকার",
+          "verified": true,
+          "confidence_score": 0.95
+        },
+        "es": {
+          "translation": "Parto Normal",
+          "transliteration": null,
+          "patient_friendly": "Un nacimiento natural donde el bebé nace de cabeza sin problemas",
+          "cultural_notes": "Se prefiere personal médico femenino",
+          "verified": true,
+          "confidence_score": 0.95
+        },
+        "fa": {
+          "translation": "زایمان طبیعی",
+          "transliteration": null,
+          "patient_friendly": "تولد طبیعی که نوزاد بدون مشکل با سر متولد می‌شود",
+          "cultural_notes": "ارائه‌دهندگان مراقبت زن قویاً ترجیح داده می‌شوند",
+          "verified": true,
+          "confidence_score": 0.95
+        },
+        "fr": {
+          "translation": "Accouchement Normal",
+          "transliteration": null,
+          "patient_friendly": "Un accouchement naturel où le bébé naît tête première sans problème",
+          "cultural_notes": "Personnel médical féminin fortement préféré",
+          "verified": true,
+          "confidence_score": 0.95
+        },
+        "hi": {
+          "translation": "सामान्य प्रसव",
+          "transliteration": null,
+          "patient_friendly": "प्राकृतिक जन्म जहां बच्चा बिना किसी समस्या के सिर से पहले जन्म लेता है",
+          "cultural_notes": "महिला स्वास्थ्य प्रदाताओं को प्राथमिकता",
+          "verified": true,
+          "confidence_score": 0.95
+        },
+        "ps": {
+          "translation": "عادي زیږون",
+          "transliteration": null,
+          "patient_friendly": "طبیعي زیږون چې ماشوم د سر په واسطه پرته له ستونزو زیږیږي",
+          "cultural_notes": "د ښځینه روغتیا کارکوونکي ډیر غوره کیږي",
+          "verified": true,
+          "confidence_score": 0.95
+        },
+        "sw": {
+          "translation": "Kujifungua kwa Kawaida",
+          "transliteration": null,
+          "patient_friendly": "Kuzaa kwa asili ambapo mtoto anazaliwa kichwa kwanza bila matatizo",
+          "cultural_notes": "Wauguzi wa kike wanapendelewa sana",
+          "verified": true,
+          "confidence_score": 0.95
+        },
+        "ur": {
+          "translation": "معمول کی ڈیلیوری",
+          "transliteration": null,
+          "patient_friendly": "قدرتی پیدائش جہاں بچہ سر سے پہلے بغیر کسی مسئلے کے پیدا ہوتا ہے",
+          "cultural_notes": "خواتین صحت کی دیکھ بھال فراہم کرنے والوں کو ترجیح",
+          "verified": true,
+          "confidence_score": 0.95
+        }
+      }
+    },
+    {
+      "code": "J01CA04",
+      "system": "ATC",
+      "primary_term": "Amoxicillin",
+      "category": "medications",
+      "definition": "A penicillin-type antibiotic used to treat bacterial infections",
+      "patient_explanation": "An antibiotic medicine that fights infections caused by bacteria",
+      "emergency_relevant": false,
+      "common_in_refugees": true,
+      "synonyms": [
+        "Amoxil",
+        "Trimox"
+      ],
+      "translations": {
+        "ar": {
+          "translation": "أموكسيسيلين",
+          "transliteration": null,
+          "patient_friendly": "دواء مضاد حيوي يحارب الالتهابات التي تسببها البكتيريا",
+          "cultural_notes": "قد تحتاج كبسولات الجيلاتين إلى شهادة حلال",
+          "verified": true,
+          "confidence_score": 0.95
+        },
+        "bn": {
+          "translation": "অ্যামোক্সিসিলিন",
+          "transliteration": null,
+          "patient_friendly": "অ্যান্টিবায়োটিক ওষুধ যা ব্যাকটেরিয়া সংক্রমণের বিরুদ্ধে লড়াই করে",
+          "cultural_notes": "কেউ কেউ ট্যাবলেটের চেয়ে তরল পছন্দ করেন",
+          "verified": true,
+          "confidence_score": 0.95
+        },
+        "es": {
+          "translation": "Amoxicilina",
+          "transliteration": null,
+          "patient_friendly": "Un medicamento antibiótico que combate infecciones causadas por bacterias",
+          "cultural_notes": "Algunos prefieren forma líquida sobre tabletas",
+          "verified": true,
+          "confidence_score": 0.95
+        },
+        "fa": {
+          "translation": "آموکسی‌سیلین",
+          "transliteration": null,
+          "patient_friendly": "داروی آنتی‌بیوتیک که با عفونت‌های باکتریایی مبارزه می‌کند",
+          "cultural_notes": "کپسول‌های ژلاتینی ممکن است نیاز به گواهی حلال داشته باشند",
+          "verified": true,
+          "confidence_score": 0.95
+        },
+        "fr": {
+          "translation": "Amoxicilline",
+          "transliteration": null,
+          "patient_friendly": "Un médicament antibiotique qui combat les infections bactériennes",
+          "cultural_notes": "Certains préfèrent la forme liquide aux comprimés",
+          "verified": true,
+          "confidence_score": 0.95
+        },
+        "hi": {
+          "translation": "एमोक्सिसिलिन",
+          "transliteration": null,
+          "patient_friendly": "एंटीबायोटिक दवा जो बैक्टीरिया संक्रमण से लड़ती है",
+          "cultural_notes": "कुछ लोग गोलियों की जगह तरल रूप पसंद करते हैं",
+          "verified": true,
+          "confidence_score": 0.95
+        },
+        "ps": {
+          "translation": "اموکسیسیلین",
+          "transliteration": null,
+          "patient_friendly": "د انټي بیوټیک درمل چې د باکټریا له امله انتانات درملنه کوي",
+          "cultural_notes": "ځینې مایع بڼه د ټابلیټونو پر ځای غوره ګڼي",
+          "verified": true,
+          "confidence_score": 0.95
+        },
+        "sw": {
+          "translation": "Amoxicillin",
+          "transliteration": null,
+          "patient_friendly": "Dawa ya antibiotiki inayopambana na maambukizi ya bakteria",
+          "cultural_notes": "Wengine wanapendelea umajimaji kuliko vidonge",
+          "verified": true,
+          "confidence_score": 0.95
+        },
+        "ur": {
+          "translation": "اموکسیسلن",
+          "transliteration": null,
+          "patient_friendly": "اینٹی بائیوٹک دوا جو بیکٹیریا کی وجہ سے ہونے والے انفیکشن سے لڑتی ہے",
+          "cultural_notes": "جیلیٹن کیپسول کو حلال سرٹیفیکیٹ کی ضرورت ہو سکتی ہے",
+          "verified": true,
+          "confidence_score": 0.95
+        }
+      }
+    }
+  ]
+}

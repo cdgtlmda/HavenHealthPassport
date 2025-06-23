@@ -1,0 +1,360 @@
+# FHIR Conformance and Capability Statement Configuration
+# This configures the server's capabilities and supported operations
+
+hapi:
+  fhir:
+    # Capability Statement Configuration
+    capability_statement:
+      # Server metadata
+      software:
+        name: "Haven Health Passport FHIR Server"
+        version: "${app.version:1.0.0}"
+        release_date: "2024-01-01"
+
+      # Implementation details
+      implementation:
+        description: "Haven Health Passport - Secure health records for refugees and displaced populations"
+        url: "${hapi.fhir.server_address}"
+
+      # Server capabilities
+      kind: "instance"
+      fhir_version: "4.0.1"
+      format:
+        - "application/fhir+json"
+        - "application/fhir+xml"
+
+      # Patch formats supported
+      patch_format:
+        - "application/json-patch+json"
+        - "application/fhir+json"
+
+      # Implementation guides
+      implementation_guide:
+        - "http://hl7.org/fhir/uv/ips/"  # International Patient Summary
+        - "https://havenhealthpassport.org/fhir/ImplementationGuide/refugee-health"
+
+    # Conformance Resources
+    conformance:
+      # Supported resources with their interactions
+      resources:
+        Patient:
+          supported: true
+          interactions:
+            - read
+            - vread
+            - update
+            - patch
+            - delete
+            - history-instance
+            - history-type
+            - create
+            - search-type
+          versioning: "versioned"
+          readHistory: true
+          updateCreate: true
+          conditionalCreate: true
+          conditionalRead: "full-support"
+          conditionalUpdate: true
+          conditionalDelete: "multiple"
+          referencePolicy:
+            - "literal"
+            - "logical"
+          searchInclude:
+            - "Patient:general-practitioner"
+            - "Patient:link"
+            - "Patient:organization"
+          searchRevInclude:
+            - "AllergyIntolerance:patient"
+            - "Condition:patient"
+            - "Observation:patient"
+          searchParams:
+            - name: "identifier"
+              type: "token"
+              documentation: "Patient identifier"
+            - name: "name"
+              type: "string"
+              documentation: "Patient name"
+            - name: "birthdate"
+              type: "date"
+              documentation: "Patient birth date"
+            - name: "gender"
+              type: "token"
+              documentation: "Patient gender"
+            - name: "refugee-status"
+              type: "token"
+              documentation: "Refugee status (custom)"
+
+        Observation:
+          supported: true
+          interactions:
+            - read
+            - vread
+            - update
+            - delete
+            - history-instance
+            - create
+            - search-type
+          versioning: "versioned"
+          searchParams:
+            - name: "code"
+              type: "token"
+              documentation: "Observation code"
+            - name: "date"
+              type: "date"
+              documentation: "Observation date"
+            - name: "patient"
+              type: "reference"
+              documentation: "Patient reference"
+            - name: "category"
+              type: "token"
+              documentation: "Observation category"
+            - name: "value-quantity"
+              type: "quantity"
+              documentation: "Observation value"
+
+        Condition:
+          supported: true
+          interactions:
+            - read
+            - vread
+            - update
+            - delete
+            - history-instance
+            - create
+            - search-type
+          versioning: "versioned"
+          searchParams:
+            - name: "code"
+              type: "token"
+              documentation: "Condition code"
+            - name: "patient"
+              type: "reference"
+              documentation: "Patient reference"
+            - name: "clinical-status"
+              type: "token"
+              documentation: "Clinical status"
+            - name: "severity"
+              type: "token"
+              documentation: "Condition severity"
+
+        MedicationRequest:
+          supported: true
+          interactions:
+            - read
+            - vread
+            - update
+            - delete
+            - history-instance
+            - create
+            - search-type
+          versioning: "versioned"
+          searchParams:
+            - name: "patient"
+              type: "reference"
+              documentation: "Patient reference"
+            - name: "status"
+              type: "token"
+              documentation: "Medication request status"
+            - name: "medication"
+              type: "reference"
+              documentation: "Medication reference"
+            - name: "authoredon"
+              type: "date"
+              documentation: "Authorization date"
+
+        Procedure:
+          supported: true
+          interactions:
+            - read
+            - vread
+            - update
+            - delete
+            - history-instance
+            - create
+            - search-type
+          versioning: "versioned"
+          searchParams:
+            - name: "code"
+              type: "token"
+              documentation: "Procedure code"
+            - name: "patient"
+              type: "reference"
+              documentation: "Patient reference"
+            - name: "date"
+              type: "date"
+              documentation: "Procedure date"
+            - name: "status"
+              type: "token"
+              documentation: "Procedure status"
+
+        DocumentReference:
+          supported: true
+          interactions:
+            - read
+            - vread
+            - update
+            - delete
+            - history-instance
+            - create
+            - search-type
+          versioning: "versioned"
+          searchParams:
+            - name: "patient"
+              type: "reference"
+              documentation: "Patient reference"
+            - name: "type"
+              type: "token"
+              documentation: "Document type"
+            - name: "date"
+              type: "date"
+              documentation: "Document date"
+            - name: "status"
+              type: "token"
+              documentation: "Document status"
+
+        AllergyIntolerance:
+          supported: true
+          interactions:
+            - read
+            - vread
+            - update
+            - delete
+            - history-instance
+            - create
+            - search-type
+          versioning: "versioned"
+          searchParams:
+            - name: "patient"
+              type: "reference"
+              documentation: "Patient reference"
+            - name: "code"
+              type: "token"
+              documentation: "Allergy code"
+            - name: "clinical-status"
+              type: "token"
+              documentation: "Clinical status"
+
+        Immunization:
+          supported: true
+          interactions:
+            - read
+            - vread
+            - update
+            - delete
+            - history-instance
+            - create
+            - search-type
+          versioning: "versioned"
+          searchParams:
+            - name: "patient"
+              type: "reference"
+              documentation: "Patient reference"
+            - name: "vaccine-code"
+              type: "token"
+              documentation: "Vaccine code"
+            - name: "date"
+              type: "date"
+              documentation: "Immunization date"
+            - name: "status"
+              type: "token"
+              documentation: "Immunization status"
+
+        Organization:
+          supported: true
+          interactions:
+            - read
+            - vread
+            - update
+            - create
+            - search-type
+          versioning: "versioned"
+          searchParams:
+            - name: "name"
+              type: "string"
+              documentation: "Organization name"
+            - name: "identifier"
+              type: "token"
+              documentation: "Organization identifier"
+
+        Practitioner:
+          supported: true
+          interactions:
+            - read
+            - vread
+            - update
+            - create
+            - search-type
+          versioning: "versioned"
+          searchParams:
+            - name: "name"
+              type: "string"
+              documentation: "Practitioner name"
+            - name: "identifier"
+              type: "token"
+              documentation: "Practitioner identifier"
+
+      # System-wide operations
+      system_operations:
+        - name: "transaction"
+          definition: "http://hl7.org/fhir/OperationDefinition/Bundle-transaction"
+        - name: "history-system"
+          definition: "http://hl7.org/fhir/OperationDefinition/Resource-history"
+        - name: "search-system"
+          definition: "http://hl7.org/fhir/OperationDefinition/Resource-search"
+        - name: "capabilities"
+          definition: "http://hl7.org/fhir/OperationDefinition/CapabilityStatement-capabilities"
+
+      # Type-level operations
+      type_operations:
+        - resource: "Patient"
+          operations:
+            - name: "everything"
+              definition: "http://hl7.org/fhir/OperationDefinition/Patient-everything"
+            - name: "match"
+              definition: "http://hl7.org/fhir/OperationDefinition/Patient-match"
+
+        - resource: "ValueSet"
+          operations:
+            - name: "expand"
+              definition: "http://hl7.org/fhir/OperationDefinition/ValueSet-expand"
+            - name: "validate-code"
+              definition: "http://hl7.org/fhir/OperationDefinition/ValueSet-validate-code"
+
+        - resource: "CodeSystem"
+          operations:
+            - name: "lookup"
+              definition: "http://hl7.org/fhir/OperationDefinition/CodeSystem-lookup"
+            - name: "validate-code"
+              definition: "http://hl7.org/fhir/OperationDefinition/CodeSystem-validate-code"
+
+        - resource: "ConceptMap"
+          operations:
+            - name: "translate"
+              definition: "http://hl7.org/fhir/OperationDefinition/ConceptMap-translate"
+
+      # Search result parameters
+      search_result_parameters:
+        - "_sort"
+        - "_count"
+        - "_include"
+        - "_revinclude"
+        - "_summary"
+        - "_total"
+        - "_elements"
+        - "_contained"
+        - "_containedType"
+
+      # Security configuration
+      security:
+        cors: true
+        service:
+          - coding:
+              - system: "http://terminology.hl7.org/CodeSystem/restful-security-service"
+                code: "OAuth"
+                display: "OAuth2 Token"
+        description: "OAuth2 authentication required for all write operations"
+
+# Logging for conformance operations
+logging:
+  level:
+    ca.uhn.fhir.rest.server.provider.ServerCapabilityStatementProvider: INFO

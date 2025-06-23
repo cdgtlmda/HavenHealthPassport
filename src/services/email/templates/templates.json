@@ -1,0 +1,133 @@
+{
+  "verify_email": {
+    "name": "Email Verification",
+    "description": "Sent when a user registers and needs to verify their email address",
+    "category": "authentication",
+    "variables": [
+      "user_name",
+      "verification_url"
+    ],
+    "available_languages": ["en", "es", "fr", "ar", "zh"],
+    "subject_template": "Verify Your Email - {{ app_name }}"
+  },
+  "password_reset": {
+    "name": "Password Reset",
+    "description": "Sent when a user requests a password reset",
+    "category": "authentication",
+    "variables": [
+      "user_name",
+      "reset_url",
+      "expires_in"
+    ],
+    "available_languages": ["en", "es", "fr", "ar", "zh"],
+    "subject_template": "Reset Your Password - {{ app_name }}"
+  },
+  "report_ready": {
+    "name": "Report Ready",
+    "description": "Sent when a requested report has been generated",
+    "category": "reports",
+    "variables": [
+      "user_name",
+      "report_name",
+      "report_type",
+      "generated_at"
+    ],
+    "available_languages": ["en", "es", "fr", "ar", "zh"],
+    "subject_template": "Your {{ report_type }} Report is Ready"
+  },
+  "appointment_reminder": {
+    "name": "Appointment Reminder",
+    "description": "Sent to remind users of upcoming appointments",
+    "category": "appointments",
+    "variables": [
+      "user_name",
+      "appointment_date",
+      "appointment_time",
+      "doctor_name",
+      "clinic_name",
+      "appointment_url"
+    ],
+    "available_languages": ["en", "es", "fr", "ar", "zh"],
+    "subject_template": "Appointment Reminder - {{ appointment_date }}"
+  },
+  "medication_reminder": {
+    "name": "Medication Reminder",
+    "description": "Sent to remind users to take their medication",
+    "category": "health",
+    "variables": [
+      "user_name",
+      "medication_name",
+      "dosage",
+      "time"
+    ],
+    "available_languages": ["en", "es", "fr", "ar", "zh"],
+    "subject_template": "Medication Reminder: {{ medication_name }}"
+  },
+  "health_alert": {
+    "name": "Health Alert",
+    "description": "Sent for important health alerts or updates",
+    "category": "health",
+    "variables": [
+      "user_name",
+      "alert_title",
+      "alert_message",
+      "action_required",
+      "action_url"
+    ],
+    "available_languages": ["en", "es", "fr", "ar", "zh"],
+    "subject_template": "Important Health Alert: {{ alert_title }}"
+  },
+  "welcome": {
+    "name": "Welcome Email",
+    "description": "Sent after successful email verification",
+    "category": "onboarding",
+    "variables": [
+      "user_name",
+      "getting_started_url",
+      "profile_url"
+    ],
+    "available_languages": ["en", "es", "fr", "ar", "zh"],
+    "subject_template": "Welcome to {{ app_name }}!"
+  },
+  "data_export_ready": {
+    "name": "Data Export Ready",
+    "description": "Sent when a user's data export is ready for download",
+    "category": "data",
+    "variables": [
+      "user_name",
+      "export_type",
+      "download_url",
+      "expires_at"
+    ],
+    "available_languages": ["en", "es", "fr", "ar", "zh"],
+    "subject_template": "Your Data Export is Ready"
+  },
+  "security_alert": {
+    "name": "Security Alert",
+    "description": "Sent for security-related events like new login from unknown device",
+    "category": "security",
+    "variables": [
+      "user_name",
+      "event_type",
+      "device_info",
+      "location",
+      "timestamp",
+      "action_url"
+    ],
+    "available_languages": ["en", "es", "fr", "ar", "zh"],
+    "subject_template": "Security Alert: {{ event_type }}"
+  },
+  "record_shared": {
+    "name": "Record Shared",
+    "description": "Sent when a health record is shared with the user",
+    "category": "sharing",
+    "variables": [
+      "user_name",
+      "sharer_name",
+      "record_type",
+      "view_url"
+    ],
+    "available_languages": ["en", "es", "fr", "ar", "zh"],
+    "subject_template": "{{ sharer_name }} shared a {{ record_type }} with you"
+  }
+}

@@ -1,0 +1,125 @@
+{
+  "1191": {
+    "name": "Aspirin",
+    "tty": "IN",
+    "status": "active",
+    "synonyms": [
+      "acetylsalicylic acid",
+      "ASA"
+    ]
+  },
+  "5640": {
+    "name": "Ibuprofen",
+    "tty": "IN",
+    "status": "active",
+    "synonyms": [
+      "Brufen"
+    ]
+  },
+  "161": {
+    "name": "Acetaminophen",
+    "tty": "IN",
+    "status": "active",
+    "synonyms": [
+      "Paracetamol",
+      "APAP"
+    ]
+  },
+  "6809": {
+    "name": "Metformin",
+    "tty": "IN",
+    "status": "active",
+    "synonyms": [
+      "Glucophage"
+    ]
+  },
+  "35636": {
+    "name": "Simvastatin",
+    "tty": "IN",
+    "status": "active",
+    "synonyms": [
+      "Zocor"
+    ]
+  },
+  "215697": {
+    "name": "Tylenol",
+    "tty": "BN",
+    "status": "active",
+    "generic_name": "Acetaminophen",
+    "ingredients": [
+      "161"
+    ]
+  },
+  "153165": {
+    "name": "Advil",
+    "tty": "BN",
+    "status": "active",
+    "generic_name": "Ibuprofen",
+    "ingredients": [
+      "5640"
+    ]
+  },
+  "198440": {
+    "name": "Aspirin 81 MG Oral Tablet",
+    "tty": "SCD",
+    "status": "active",
+    "ingredients": [
+      "1191"
+    ],
+    "strength": "81 mg",
+    "dose_form": "Oral Tablet",
+    "route": "oral",
+    "prescribable": true
+  },
+  "314077": {
+    "name": "Ibuprofen 200 MG Oral Tablet",
+    "tty": "SCD",
+    "status": "active",
+    "ingredients": [
+      "5640"
+    ],
+    "strength": "200 mg",
+    "dose_form": "Oral Tablet",
+    "route": "oral",
+    "prescribable": true
+  },
+  "313782": {
+    "name": "Acetaminophen 325 MG Oral Tablet",
+    "tty": "SCD",
+    "status": "active",
+    "ingredients": [
+      "161"
+    ],
+    "strength": "325 mg",
+    "dose_form": "Oral Tablet",
+    "route": "oral",
+    "prescribable": true
+  },
+  "861007": {
+    "name": "Metformin 500 MG Oral Tablet",
+    "tty": "SCD",
+    "status": "active",
+    "ingredients": [
+      "6809"
+    ],
+    "strength": "500 mg",
+    "dose_form": "Oral Tablet",
+    "route": "oral",
+    "prescribable": true
+  },
+  "104490": {
+    "name": "Tylenol 325 MG Oral Tablet",
+    "tty": "SBD",
+    "status": "active",
+    "brand_names": [
+      "Tylenol"
+    ],
+    "ingredients": [
+      "161"
+    ],
+    "strength": "325 mg",
+    "dose_form": "Oral Tablet",
+    "route": "oral",
+    "prescribable": true
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "J00": [
+    "common cold",
+    "cold",
+    "head cold",
+    "coryza",
+    "upper respiratory infection",
+    "URI"
+  ],
+  "J45": [
+    "asthma",
+    "asthmatic",
+    "bronchial asthma",
+    "reactive airway disease"
+  ],
+  "A00": [
+    "cholera",
+    "asiatic cholera",
+    "epidemic cholera"
+  ]
+}

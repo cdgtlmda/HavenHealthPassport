@@ -1,0 +1,244 @@
+# Copyright Haven Health Passport. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+################################################################################
+#
+#   Haven Health Passport Orderer Policies Configuration
+#
+#   This file defines comprehensive orderer policies for the healthcare
+#   blockchain network, including access control, emergency procedures,
+#   and compliance requirements.
+#
+################################################################################
+
+OrdererPolicies:
+  ################################################################################
+  # Core Ordering Service Policies
+  ################################################################################
+
+  # Policy for reading ordering service configuration
+  OrdererReaders:
+    Type: ImplicitMeta
+    Rule: "ANY Readers"
+    Description: "Allows any organization with Reader permissions to query orderer configuration"
+
+  # Policy for writing ordering service configuration
+  OrdererWriters:
+    Type: ImplicitMeta
+    Rule: "ANY Writers"
+    Description: "Allows any organization with Writer permissions to submit transactions"
+
+  # Policy for administrative operations on ordering service
+  OrdererAdmins:
+    Type: ImplicitMeta
+    Rule: "MAJORITY Admins"
+    Description: "Requires majority of organization admins for orderer administrative operations"
+
+  # Policy for block validation and signing
+  OrdererBlockValidation:
+    Type: ImplicitMeta
+    Rule: "ANY Writers"
+    Description: "Defines which orderer signatures are required for block validation"
+
+  ################################################################################
+  # Consensus-Specific Policies
+  ################################################################################
+
+  # Policy for adding new consensus nodes
+  ConsensusNodeAddition:
+    Type: Signature
+    Rule: "OR('OrdererMSP.admin', AND('HealthcareProvider1MSP.admin', 'HealthcareProvider2MSP.admin'))"
+    Description: "Requires orderer admin OR agreement from multiple healthcare providers"
+
+  # Policy for removing consensus nodes
+  ConsensusNodeRemoval:
+    Type: Signature
+    Rule: "AND('OrdererMSP.admin', OR('HealthcareProvider1MSP.admin', 'HealthcareProvider2MSP.admin', 'UNHCROrgMSP.admin'))"
+    Description: "Requires orderer admin AND at least one healthcare/UN organization admin"
+
+  # Policy for modifying Raft parameters
+  RaftConfigurationUpdate:
+    Type: Signature
+    Rule: "AND('OrdererMSP.admin', 'MAJORITY Admins')"
+    Description: "Requires orderer admin approval AND majority of organization admins"
+
+  ################################################################################
+  # Channel Management Policies
+  ################################################################################
+
+  # Policy for creating new channels
+  ChannelCreation:
+    Type: Signature
+    Rule: "OR(AND('OrdererMSP.admin', 'UNHCROrgMSP.admin'), AND('HealthcareProvider1MSP.admin', 'HealthcareProvider2MSP.admin', 'RefugeeOrgMSP.admin'))"
+    Description: "Requires either Orderer+UNHCR admins OR all healthcare+refugee org admins"
+
+  # Policy for modifying channel configuration
+  ChannelModification:
+    Type: ImplicitMeta
+    Rule: "MAJORITY Admins"
+    Description: "Requires majority of channel member organization admins"
+
+  # Policy for channel removal/archival
+  ChannelRemoval:
+    Type: Signature
+    Rule: "AND('OrdererMSP.admin', 'UNHCROrgMSP.admin', 'MAJORITY Admins')"
+    Description: "Requires orderer admin, UNHCR admin, AND majority of other admins"
+
+  ################################################################################
+  # Emergency and Compliance Policies
+  ################################################################################
+
+  # Emergency access policy for critical healthcare situations
+  EmergencyOverride:
+    Type: Signature
+    Rule: "AND(OR('UNHCROrgMSP.admin', 'RefugeeOrgMSP.admin'), OR('HealthcareProvider1MSP.admin', 'HealthcareProvider2MSP.admin'))"
+    Description: "Requires one UN/Refugee org admin AND one healthcare provider admin"
+    Conditions:
+      - TimeLimit: "24 hours"
+      - AuditRequired: true
+      - NotificationRequired: "ALL Admins"
+
+  # Policy for HIPAA compliance operations
+  HIPAAComplianceOperations:
+    Type: Signature
+    Rule: "OR('OrdererMSP.admin', AND('HealthcareProvider1MSP.admin', 'HealthcareProvider2MSP.admin'))"
+    Description: "Allows orderer admin OR both healthcare provider admins to perform HIPAA-required operations"
+
+  # Policy for data retention and deletion
+  DataRetentionPolicy:
+    Type: Signature
+    Rule: "AND('OrdererMSP.admin', OR('UNHCROrgMSP.admin', 'RefugeeOrgMSP.admin'), 'MAJORITY Admins')"
+    Description: "Requires orderer admin, UN/Refugee org admin, AND majority approval"
+
+  ################################################################################
+  # Performance and Maintenance Policies
+  ################################################################################
+
+  # Policy for batch size configuration changes
+  BatchSizeConfiguration:
+    Type: Signature
+    Rule: "AND('OrdererMSP.admin', 'MAJORITY Admins')"
+    Description: "Requires orderer admin AND majority approval for performance tuning"
+    Constraints:
+      MaxMessageCount:
+        Min: 10
+        Max: 1000
+      AbsoluteMaxBytes:
+        Min: "512 KB"
+        Max: "100 MB"
+      PreferredMaxBytes:
+        Min: "512 KB"
+        Max: "10 MB"
+
+  # Policy for batch timeout configuration
+  BatchTimeoutConfiguration:
+    Type: Signature
+    Rule: "OR('OrdererMSP.admin', 'MAJORITY Admins')"
+    Description: "Allows orderer admin OR majority to adjust batch timeout"
+    Constraints:
+      MinTimeout: "200ms"
+      MaxTimeout: "10s"
+
+  # Policy for orderer maintenance mode
+  MaintenanceMode:
+    Type: Signature
+    Rule: "AND('OrdererMSP.admin', OR('HealthcareProvider1MSP.admin', 'HealthcareProvider2MSP.admin'))"
+    Description: "Requires orderer admin AND at least one healthcare provider admin"
+    Requirements:
+      - AdvanceNotice: "2 hours"
+      - MaxDuration: "4 hours"
+      - BackupRequired: true
+
+  ################################################################################
+  # Security and Access Control Policies
+  ################################################################################
+
+  # Policy for TLS certificate updates
+  TLSCertificateUpdate:
+    Type: Signature
+    Rule: "AND('OrdererMSP.admin', 'MAJORITY Admins')"
+    Description: "Requires orderer admin AND majority for security certificate updates"
+
+  # Policy for MSP configuration updates
+  MSPConfigurationUpdate:
+    Type: Signature
+    Rule: "AND('OrdererMSP.admin', 'ALL Admins')"
+    Description: "Requires unanimous approval for membership service provider changes"
+
+  # Policy for access control list modifications
+  ACLModification:
+    Type: ImplicitMeta
+    Rule: "MAJORITY Admins"
+    Description: "Requires majority approval for access control changes"
+
+  ################################################################################
+  # Monitoring and Audit Policies
+  ################################################################################
+
+  # Policy for accessing audit logs
+  AuditLogAccess:
+    Type: Signature
+    Rule: "OR('OrdererMSP.admin', 'UNHCROrgMSP.admin', AND('HealthcareProvider1MSP.admin', 'HealthcareProvider2MSP.admin'))"
+    Description: "Allows orderer admin, UNHCR admin, OR both healthcare provider admins"
+
+  # Policy for metrics and monitoring access
+  MetricsAccess:
+    Type: ImplicitMeta
+    Rule: "ANY Readers"
+    Description: "Allows any reader to access performance metrics"
+
+  # Policy for diagnostic operations
+  DiagnosticOperations:
+    Type: Signature
+    Rule: "OR('OrdererMSP.admin', 'MAJORITY Admins')"
+    Description: "Allows orderer admin OR majority for diagnostic operations"
+
+  ################################################################################
+  # Cross-Border Data Policies
+  ################################################################################
+
+  # Policy for cross-border data transfer configuration
+  CrossBorderDataTransfer:
+    Type: Signature
+    Rule: "AND('UNHCROrgMSP.admin', 'MAJORITY Admins')"
+    Description: "Requires UNHCR admin AND majority approval for cross-border configurations"
+    ComplianceRequirements:
+      - "GDPR"
+      - "HIPAA"
+      - "Regional Data Protection Laws"
+
+  # Policy for international organization access
+  InternationalOrgAccess:
+    Type: Signature
+    Rule: "AND('UNHCROrgMSP.admin', OR('RefugeeOrgMSP.admin', 'MAJORITY Admins'))"
+    Description: "Requires UNHCR admin AND either refugee org or majority approval"
+
+################################################################################
+# Policy Enforcement Rules
+################################################################################
+
+PolicyEnforcement:
+  # Automatic policy evaluation order
+  EvaluationOrder:
+    1: "EmergencyOverride"
+    2: "HIPAAComplianceOperations"
+    3: "OrdererAdmins"
+    4: "MAJORITY Admins"
+    5: "ANY Writers"
+    6: "ANY Readers"
+
+  # Policy violation handling
+  ViolationHandling:
+    LogLevel: "ERROR"
+    NotificationTargets: ["OrdererMSP.admin", "UNHCROrgMSP.admin"]
+    AutomaticActions:
+      - "Block Transaction"
+      - "Generate Audit Entry"
+      - "Send Alert"
+
+  # Policy update procedures
+  UpdateProcedures:
+    RequiredApprovals: "AND('OrdererMSP.admin', 'MAJORITY Admins')"
+    GracePeriod: "24 hours"
+    BackwardCompatibility: true
+    RollbackEnabled: true

@@ -1,0 +1,25 @@
+Welcome to {{ app_name }}!
+
+Hi {{ user_name }},
+
+Thank you for signing up for {{ app_name }}. To complete your registration and ensure the security of your health records, please verify your email address.
+
+{% if verification_link %}
+Click here to verify your email:
+{{ verification_link }}
+{% endif %}
+
+{% if verification_code %}
+Or enter this verification code:
+{{ verification_code }}
+{% endif %}
+
+This verification link will expire in {{ expiry_hours }} hours for security reasons.
+
+If you didn't create an account with {{ app_name }}, please ignore this email.
+
+---
+© {{ year }} {{ app_name }}
+Empowering health access for displaced populations.
+
+Need help? Contact us at {{ support_email }}

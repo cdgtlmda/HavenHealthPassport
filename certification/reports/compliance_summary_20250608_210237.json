@@ -1,0 +1,70 @@
+{
+  "title": "Certification Compliance Summary",
+  "generated_at": "2025-06-08T21:02:37.309416",
+  "certification_standards": [
+    "hipaa",
+    "gdpr",
+    "hl7_fhir"
+  ],
+  "package_completeness": 100.0,
+  "validation_summary": {
+    "total_evidence_items": 11,
+    "valid_evidence_items": 5,
+    "invalid_evidence_items": 6,
+    "total_requirements": 0,
+    "satisfied_requirements": 0,
+    "unsatisfied_requirements": 0,
+    "compliant_standards": 0,
+    "non_compliant_standards": 4,
+    "critical_issue_count": 0,
+    "warning_count": 0
+  },
+  "compliance_status": {
+    "overall_compliant": false,
+    "completeness_percentage": 100.0,
+    "standards_compliance": {
+      "hipaa": {
+        "standard": "hipaa",
+        "compliant": false,
+        "issues": [
+          "Insufficient evidence: 1 < 10"
+        ],
+        "evidence_count": 1,
+        "requirement_satisfaction": 0.0
+      },
+      "gdpr": {
+        "standard": "gdpr",
+        "compliant": false,
+        "issues": [
+          "Missing required evidence types: ['compliance_report']",
+          "Insufficient evidence: 1 < 8"
+        ],
+        "evidence_count": 1,
+        "requirement_satisfaction": 0.0
+      },
+      "hl7_fhir": {
+        "standard": "hl7_fhir",
+        "compliant": false,
+        "issues": [
+          "Missing required evidence types: ['api_documentation']",
+          "Insufficient evidence: 1 < 5"
+        ],
+        "evidence_count": 1,
+        "requirement_satisfaction": 0.0
+      },
+      "iso_27001": {
+        "standard": "iso_27001",
+        "compliant": false,
+        "issues": [
+          "Missing required evidence types: ['incident_report', 'risk_assessment']",
+          "Insufficient evidence: 1 < 12"
+        ],
+        "evidence_count": 1,
+        "requirement_satisfaction": 0.0
+      }
+    },
+    "ready_for_certification": false
+  },
+  "critical_issues": [],
+  "recommendations": []
+}

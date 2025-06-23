@@ -1,0 +1,113 @@
+{
+  "paracetamol": {
+    "generic_name": "Paracetamol",
+    "alternative_generic": "Acetaminophen",
+    "rxnorm_code": "161",
+    "atc_code": "N02BE01",
+    "brand_names": ["Tylenol", "Panadol", "Calpol", "Efferalgan", "Doliprane", "Ben-u-ron"],
+    "translations": {
+      "ar": {"generic": "باراسيتامول", "common": "بانادول", "brands": ["بانادول", "تايلينول"]},
+      "es": {"generic": "Paracetamol", "common": "Paracetamol", "brands": ["Gelocatil", "Termalgin"]},
+      "fr": {"generic": "Paracétamol", "common": "Doliprane", "brands": ["Doliprane", "Efferalgan", "Dafalgan"]},
+      "sw": {"generic": "Paracetamol", "common": "Panadol", "brands": ["Panadol", "Hedex"]},
+      "fa": {"generic": "استامینوفن", "common": "پاراستامول", "brands": ["پانادول", "تایلنول"]},
+      "ps": {"generic": "پاراسیټامول", "common": "پانادول", "brands": ["پانادول"]},
+      "ur": {"generic": "پیراسیٹامول", "common": "پینادول", "brands": ["پینادول", "کالپول"]},
+      "bn": {"generic": "প্যারাসিটামল", "common": "প্যানাডল", "brands": ["নাপা", "এস"]},
+      "so": {"generic": "Paracetamol", "common": "Panadol", "brands": ["Panadol"]},
+      "hi": {"generic": "पैरासिटामोल", "common": "क्रोसिन", "brands": ["क्रोसिन", "कैलपोल"]}
+    },
+    "dosage_forms": ["tablet", "syrup", "suppository", "suspension"],
+    "refugee_essential": true
+  },
+  "amoxicillin": {
+    "generic_name": "Amoxicillin",
+    "rxnorm_code": "723",
+    "atc_code": "J01CA04",
+    "brand_names": ["Amoxil", "Trimox", "Moxatag", "Augmentin (with clavulanate)"],
+    "translations": {
+      "ar": {"generic": "أموكسيسيلين", "common": "أموكسيل", "brands": ["أموكسيل", "هايموكس"]},
+      "es": {"generic": "Amoxicilina", "common": "Amoxicilina", "brands": ["Amoxil", "Ardine"]},
+      "fr": {"generic": "Amoxicilline", "common": "Clamoxyl", "brands": ["Clamoxyl", "Amodex"]},
+      "sw": {"generic": "Amoxicillin", "common": "Amoxil", "brands": ["Amoxil", "Betamox"]},
+      "fa": {"generic": "آموکسی‌سیلین", "common": "آموکسیل", "brands": ["آموکسیل"]},
+      "ur": {"generic": "اموکسیسلن", "common": "اموکسل", "brands": ["اموکسل", "موکس"]},
+      "bn": {"generic": "অ্যামোক্সিসিলিন", "common": "মক্স", "brands": ["মক্স", "ফিলমক্স"]},
+      "hi": {"generic": "एमोक्सिसिलिन", "common": "मॉक्स", "brands": ["मॉक्स", "नोवामॉक्स"]}
+    },
+    "dosage_forms": ["capsule", "tablet", "suspension", "powder"],
+    "refugee_essential": true
+  },
+  "ibuprofen": {
+    "generic_name": "Ibuprofen",
+    "rxnorm_code": "5640",
+    "atc_code": "M01AE01",
+    "brand_names": ["Advil", "Motrin", "Nurofen", "Brufen"],
+    "translations": {
+      "ar": {"generic": "إيبوبروفين", "common": "بروفين", "brands": ["بروفين", "أدفيل"]},
+      "es": {"generic": "Ibuprofeno", "common": "Ibuprofeno", "brands": ["Dalsy", "Espidifen"]},
+      "fr": {"generic": "Ibuprofène", "common": "Advil", "brands": ["Advil", "Nurofen", "Spedifen"]},
+      "sw": {"generic": "Ibuprofen", "common": "Brufen", "brands": ["Brufen", "Ibugesic"]},
+      "fa": {"generic": "ایبوپروفن", "common": "بروفن", "brands": ["بروفن", "ادویل"]},
+      "ur": {"generic": "آئبوپروفین", "common": "بروفن", "brands": ["بروفن", "ایڈول"]},
+      "bn": {"generic": "আইবুপ্রোফেন", "common": "ব্রুফেন", "brands": ["প্রোফেন", "ফ্লামেক্স"]},
+      "hi": {"generic": "इबुप्रोफेन", "common": "ब्रूफेन", "brands": ["ब्रूफेन", "कॉम्बिफ्लेम"]}
+    },
+    "dosage_forms": ["tablet", "syrup", "gel", "suspension"],
+    "refugee_essential": true
+  },
+  "metronidazole": {
+    "generic_name": "Metronidazole",
+    "rxnorm_code": "6922",
+    "atc_code": "J01XD01",
+    "brand_names": ["Flagyl", "Metrogel", "Noritate"],
+    "translations": {
+      "ar": {"generic": "ميترونيدازول", "common": "فلاجيل", "brands": ["فلاجيل"]},
+      "es": {"generic": "Metronidazol", "common": "Flagyl", "brands": ["Flagyl"]},
+      "fr": {"generic": "Métronidazole", "common": "Flagyl", "brands": ["Flagyl", "Rozex"]},
+      "sw": {"generic": "Metronidazole", "common": "Flagyl", "brands": ["Flagyl"]},
+      "fa": {"generic": "مترونیدازول", "common": "فلاژیل", "brands": ["فلاژیل"]},
+      "ur": {"generic": "میٹرونیڈازول", "common": "فلیجل", "brands": ["فلیجل"]},
+      "bn": {"generic": "মেট্রোনিডাজল", "common": "ফ্ল্যাজিল", "brands": ["ফিলমেট", "অ্যামিবিস"]},
+      "hi": {"generic": "मेट्रोनिडाज़ोल", "common": "फ्लैजिल", "brands": ["फ्लैजिल", "मेट्रोजिल"]}
+    },
+    "dosage_forms": ["tablet", "suspension", "gel", "injection"],
+    "refugee_essential": true
+  },
+  "ors": {
+    "generic_name": "Oral Rehydration Salts",
+    "alternative_generic": "ORS",
+    "atc_code": "A07CA",
+    "brand_names": ["Pedialyte", "Dioralyte", "Electrolade"],
+    "translations": {
+      "ar": {"generic": "أملاح الإماهة الفموية", "common": "أو آر إس", "brands": ["بيديالايت"]},
+      "es": {"generic": "Sales de Rehidratación Oral", "common": "SRO", "brands": ["Pedialyte", "Suerooral"]},
+      "fr": {"generic": "Sels de Réhydratation Orale", "common": "SRO", "brands": ["Adiaril", "GES 45"]},
+      "sw": {"generic": "Chumvi za kurudisha maji mwilini", "common": "ORS", "brands": ["ORS"]},
+      "fa": {"generic": "نمک‌های آبرسانی خوراکی", "common": "او آر اس", "brands": ["الکترولایت"]},
+      "ur": {"generic": "او آر ایس", "common": "او آر ایس", "brands": ["پیڈیالائٹ"]},
+      "bn": {"generic": "ওআরএস", "common": "খাবার স্যালাইন", "brands": ["ওরস্যালাইন"]},
+      "hi": {"generic": "ओआरएस", "common": "जीवन रक्षक घोल", "brands": ["इलेक्ट्रॉल"]}
+    },
+    "dosage_forms": ["powder", "solution"],
+    "refugee_essential": true
+  },
+  "albendazole": {
+    "generic_name": "Albendazole",
+    "rxnorm_code": "435",
+    "atc_code": "P02CA03",
+    "brand_names": ["Albenza", "Zentel", "Eskazole"],
+    "translations": {
+      "ar": {"generic": "ألبيندازول", "common": "زينتيل", "brands": ["زينتيل", "ألبينزا"]},
+      "es": {"generic": "Albendazol", "common": "Zentel", "brands": ["Zentel", "Eskazole"]},
+      "fr": {"generic": "Albendazole", "common": "Zentel", "brands": ["Zentel", "Eskazole"]},
+      "sw": {"generic": "Albendazole", "common": "Zentel", "brands": ["Zentel"]},
+      "fa": {"generic": "آلبندازول", "common": "زنتل", "brands": ["زنتل"]},
+      "ur": {"generic": "البینڈازول", "common": "زینٹل", "brands": ["زینٹل"]},
+      "bn": {"generic": "অ্যালবেন্ডাজল", "common": "জেন্টেল", "brands": ["জেন্টেল", "অ্যালমেক্স"]},
+      "hi": {"generic": "एल्बेंडाज़ोल", "common": "जेंटेल", "brands": ["जेंटेल", "बेंडेक्स"]}
+    },
+    "dosage_forms": ["tablet", "suspension"],
+    "refugee_essential": true
+  }
+}

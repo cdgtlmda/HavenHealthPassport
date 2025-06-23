@@ -1,0 +1,113 @@
+# Haven Health Passport - Connection Profile for AWS Managed Blockchain
+
+name: "haven-health-network"
+version: "1.0.0"
+client:
+  organization: HavenHealthFoundation
+  logging:
+    level: info
+  cryptoconfig:
+    path: ../crypto-config
+  credentialStore:
+    path: ../credential-store
+    cryptoStore:
+      path: ../crypto-store
+  BCCSP:
+    security:
+      enabled: true
+      default:
+        provider: "SW"
+      hashAlgorithm: "SHA2"
+      softVerify: true
+      level: 256
+  tlsCerts:
+    systemCertPool: true
+
+channels:
+  havenhealthchannel:
+    orderers:
+      - orderer.havenhealthpassport.com
+    peers:
+      peer0.havenhealthfoundation.com:
+        endorsingPeer: true
+        chaincodeQuery: true
+        ledgerQuery: true
+        eventSource: true
+      peer1.havenhealthfoundation.com:
+        endorsingPeer: true
+        chaincodeQuery: true
+        ledgerQuery: true
+        eventSource: true
+      peer2.havenhealthfoundation.com:
+        endorsingPeer: true
+        chaincodeQuery: true
+        ledgerQuery: true
+        eventSource: true
+
+organizations:
+  HavenHealthFoundation:
+    mspid: HavenHealthFoundationMSP
+    peers:      - peer0.havenhealthfoundation.com
+      - peer1.havenhealthfoundation.com
+      - peer2.havenhealthfoundation.com
+    certificateAuthorities:
+      - ca.havenhealthfoundation.com
+    adminPrivateKey:
+      path: ../crypto-config/peerOrganizations/havenhealthfoundation.com/users/Admin@havenhealthfoundation.com/msp/keystore/
+    signedCert:
+      path: ../crypto-config/peerOrganizations/havenhealthfoundation.com/users/Admin@havenhealthfoundation.com/msp/signcerts/
+
+orderers:
+  orderer.havenhealthpassport.com:
+    url: grpcs://orderer.havenhealthpassport.com:7050
+    grpcOptions:
+      ssl-target-name-override: orderer.havenhealthpassport.com
+      grpc-max-send-message-length: -1
+      grpc-max-receive-message-length: -1
+    tlsCACerts:
+      path: ../crypto-config/ordererOrganizations/havenhealthpassport.com/orderers/orderer.havenhealthpassport.com/msp/tlscacerts/tlsca.havenhealthpassport.com-cert.pem
+
+peers:
+  peer0.havenhealthfoundation.com:
+    url: grpcs://peer0.havenhealthfoundation.com:7051
+    eventUrl: grpcs://peer0.havenhealthfoundation.com:7053
+    grpcOptions:
+      ssl-target-name-override: peer0.havenhealthfoundation.com
+      grpc.keepalive_time_ms: 600000
+      grpc-max-send-message-length: -1
+      grpc-max-receive-message-length: -1
+    tlsCACerts:
+      path: ../crypto-config/peerOrganizations/havenhealthfoundation.com/peers/peer0.havenhealthfoundation.com/tls/ca.crt
+
+  peer1.havenhealthfoundation.com:
+    url: grpcs://peer1.havenhealthfoundation.com:7051
+    eventUrl: grpcs://peer1.havenhealthfoundation.com:7053
+    grpcOptions:
+      ssl-target-name-override: peer1.havenhealthfoundation.com
+      grpc.keepalive_time_ms: 600000
+      grpc-max-send-message-length: -1
+      grpc-max-receive-message-length: -1
+    tlsCACerts:
+      path: ../crypto-config/peerOrganizations/havenhealthfoundation.com/peers/peer1.havenhealthfoundation.com/tls/ca.crt
+
+  peer2.havenhealthfoundation.com:
+    url: grpcs://peer2.havenhealthfoundation.com:7051
+    eventUrl: grpcs://peer2.havenhealthfoundation.com:7053
+    grpcOptions:
+      ssl-target-name-override: peer2.havenhealthfoundation.com
+      grpc.keepalive_time_ms: 600000      grpc-max-send-message-length: -1
+      grpc-max-receive-message-length: -1
+    tlsCACerts:
+      path: ../crypto-config/peerOrganizations/havenhealthfoundation.com/peers/peer2.havenhealthfoundation.com/tls/ca.crt
+
+certificateAuthorities:
+  ca.havenhealthfoundation.com:
+    url: https://ca.havenhealthfoundation.com:7054
+    caName: ca-havenhealthfoundation
+    tlsCACerts:
+      path: ../crypto-config/peerOrganizations/havenhealthfoundation.com/ca/ca.havenhealthfoundation.com-cert.pem
+    httpOptions:
+      verify: false
+    registrar:
+      - enrollId: admin
+        enrollSecret: adminpw

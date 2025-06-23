@@ -1,0 +1,136 @@
+{
+  "vocabulary_name": "refugee_health_primary_care_urdu",
+  "language_code": "ur",
+  "terms": [
+    {
+      "phrase": "ملیریا",
+      "sounds_like": ["ma-lair-ya"],
+      "ipa": "məleːrɪjɑː",
+      "display_as": "ملیریا",
+      "english": "malaria"
+    },
+    {
+      "phrase": "تپ دق",
+      "sounds_like": ["tap-e-diq"],
+      "ipa": "t̪əp e d̪ɪq",
+      "display_as": "ٹی بی",
+      "english": "tuberculosis"
+    },
+    {
+      "phrase": "ہیضہ",
+      "sounds_like": ["hai-za"],
+      "ipa": "hɛːzɑː",
+      "display_as": "ہیضہ",
+      "english": "cholera"
+    },
+    {
+      "phrase": "ذیابیطس",
+      "sounds_like": ["zee-ya-bee-tus"],
+      "ipa": "zɪjɑːbiːt̪əs",
+      "display_as": "شوگر",
+      "english": "diabetes"
+    },
+    {
+      "phrase": "بلند فشار خون",
+      "sounds_like": ["bu-land fi-shaar-e-khoon"],
+      "ipa": "bʊlənd̪ fɪʃɑːr e xuːn",
+      "display_as": "بلڈ پریشر",
+      "english": "hypertension"
+    },
+    {
+      "phrase": "پوسٹ ٹرامیٹک سٹریس ڈس آرڈر",
+      "sounds_like": ["post tra-ma-tik stress dis-or-der"],
+      "ipa": "poːst̪ t̪rɑːmɑːt̪ɪk st̪res d̪ɪsɔːrd̪ər",
+      "display_as": "PTSD",
+      "english": "PTSD"
+    },
+    {
+      "phrase": "شدید غذائی قلت",
+      "sounds_like": ["sha-deed ghi-zaa-ee qil-lat"],
+      "ipa": "ʃəd̪iːd̪ ɣɪzɑːiː qɪllət̪",
+      "display_as": "غذائی کمی",
+      "english": "acute malnutrition"
+    },
+    {
+      "phrase": "او آر ایس",
+      "sounds_like": ["o-aar-es"],
+      "ipa": "oː ɑːr es",
+      "display_as": "ORS",
+      "english": "oral rehydration salts"
+    },
+    {
+      "phrase": "قبل از پیدائش کی دیکھ بھال",
+      "sounds_like": ["qabl az pai-daa-ish ki dekh bhaal"],
+      "ipa": "qəbl əz pɛːd̪ɑːɪʃ kiː d̪eːkʰ bʰɑːl",
+      "display_as": "حمل کی دیکھ بھال",
+      "english": "antenatal care"
+    }
+  ]
+},
+    {
+      "phrase": "ایم ایم آر ویکسین",
+      "sounds_like": ["em-em-aar vak-seen"],
+      "ipa": "em em ɑːr væksiːn",
+      "display_as": "MMR ویکسین",
+      "english": "MMR vaccine"
+    },
+    {
+      "phrase": "بخار",
+      "sounds_like": ["bu-khaar"],
+      "ipa": "bʊxɑːr",
+      "display_as": "بخار",
+      "english": "fever"
+    },
+    {
+      "phrase": "اسہال",
+      "sounds_like": ["is-haal"],
+      "ipa": "ɪshɑːl",
+      "display_as": "دست",
+      "english": "diarrhea"
+    },
+    {
+      "phrase": "ٹیکہ",
+      "sounds_like": ["tee-ka"],
+      "ipa": "t̪iːkɑː",
+      "display_as": "ویکسین",
+      "english": "vaccine"
+    },
+    {
+      "phrase": "اینٹی بائیوٹک",
+      "sounds_like": ["anti-bio-tik"],
+      "ipa": "ænt̪iː bɑːjoːt̪ɪk",
+      "display_as": "اینٹی بائیوٹک",
+      "english": "antibiotics"
+    },
+    {
+      "phrase": "خون کی جانچ",
+      "sounds_like": ["khoon ki jaanch"],
+      "ipa": "xuːn kiː dʒɑːnt͡ʃ",
+      "display_as": "بلڈ ٹیسٹ",
+      "english": "blood test"
+    }
+  ],
+  "medical_abbreviations": [
+    {"abbreviation": "BP", "expansion": "بلڈ پریشر", "urdu": "بی پی"},
+    {"abbreviation": "HR", "expansion": "دل کی دھڑکن", "urdu": "ایچ آر"},
+    {"abbreviation": "RR", "expansion": "سانس کی رفتار", "urdu": "آر آر"},
+    {"abbreviation": "TB", "expansion": "تپ دق", "urdu": "ٹی بی"},
+    {"abbreviation": "ORS", "expansion": "او آر ایس", "urdu": "او آر ایس"},
+    {"abbreviation": "ANC", "expansion": "قبل از پیدائش کی دیکھ بھال", "urdu": "اے این سی"},
+    {"abbreviation": "PTSD", "expansion": "پی ٹی ایس ڈی", "urdu": "پی ٹی ایس ڈی"},
+    {"abbreviation": "MMR", "expansion": "خسرہ ممپس روبیلا", "urdu": "ایم ایم آر"},
+    {"abbreviation": "BCG", "expansion": "بی سی جی", "urdu": "بی سی جی"},
+    {"abbreviation": "MUAC", "expansion": "بازو کا گھیرا", "urdu": "ایم یو اے سی"}
+  ],
+  "regional_variations": {
+    "pakistan": {
+      "ذیابیطس": ["شوگر", "میٹھا"],
+      "بلند فشار خون": ["بی پی", "پریشر"],
+      "بخار": ["تاپ", "حرارت"]
+    },
+    "india": {
+      "ٹیکہ": ["انجکشن", "سوئی"],
+      "اسہال": ["پیٹ خراب", "دست"]
+    }
+  }
+}

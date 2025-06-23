@@ -1,0 +1,375 @@
+# Copyright Haven Health Passport. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+################################################################################
+#
+#   Haven Health Passport Endorsement Requirements
+#
+#   This document defines the endorsement requirements for all chaincode
+#   functions in the healthcare blockchain network. Endorsement policies
+#   ensure data integrity, compliance, and proper authorization.
+#
+################################################################################
+
+# Global Endorsement Requirements
+GlobalEndorsementRequirements:
+  # Minimum number of endorsing organizations
+  MinimumEndorsers: 2
+
+  # Maximum endorsement timeout
+  EndorsementTimeout: 30s
+
+  # Endorsement validation mode
+  ValidationMode: "STRICT"  # STRICT, RELAXED, or CUSTOM
+
+  # Signature verification requirements
+  SignatureVerification:
+    Algorithm: "ECDSA-SHA256"
+    ValidateTimestamp: true
+    MaxClockSkew: 5m
+
+  # Endorsement caching settings
+  CachingPolicy:
+    Enabled: true
+    TTL: 300s
+    MaxEntries: 1000
+
+################################################################################
+# Healthcare Data Endorsement Requirements
+################################################################################
+
+HealthcareDataEndorsement:
+  # Patient Record Operations
+  PatientRecords:
+    CreateRecord:
+      Description: "Creating new patient health records"
+      Requirements:
+        Standard:
+          Rule: "OR('HealthcareProvider1MSP.peer', 'HealthcareProvider2MSP.peer')"
+          MinEndorsers: 1
+        Sensitive:  # For mental health, substance abuse records
+          Rule: "AND('HealthcareProvider1MSP.peer', 'HealthcareProvider2MSP.peer')"
+          MinEndorsers: 2
+          AdditionalChecks:
+            - "PatientConsent"
+            - "HIPAACompliance"
+
+    UpdateRecord:
+      Description: "Updating existing patient records"
+      Requirements:
+        MinorUpdate:  # Demographic info, contact details
+          Rule: "OR('HealthcareProvider1MSP.peer', 'HealthcareProvider2MSP.peer')"
+          MinEndorsers: 1
+        MedicalUpdate:  # Diagnoses, treatments, prescriptions
+          Rule: "AND('HealthcareProvider1MSP.peer', 'HealthcareProvider2MSP.peer')"
+          MinEndorsers: 2
+          RequiredAttributes:
+            - "medical_license_verified"
+            - "healthcare_role"
+        CriticalUpdate:  # Allergies, blood type, emergency contacts
+          Rule: "OutOf(2, 'HealthcareProvider1MSP.peer', 'HealthcareProvider2MSP.peer', 'UNHCROrgMSP.peer')"
+          MinEndorsers: 2
+
+    ReadRecord:
+      Description: "Reading patient health records"
+      Requirements:
+        Standard:
+          Rule: "OR('HealthcareProvider1MSP.peer', 'HealthcareProvider2MSP.peer', 'RefugeeOrgMSP.peer')"
+          MinEndorsers: 1
+          AuditRequired: true
+        Emergency:
+          Rule: "OR('HealthcareProvider1MSP.peer', 'HealthcareProvider2MSP.peer')"
+          MinEndorsers: 1
+          BypassCache: true
+          NotifyPatient: true
+
+    DeleteRecord:
+      Description: "Soft deletion of patient records"
+      Requirements:
+        SoftDelete:
+          Rule: "AND('HealthcareProvider1MSP.peer', 'HealthcareProvider2MSP.peer', 'UNHCROrgMSP.peer')"
+          MinEndorsers: 3
+          RetentionPeriod: "7 years"
+          RequireJustification: true
+
+  # Medical History Operations
+  MedicalHistory:
+    AddEntry:
+      Description: "Adding medical history entries"
+      Requirements:
+        Diagnosis:
+          Rule: "OR('HealthcareProvider1MSP.peer', 'HealthcareProvider2MSP.peer')"
+          MinEndorsers: 1
+          RequiredAttributes:
+            - "medical_license_verified"
+            - "diagnosis_authority"
+        Treatment:
+          Rule: "OR('HealthcareProvider1MSP.peer', 'HealthcareProvider2MSP.peer')"
+          MinEndorsers: 1
+          RequiredAttributes:
+            - "treatment_authority"
+        Surgery:
+          Rule: "AND('HealthcareProvider1MSP.peer', 'HealthcareProvider2MSP.peer')"
+          MinEndorsers: 2
+          RequiredAttributes:
+            - "surgical_privileges"
+          AdditionalValidation:
+            - "PreOpConsent"
+            - "SurgicalTeamVerification"
+
+  # Prescription Management
+  Prescriptions:
+    CreatePrescription:
+      Description: "Creating new prescriptions"
+      Requirements:
+        Standard:
+          Rule: "OR('HealthcareProvider1MSP.peer', 'HealthcareProvider2MSP.peer')"
+          MinEndorsers: 1
+          RequiredAttributes:
+            - "prescribing_authority"
+            - "dea_number"  # For controlled substances
+        Controlled:  # Schedule II-V drugs
+          Rule: "AND('HealthcareProvider1MSP.peer', 'HealthcareProvider2MSP.peer')"
+          MinEndorsers: 2
+          RequiredAttributes:
+            - "controlled_substance_authority"
+            - "dea_number"
+          AdditionalChecks:
+            - "PrescriptionHistoryReview"
+            - "DrugInteractionCheck"
+        Emergency:
+          Rule: "OR('HealthcareProvider1MSP.peer', 'HealthcareProvider2MSP.peer')"
+          MinEndorsers: 1
+          TimeLimit: "72 hours"
+          RequireFollowUp: true
+
+################################################################################
+# Refugee-Specific Endorsement Requirements
+################################################################################
+
+RefugeeDataEndorsement:
+  # Identity Verification
+  IdentityVerification:
+    InitialRegistration:
+      Description: "Initial refugee registration"
+      Requirements:
+        Rule: "OR('UNHCROrgMSP.peer', 'RefugeeOrgMSP.peer')"
+        MinEndorsers: 1
+        RequiredDocuments:
+          - "UNHCR_registration"
+          - "biometric_data"
+
+    IdentityUpdate:
+      Description: "Updating refugee identity information"
+      Requirements:
+        Rule: "AND('UNHCROrgMSP.peer', 'RefugeeOrgMSP.peer')"
+        MinEndorsers: 2
+        AuditTrail: "MANDATORY"
+
+    DocumentVerification:
+      Description: "Verifying refugee documents"
+      Requirements:
+        Rule: "OutOf(2, 'UNHCROrgMSP.peer', 'RefugeeOrgMSP.peer', 'HealthcareProvider1MSP.peer', 'HealthcareProvider2MSP.peer')"
+        MinEndorsers: 2
+
+  # Camp Medical Records
+  CampHealthRecords:
+    CreateCampRecord:
+      Description: "Creating health records in refugee camps"
+      Requirements:
+        Rule: "OR('RefugeeOrgMSP.peer', 'UNHCROrgMSP.peer')"
+        MinEndorsers: 1
+        LocationVerification: true
+
+    EmergencyTreatment:
+      Description: "Emergency treatment in camps"
+      Requirements:
+        Rule: "OR('RefugeeOrgMSP.peer', 'HealthcareProvider1MSP.peer', 'HealthcareProvider2MSP.peer')"
+        MinEndorsers: 1
+        FastTrack: true
+        PostEndorsement: "Required within 24 hours"
+
+################################################################################
+# Cross-Border Data Sharing Endorsement
+################################################################################
+
+CrossBorderEndorsement:
+  # International Data Transfer
+  DataTransfer:
+    InitiateTransfer:
+      Description: "Initiating cross-border health data transfer"
+      Requirements:
+        Rule: "AND('UNHCROrgMSP.peer', OR('HealthcareProvider1MSP.peer', 'HealthcareProvider2MSP.peer'))"
+        MinEndorsers: 2
+        ComplianceCheck:
+          - "GDPR"
+          - "HIPAA"
+          - "DestinationCountryLaws"
+
+    ApproveTransfer:
+      Description: "Approving cross-border transfer"
+      Requirements:
+        Rule: "OutOf(3, 'UNHCROrgMSP.peer', 'RefugeeOrgMSP.peer', 'HealthcareProvider1MSP.peer', 'HealthcareProvider2MSP.peer')"
+        MinEndorsers: 3
+        PatientConsent: "MANDATORY"
+        EncryptionLevel: "AES-256"
+
+    AuditTransfer:
+      Description: "Auditing cross-border transfers"
+      Requirements:
+        Rule: "OR('UNHCROrgMSP.peer', 'RefugeeOrgMSP.peer')"
+        MinEndorsers: 1
+        RetentionPeriod: "10 years"
+################################################################################
+# Emergency and Disaster Response Endorsement
+################################################################################
+
+EmergencyEndorsement:
+  # Mass Casualty Events
+  MassCasualty:
+    RapidTriage:
+      Description: "Rapid triage in mass casualty events"
+      Requirements:
+        Rule: "OR('HealthcareProvider1MSP.peer', 'HealthcareProvider2MSP.peer', 'RefugeeOrgMSP.peer')"
+        MinEndorsers: 1
+        BypassStandardChecks: true
+        TimeLimit: "1 hour"
+        PostEventReview: "MANDATORY"
+
+    ResourceAllocation:
+      Description: "Emergency resource allocation"
+      Requirements:
+        Rule: "OutOf(2, 'HealthcareProvider1MSP.peer', 'HealthcareProvider2MSP.peer', 'UNHCROrgMSP.peer', 'RefugeeOrgMSP.peer')"
+        MinEndorsers: 2
+        PriorityMode: true
+
+  # Natural Disaster Response
+  DisasterResponse:
+    EmergencyAccess:
+      Description: "Emergency access during disasters"
+      Requirements:
+        Rule: "OR('UNHCROrgMSP.peer', 'RefugeeOrgMSP.peer', 'HealthcareProvider1MSP.peer', 'HealthcareProvider2MSP.peer')"
+        MinEndorsers: 1
+        DisasterMode: true
+        AutoExpire: "72 hours"
+
+    TemporaryCredentials:
+      Description: "Issuing temporary medical credentials"
+      Requirements:
+        Rule: "AND('UNHCROrgMSP.peer', OR('HealthcareProvider1MSP.peer', 'HealthcareProvider2MSP.peer'))"
+        MinEndorsers: 2
+        ValidityPeriod: "30 days"
+        RestrictedScope: true
+
+################################################################################
+# Compliance and Audit Endorsement
+################################################################################
+
+ComplianceEndorsement:
+  # Regulatory Compliance
+  RegulatoryCompliance:
+    HIPAAReport:
+      Description: "HIPAA compliance reporting"
+      Requirements:
+        Rule: "OR('HealthcareProvider1MSP.peer', 'HealthcareProvider2MSP.peer')"
+        MinEndorsers: 1
+        RequiredRole: "compliance_officer"
+
+    GDPRAudit:
+      Description: "GDPR compliance audit"
+      Requirements:
+        Rule: "AND('UNHCROrgMSP.peer', OR('HealthcareProvider1MSP.peer', 'HealthcareProvider2MSP.peer'))"
+        MinEndorsers: 2
+        DataMinimization: true
+        RightToErasure: true
+
+  # Internal Audits
+  InternalAudit:
+    AccessLogReview:
+      Description: "Reviewing access logs"
+      Requirements:
+        Rule: "OR('UNHCROrgMSP.peer', 'RefugeeOrgMSP.peer')"
+        MinEndorsers: 1
+        ReadOnly: true
+
+    PolicyViolationReport:
+      Description: "Reporting policy violations"
+      Requirements:
+        Rule: "OutOf(2, 'UNHCROrgMSP.peer', 'RefugeeOrgMSP.peer', 'HealthcareProvider1MSP.peer', 'HealthcareProvider2MSP.peer')"
+        MinEndorsers: 2
+        EscalationRequired: true
+
+################################################################################
+# Special Cases and Exceptions
+################################################################################
+
+SpecialCaseEndorsement:
+  # Minors and Vulnerable Populations
+  VulnerablePopulations:
+    MinorRecords:
+      Description: "Managing health records for minors"
+      Requirements:
+        Rule: "AND('RefugeeOrgMSP.peer', OR('HealthcareProvider1MSP.peer', 'HealthcareProvider2MSP.peer'))"
+        MinEndorsers: 2
+        GuardianConsent: "REQUIRED"
+        AgeVerification: true
+
+    MentalHealthRecords:
+      Description: "Mental health record management"
+      Requirements:
+        Rule: "AND('HealthcareProvider1MSP.peer', 'HealthcareProvider2MSP.peer')"
+        MinEndorsers: 2
+        SpecialPrivacy: "ENHANCED"
+        RestrictedAccess: true
+
+  # Research and Analytics
+  ResearchData:
+    AnonymizedDataAccess:
+      Description: "Access to anonymized data for research"
+      Requirements:
+        Rule: "AND('UNHCROrgMSP.peer', 'HealthcareProvider1MSP.peer', 'HealthcareProvider2MSP.peer')"
+        MinEndorsers: 3
+        IRBApproval: "REQUIRED"
+        DataUseAgreement: true
+
+    PopulationHealthAnalytics:
+      Description: "Population health analytics"
+      Requirements:
+        Rule: "OutOf(2, 'UNHCROrgMSP.peer', 'HealthcareProvider1MSP.peer', 'HealthcareProvider2MSP.peer')"
+        MinEndorsers: 2
+        AggregationOnly: true
+        NoIndividualData: true
+
+################################################################################
+# Endorsement Policy Metadata
+################################################################################
+
+PolicyMetadata:
+  Version: "1.0.0"
+  LastUpdated: "2024-01-20"
+  ReviewCycle: "Quarterly"
+
+  # Policy governance
+  Governance:
+    Owner: "Haven Health Passport Consortium"
+    Approvers:
+      - "OrdererOrg"
+      - "UNHCROrgMSP"
+      - "HealthcareProvider1MSP"
+      - "HealthcareProvider2MSP"
+    ModificationPolicy: "MAJORITY Approvers"
+
+  # Monitoring and metrics
+  Monitoring:
+    TrackEndorsementTime: true
+    TrackFailureReasons: true
+    AlertThresholds:
+      HighLatency: "10s"
+      HighFailureRate: "5%"
+      LowAvailability: "95%"
+
+  # Disaster recovery
+  DisasterRecovery:
+    BackupEndorsers: true
+    FailoverPolicy: "AUTOMATIC"
+    MinimumAvailableEndorsers: 1

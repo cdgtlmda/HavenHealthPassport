@@ -1,0 +1,80 @@
+# Haven Health Passport - Connection Profile for Local Development
+
+name: "haven-health-dev-network"
+version: "1.0.0"
+client:
+  organization: HavenHealthFoundation
+  logging:
+    level: debug
+  cryptoconfig:
+    path: ../crypto-config
+  credentialStore:
+    path: ../credential-store
+    cryptoStore:
+      path: ../crypto-store
+  BCCSP:
+    security:
+      enabled: true
+      default:
+        provider: "SW"
+      hashAlgorithm: "SHA2"
+      softVerify: true
+      level: 256
+  tlsCerts:
+    systemCertPool: false
+
+channels:
+  havenhealthchannel:
+    orderers:
+      - orderer.example.com
+    peers:
+      peer0.org1.example.com:
+        endorsingPeer: true
+        chaincodeQuery: true
+        ledgerQuery: true
+        eventSource: true
+
+organizations:
+  Org1:
+    mspid: Org1MSP
+    peers:
+      - peer0.org1.example.com
+    certificateAuthorities:
+      - ca.org1.example.com
+    adminPrivateKey:
+      path: ../crypto-config/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp/keystore/
+    signedCert:
+      path: ../crypto-config/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp/signcerts/
+orderers:
+  orderer.example.com:
+    url: grpcs://localhost:7050
+    grpcOptions:
+      ssl-target-name-override: orderer.example.com
+      grpc-max-send-message-length: -1
+      grpc-max-receive-message-length: -1
+    tlsCACerts:
+      path: ../crypto-config/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem
+
+peers:
+  peer0.org1.example.com:
+    url: grpcs://localhost:7051
+    eventUrl: grpcs://localhost:7053
+    grpcOptions:
+      ssl-target-name-override: peer0.org1.example.com
+      grpc.keepalive_time_ms: 600000
+      grpc-max-send-message-length: -1
+      grpc-max-receive-message-length: -1
+    tlsCACerts:
+      path: ../crypto-config/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt
+
+certificateAuthorities:
+  ca.org1.example.com:
+    url: https://localhost:7054
+    caName: ca-org1
+    tlsCACerts:
+      path: ../crypto-config/peerOrganizations/org1.example.com/ca/ca.org1.example.com-cert.pem
+    httpOptions:
+      verify: false
+    registrar:
+      - enrollId: admin
+        enrollSecret: adminpw

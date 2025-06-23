@@ -1,0 +1,112 @@
+{
+  "22298006": {
+    "fsn": "Myocardial infarction (disorder)",
+    "preferred_term": "Myocardial infarction",
+    "status": "active",
+    "hierarchy": "404684003",
+    "parents": [
+      "57809008"
+    ],
+    "semantic_tag": "disorder"
+  },
+  "38341003": {
+    "fsn": "Hypertensive disorder, systemic arterial (disorder)",
+    "preferred_term": "Hypertension",
+    "status": "active",
+    "hierarchy": "404684003",
+    "parents": [
+      "64572001"
+    ],
+    "semantic_tag": "disorder"
+  },
+  "73211009": {
+    "fsn": "Diabetes mellitus (disorder)",
+    "preferred_term": "Diabetes mellitus",
+    "status": "active",
+    "hierarchy": "404684003",
+    "parents": [
+      "362969004"
+    ],
+    "semantic_tag": "disorder"
+  },
+  "195967001": {
+    "fsn": "Asthma (disorder)",
+    "preferred_term": "Asthma",
+    "status": "active",
+    "hierarchy": "404684003",
+    "parents": [
+      "50043002"
+    ],
+    "semantic_tag": "disorder"
+  },
+  "82423001": {
+    "fsn": "Chronic pain (finding)",
+    "preferred_term": "Chronic pain",
+    "status": "active",
+    "hierarchy": "404684003",
+    "parents": [
+      "22253000"
+    ],
+    "semantic_tag": "finding"
+  },
+  "80891009": {
+    "fsn": "Heart structure (body structure)",
+    "preferred_term": "Heart",
+    "status": "active",
+    "hierarchy": "123037004",
+    "parents": [
+      "39937001"
+    ],
+    "semantic_tag": "body structure"
+  },
+  "39057004": {
+    "fsn": "Pulmonary valve structure (body structure)",
+    "preferred_term": "Pulmonary valve",
+    "status": "active",
+    "hierarchy": "123037004",
+    "parents": [
+      "80891009"
+    ],
+    "semantic_tag": "body structure"
+  },
+  "80146002": {
+    "fsn": "Appendectomy (procedure)",
+    "preferred_term": "Appendectomy",
+    "status": "active",
+    "hierarchy": "71388002",
+    "parents": [
+      "387713003"
+    ],
+    "semantic_tag": "procedure"
+  },
+  "174041007": {
+    "fsn": "Computed tomography of chest (procedure)",
+    "preferred_term": "CT of chest",
+    "status": "active",
+    "hierarchy": "71388002",
+    "parents": [
+      "77477000"
+    ],
+    "semantic_tag": "procedure"
+  },
+  "387207008": {
+    "fsn": "Ibuprofen (substance)",
+    "preferred_term": "Ibuprofen",
+    "status": "active",
+    "hierarchy": "373873005",
+    "parents": [
+      "35576003"
+    ],
+    "semantic_tag": "substance"
+  },
+  "387517004": {
+    "fsn": "Paracetamol (substance)",
+    "preferred_term": "Paracetamol",
+    "status": "active",
+    "hierarchy": "373873005",
+    "parents": [
+      "35576003"
+    ],
+    "semantic_tag": "substance"
+  }
+}

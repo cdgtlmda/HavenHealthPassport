@@ -1,0 +1,408 @@
+# TLS Certificate Configuration for Ordering Service
+# Haven Health Passport - Blockchain Security
+
+# Certificate Authority Configuration
+certificateAuthority:
+  # Root CA configuration
+  rootCA:
+    # CA identity
+    commonName: "Haven Health Blockchain Root CA"
+    organization: "Haven Health Passport"
+    organizationalUnit: "Blockchain Infrastructure"
+    country: "US"
+    state: "Virginia"
+    locality: "Arlington"
+
+    # Certificate parameters
+    keyAlgorithm: "ECDSA"  # Options: RSA, ECDSA
+    keySize: "P-256"       # For ECDSA: P-256, P-384, P-521
+    signatureAlgorithm: "SHA256WithECDSA"
+    validity:
+      years: 10
+      notBefore: "now"
+
+    # Key storage
+    keyStorage:
+      type: "AWS-KMS"  # Options: file, AWS-KMS, AWS-CloudHSM
+      kmsKeyId: "alias/haven-health-blockchain-root-ca"
+      region: "us-east-1"
+
+  # Intermediate CA configuration
+  intermediateCA:
+    - name: "ordering-service-ca"
+      commonName: "Haven Health Ordering Service CA"
+      organizationalUnit: "Ordering Service"
+
+      # Certificate parameters
+      keyAlgorithm: "ECDSA"
+      keySize: "P-256"
+      validity:
+        years: 5
+
+      # Constraints
+      constraints:
+        isCA: true
+        pathLength: 0  # Cannot issue CA certificates
+
+      # Key usage
+      keyUsage:
+        - "digitalSignature"
+        - "keyEncipherment"
+        - "keyCertSign"
+        - "cRLSign"
+
+    - name: "peer-service-ca"
+      commonName: "Haven Health Peer Service CA"
+      organizationalUnit: "Peer Service"
+
+      keyAlgorithm: "ECDSA"
+      keySize: "P-256"
+      validity:
+        years: 5
+
+# TLS Certificate Templates
+certificateTemplates:
+  # Orderer node certificate template
+  ordererNode:
+    subject:
+      organizationalUnit: "Orderer"
+      commonNamePrefix: "orderer"  # Will be suffixed with node ID
+
+    # Certificate parameters
+    keyAlgorithm: "ECDSA"
+    keySize: "P-256"
+    validity:
+      days: 365
+
+    # Extensions
+    extensions:
+      keyUsage:
+        - "digitalSignature"
+        - "keyEncipherment"
+      extendedKeyUsage:
+        - "serverAuth"
+        - "clientAuth"
+
+    # Subject Alternative Names (SANs)
+    subjectAltNames:
+      dnsNames:
+        - "localhost"
+        - "orderer.haven-health.local"
+        - "*.ordering-service.haven-health.local"
+      ipAddresses:
+        - "127.0.0.1"
+        # Additional IPs will be added dynamically
+
+  # Peer node certificate template
+  peerNode:
+    subject:
+      organizationalUnit: "Peer"
+      commonNamePrefix: "peer"
+
+    keyAlgorithm: "ECDSA"
+    keySize: "P-256"
+    validity:
+      days: 365
+
+    extensions:
+      keyUsage:
+        - "digitalSignature"
+        - "keyEncipherment"
+      extendedKeyUsage:
+        - "serverAuth"
+        - "clientAuth"
+
+  # Client certificate template
+  client:
+    subject:
+      organizationalUnit: "Client"
+
+    keyAlgorithm: "ECDSA"
+    keySize: "P-256"
+    validity:
+      days: 90  # Shorter validity for clients
+
+    extensions:
+      keyUsage:
+        - "digitalSignature"
+      extendedKeyUsage:
+        - "clientAuth"
+
+# Certificate Management
+certificateManagement:
+  # Automatic renewal
+  autoRenewal:
+    enabled: true
+    renewalThreshold: 30  # Days before expiry
+
+    # Renewal process
+    process:
+      # Grace period for old certificate
+      gracePeriod: 7  # Days
+
+      # Notification settings
+      notifications:
+        enabled: true
+        channels:
+          - type: "SNS"
+            topicArn: "arn:aws:sns:us-east-1:123456789012:blockchain-cert-renewal"
+          - type: "CloudWatch"
+            logGroup: "/aws/managedblockchain/certificate-renewal"
+
+  # Certificate rotation
+  rotation:
+    strategy: "rolling"  # Options: rolling, immediate
+
+    # Rolling update configuration
+    rollingUpdate:
+      maxUnavailable: 1  # Maximum nodes updating at once
+      updateInterval: "5m"  # Time between node updates
+
+  # Revocation
+  revocation:
+    # CRL (Certificate Revocation List) settings
+    crl:
+      enabled: true
+      updateInterval: "1h"
+      distributionPoints:
+        - "https://crl.haven-health.org/blockchain/root.crl"
+        - "s3://haven-health-blockchain-crl/root.crl"
+
+    # OCSP (Online Certificate Status Protocol) settings
+    ocsp:
+      enabled: true
+      responderUrl: "https://ocsp.haven-health.org/blockchain"
+      cacheTime: "10m"
+
+# TLS Configuration for Services
+tlsConfiguration:
+  # Orderer TLS settings
+  orderer:
+    # Server TLS
+    server:
+      enabled: true
+      clientAuthRequired: true  # Mutual TLS
+
+      # Cipher suites (TLS 1.2)
+      cipherSuites:
+        - "TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384"
+        - "TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256"
+        - "TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384"
+        - "TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256"
+
+      # TLS versions
+      minVersion: "1.2"
+      maxVersion: "1.3"
+
+      # Certificate paths (within container)
+      certFile: "/var/hyperledger/tls/server.crt"
+      keyFile: "/var/hyperledger/tls/server.key"
+      rootCAs:
+        - "/var/hyperledger/tls/ca.crt"
+      clientRootCAs:
+        - "/var/hyperledger/tls/client-ca.crt"
+
+    # Client TLS (for orderer-to-orderer communication)
+    client:
+      enabled: true
+      certFile: "/var/hyperledger/tls/client.crt"
+      keyFile: "/var/hyperledger/tls/client.key"
+      rootCAs:
+        - "/var/hyperledger/tls/ca.crt"
+
+  # Peer TLS settings
+  peer:
+    server:
+      enabled: true
+      clientAuthRequired: false  # Client auth optional for peers
+
+      cipherSuites:
+        - "TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384"
+        - "TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256"
+
+      minVersion: "1.2"
+      maxVersion: "1.3"
+
+    client:
+      enabled: true
+
+# AWS Managed Blockchain Integration
+awsIntegration:
+  # Use AWS Certificate Manager
+  acm:
+    enabled: true
+
+    # Certificate import
+    importCertificates: true
+    certificateArns: {}  # Will be populated during deployment
+
+  # AWS Secrets Manager for private keys
+  secretsManager:
+    enabled: true
+    region: "us-east-1"
+
+    # Secret naming convention
+    secretNamePrefix: "haven-health-blockchain-tls"
+
+    # Rotation
+    automaticRotation: true
+    rotationInterval: 90  # Days
+
+  # AWS Systems Manager Parameter Store
+  parameterStore:
+    enabled: true
+
+    # Parameter paths
+    pathPrefix: "/haven-health/blockchain/tls"
+
+    # Parameters to store
+    parameters:
+      - name: "ca-cert"
+        type: "String"
+        description: "Root CA certificate"
+      - name: "crl-url"
+        type: "String"
+        description: "CRL distribution URL"
+      - name: "ocsp-url"
+        type: "String"
+        description: "OCSP responder URL"
+
+# Security Policies
+securityPolicies:
+  # Certificate validation
+  validation:
+    # Check certificate validity period
+    checkValidity: true
+
+    # Check certificate chain
+    verifyChain: true
+    maxChainLength: 3
+
+    # Check revocation status
+    checkRevocation: true
+    revocationCheckMode: "preferOCSP"  # Options: CRLOnly, OCSPOnly, preferOCSP, preferCRL
+
+    # Hostname verification
+    verifyHostname: true
+
+  # Access control based on certificates
+  certificateBasedAccess:
+    enabled: true
+
+    # Rules based on certificate attributes
+    rules:
+      - name: "OrdererAccess"
+        description: "Allow orderer nodes"
+        condition:
+          organizationalUnit: "Orderer"
+        permissions:
+          - "orderer.broadcast"
+          - "orderer.deliver"
+
+      - name: "PeerAccess"
+        description: "Allow peer nodes"
+        condition:
+          organizationalUnit: "Peer"
+        permissions:
+          - "peer.invoke"
+          - "peer.query"
+
+      - name: "AdminAccess"
+        description: "Allow admin operations"
+        condition:
+          organizationalUnit: "Admin"
+        permissions:
+          - "channel.create"
+          - "channel.update"
+          - "chaincode.install"
+          - "chaincode.instantiate"
+
+# Monitoring and Alerting
+monitoring:
+  # Certificate expiry monitoring
+  expiryMonitoring:
+    enabled: true
+    checkInterval: "1h"
+
+    # Alert thresholds
+    alerts:
+      - name: "CertificateExpiringSoon"
+        daysBeforeExpiry: 30
+        severity: "WARNING"
+
+      - name: "CertificateExpiringCritical"
+        daysBeforeExpiry: 7
+        severity: "CRITICAL"
+
+      - name: "CertificateExpired"
+        daysBeforeExpiry: 0
+        severity: "CRITICAL"
+
+  # TLS connection monitoring
+  connectionMonitoring:
+    enabled: true
+
+    # Metrics to track
+    metrics:
+      - "TLSHandshakeTime"
+      - "TLSHandshakeFailures"
+      - "TLSVersionUsed"
+      - "CipherSuiteUsed"
+      - "ClientCertificatePresented"
+      - "CertificateValidationFailures"
+
+  # CloudWatch integration
+  cloudWatch:
+    namespace: "HavenHealth/Blockchain/TLS"
+
+    # Custom metrics
+    customMetrics:
+      - metricName: "ActiveCertificates"
+        unit: "Count"
+      - metricName: "CertificateRenewals"
+        unit: "Count"
+      - metricName: "TLSErrors"
+        unit: "Count"
+
+# Compliance Settings
+compliance:
+  # FIPS 140-2 compliance
+  fips:
+    enabled: true
+    level: 2  # FIPS 140-2 Level 2
+
+    # Use FIPS-approved algorithms only
+    approvedAlgorithms:
+      - "AES-256-GCM"
+      - "SHA-256"
+      - "ECDSA-P256"
+
+  # Audit logging
+  auditLogging:
+    enabled: true
+
+    # Events to log
+    events:
+      - "CertificateIssued"
+      - "CertificateRenewed"
+      - "CertificateRevoked"
+      - "TLSConnectionEstablished"
+      - "TLSConnectionFailed"
+      - "CertificateValidationFailed"
+
+    # Log destination
+    destination:
+      type: "CloudWatch"
+      logGroup: "/aws/managedblockchain/tls-audit"
+
+  # Regulatory requirements
+  regulatory:
+    # HIPAA compliance for healthcare data
+    hipaa:
+      enforceEncryption: true
+      minimumTLSVersion: "1.2"
+
+    # GDPR compliance
+    gdpr:
+      dataResidency: "EU"  # For EU operations
+      certificateDataRetention: 365  # Days

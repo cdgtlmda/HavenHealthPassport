@@ -1,0 +1,614 @@
+# Copyright Haven Health Passport. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+################################################################################
+#
+#   Haven Health Passport Organization Policies
+#
+#   This document defines the policies for each organization participating
+#   in the healthcare blockchain network, including their roles, permissions,
+#   and operational boundaries.
+#
+################################################################################
+
+# Organization Overview
+Organizations:
+  ################################################################################
+  # Healthcare Provider Organizations
+  ################################################################################
+
+  HealthcareProvider1MSP:
+    Name: "Primary Healthcare Provider Network"
+    Type: "Healthcare Institution"
+    Jurisdiction: "Multi-National"
+
+    # Core Capabilities
+    Capabilities:
+      - CreateHealthRecords
+      - UpdateHealthRecords
+      - ReadHealthRecords
+      - IssuePrescriptions
+      - RequestVerifications
+      - ProvideEmergencyCare
+      - GenerateReports
+      - ManagePatientConsent
+
+    # Member Requirements
+    MemberRequirements:
+      MinimumMembers: 3
+      MaximumMembers: 50
+      MemberTypes:
+        - Hospitals
+        - Clinics
+        - MedicalCenters
+        - DiagnosticLabs
+        - Pharmacies
+
+      AdmissionCriteria:
+        - "Valid medical license in operating jurisdiction"
+        - "Compliance with international healthcare standards"
+        - "Adequate data security infrastructure"
+        - "Commitment to refugee healthcare"
+
+      OnboardingProcess:
+        Duration: "30 days"
+        Steps:
+          - "Application submission"
+          - "Credential verification"
+          - "Infrastructure audit"
+          - "Training completion"
+          - "Test transactions"
+          - "Final approval"
+
+    # Access Policies
+    AccessPolicies:
+      StandardAccess:
+        Description: "Regular patient care access"
+        Permissions:
+          - "read:patient_records"
+          - "write:medical_notes"
+          - "create:prescriptions"
+          - "request:verifications"
+        Restrictions:
+          - "No access to other providers' notes without consent"
+          - "Cannot modify historical records"
+          - "Limited to assigned patients"
+
+      EmergencyAccess:
+        Description: "Emergency situation access"
+        Permissions:
+          - "read:all_critical_data"
+          - "write:emergency_treatment"
+          - "override:consent_temporarily"
+        Duration: "72 hours"
+        AuditRequirement: "Mandatory review within 24 hours"
+
+      ResearchAccess:
+        Description: "Anonymized data for research"
+        Permissions:
+          - "read:anonymized_data"
+          - "generate:statistical_reports"
+        Requirements:
+          - "IRB approval"
+          - "Data use agreement"
+          - "No patient identification"
+
+    # Endorsement Requirements
+    EndorsementRequirements:
+      MinimumEndorsers: 1
+      PreferredEndorsers: 2
+      EndorsementTimeout: "30 seconds"
+      ByFunction:
+        CreateHealthRecord:
+          MinEndorsers: 1
+          RequiredAttributes: ["medical_license", "provider_role"]
+        UpdateHealthRecord:
+          MinEndorsers: 1
+          RequiredAttributes: ["medical_license", "assigned_provider"]
+        PrescribeMedication:
+          MinEndorsers: 1
+          RequiredAttributes: ["prescribing_authority", "dea_number"]
+        AccessEmergencyData:
+          MinEndorsers: 1
+          RequiredAttributes: ["emergency_responder", "active_duty"]
+
+    # Channel Policies
+    ChannelPolicies:
+      HealthcareChannel:
+        Role: "Member"
+        Permissions:
+          - "Submit transactions"
+          - "Query ledger"
+          - "Receive events"
+          - "Propose channel updates"
+        Restrictions:
+          - "Cannot modify channel configuration alone"
+          - "Cannot add new organizations"
+
+      EmergencyChannel:
+        Role: "Member"
+        Permissions:
+          - "Rapid transaction submission"
+          - "Priority processing"
+          - "Bypass normal validation"
+        ActivationCriteria:
+          - "Mass casualty event"
+          - "Natural disaster"
+          - "Epidemic outbreak"
+
+    # Data Policies
+    DataPolicies:
+      DataRetention:
+        ActiveRecords: "Indefinite"
+        ArchivedRecords: "7 years minimum"
+        AuditLogs: "10 years"
+        DeletedRecords: "Soft delete only"
+
+      DataSharing:
+        InternalSharing: "Allowed with access controls"
+        ExternalSharing: "Requires explicit consent"
+        CrossBorderSharing: "Compliance with both jurisdictions"
+        ResearchSharing: "Anonymized only"
+
+      PrivacyProtection:
+        Encryption: "AES-256 minimum"
+        AccessLogging: "All access attempts logged"
+        ConsentManagement: "Granular consent controls"
+        DataMinimization: "Only necessary data collected"
+
+    # Special Policies
+    SpecialPolicies:
+      RefugeeHealthcare:
+        Priority: "High"
+        Requirements:
+          - "Cultural sensitivity training"
+          - "Multi-language support"
+          - "Trauma-informed care"
+        Benefits:
+          - "Reduced fees"
+          - "Expedited processing"
+          - "Additional support resources"
+
+      DisasterResponse:
+        ActivationAuthority: "Any senior member"
+        ResponseTime: "Within 1 hour"
+        ResourceSharing: "Mandatory"
+        CoordinationRequirement: "With UNHCR and RefugeeOrg"
+
+  ################################################################################
+  # UNHCR Organization
+  ################################################################################
+
+  UNHCROrgMSP:
+    Name: "United Nations High Commissioner for Refugees"
+    Type: "International Organization"
+    Jurisdiction: "Global"
+
+    # Core Capabilities
+    Capabilities:
+      - VerifyRefugeeIdentity
+      - AccessRefugeeHealthRecords
+      - CoordinateCrossBorderCare
+      - GeneratePopulationReports
+      - ManageEmergencyResponse
+      - OverseeDataGovernance
+      - FacilitateFunding
+      - MonitorCompliance
+
+    # Member Requirements
+    MemberRequirements:
+      MinimumMembers: 1
+      MaximumMembers: 10
+      MemberTypes:
+        - "UNHCR Headquarters"
+        - "Regional Offices"
+        - "Country Operations"
+        - "Emergency Response Teams"
+
+      AdmissionCriteria:
+        - "Official UNHCR entity"
+        - "Security clearance"
+        - "Blockchain training completed"
+        - "Data protection certification"
+
+      StaffRequirements:
+        Roles:
+          - "Protection Officers"
+          - "Health Coordinators"
+          - "Data Analysts"
+          - "Emergency Responders"
+        Training:
+          - "Refugee protection principles"
+          - "Healthcare in emergencies"
+          - "Blockchain operations"
+          - "Data privacy regulations"
+
+    # Access Policies
+    AccessPolicies:
+      StandardAccess:
+        Description: "Regular operational access"
+        Permissions:
+          - "read:refugee_health_summaries"
+          - "verify:refugee_identity"
+          - "coordinate:healthcare_services"
+          - "generate:statistical_reports"
+        Restrictions:
+          - "No access to detailed medical records without consent"
+          - "Cannot modify health data"
+          - "Audit trail required for all access"
+
+      EmergencyAccess:
+        Description: "Emergency response access"
+        Permissions:
+          - "read:all_refugee_records"
+          - "coordinate:emergency_services"
+          - "authorize:temporary_providers"
+          - "allocate:emergency_resources"
+        Duration: "Duration of emergency + 30 days"
+        OversightRequired: "Daily reporting to headquarters"
+
+      PopulationHealthAccess:
+        Description: "Public health monitoring"
+        Permissions:
+          - "read:aggregated_health_data"
+          - "analyze:disease_patterns"
+          - "generate:epidemiological_reports"
+          - "share:with_who"
+        Requirements:
+          - "Data anonymization"
+          - "Ethical review approval"
+          - "Transparent methodology"
+
+    # Endorsement Requirements
+    EndorsementRequirements:
+      MinimumEndorsers: 1
+      PreferredEndorsers: 2
+      EndorsementTimeout: "45 seconds"
+      ByFunction:
+        VerifyRefugeeIdentity:
+          MinEndorsers: 1
+          RequiredAttributes: ["unhcr_officer", "protection_mandate"]
+        AuthorizeDataTransfer:
+          MinEndorsers: 2
+          RequiredAttributes: ["senior_officer", "data_protection_certified"]
+        DeclareEmergency:
+          MinEndorsers: 1
+          RequiredAttributes: ["emergency_coordinator", "senior_management"]
+        ApproveResearch:
+          MinEndorsers: 2
+          RequiredAttributes: ["health_coordinator", "ethics_approved"]
+
+    # Channel Policies
+    ChannelPolicies:
+      RefugeeHealthChannel:
+        Role: "Admin"
+        Permissions:
+          - "Manage channel configuration"
+          - "Add/remove organizations"
+          - "Set data governance policies"
+          - "Monitor all transactions"
+        Responsibilities:
+          - "Ensure refugee protection"
+          - "Maintain data privacy"
+          - "Coordinate stakeholders"
+          - "Report to UN bodies"
+
+      CrossBorderChannel:
+        Role: "Coordinator"
+        Permissions:
+          - "Facilitate data transfers"
+          - "Verify legal compliance"
+          - "Authorize temporary access"
+          - "Audit cross-border flows"
+        Requirements:
+          - "Legal framework knowledge"
+          - "Multi-jurisdiction expertise"
+          - "Diplomatic clearance"
+
+    # Special Policies
+    SpecialPolicies:
+      RefugeeProtection:
+        PrincipleOfNonRefoulement: "Absolute"
+        DataSovereignty: "Refugee owns their data"
+        ConsentRequirements: "Informed and voluntary"
+        VulnerableGroups:
+          - "Unaccompanied minors"
+          - "Victims of torture"
+          - "Gender-based violence survivors"
+          - "Disabled refugees"
+        SpecialProtections:
+          - "Enhanced encryption"
+          - "Limited access"
+          - "Regular welfare checks"
+
+      InterAgencyCoordination:
+        Partners:
+          - "WHO"
+          - "UNICEF"
+          - "WFP"
+          - "IOM"
+        DataSharingProtocols:
+          - "Need-to-know basis"
+          - "Purpose limitation"
+          - "Time-bound access"
+          - "Audit requirements"
+
+      FundingOversight:
+        HealthcareFunding:
+          Allocation: "Based on needs assessment"
+          Monitoring: "Real-time tracking"
+          Reporting: "Monthly to donors"
+          Accountability: "Full transparency"
+
+  ################################################################################
+  # Refugee Organization
+  ################################################################################
+
+  RefugeeOrgMSP:
+    Name: "International Refugee Health Organization"
+    Type: "Non-Governmental Organization"
+    Jurisdiction: "International"
+
+    # Core Capabilities
+    Capabilities:
+      - ProvideCampHealthcare
+      - ManageMobileClinic
+      - ConductHealthScreening
+      - DeliverEmergencyCare
+      - TrainHealthWorkers
+      - DistributeMedications
+      - DocumentHealthRecords
+      - CoordinateReferrals
+
+    # Member Requirements
+    MemberRequirements:
+      MinimumMembers: 5
+      MaximumMembers: 100
+      MemberTypes:
+        - "Field Offices"
+        - "Medical Teams"
+        - "Mobile Units"
+        - "Training Centers"
+        - "Logistics Hubs"
+
+      AdmissionCriteria:
+        - "Registered NGO status"
+        - "Humanitarian principles commitment"
+        - "Operational experience in refugee settings"
+        - "Medical capability verification"
+
+      FieldRequirements:
+        MinimumStaff:
+          - "2 Doctors"
+          - "5 Nurses"
+          - "3 Health Workers"
+          - "2 Data Officers"
+        Equipment:
+          - "Basic diagnostic tools"
+          - "Emergency medicines"
+          - "Communication devices"
+          - "Data collection systems"
+
+    # Access Policies
+    AccessPolicies:
+      FieldOperationAccess:
+        Description: "Camp and field healthcare delivery"
+        Permissions:
+          - "create:basic_health_records"
+          - "read:assigned_patient_records"
+          - "update:treatment_notes"
+          - "issue:basic_prescriptions"
+        Limitations:
+          - "Cannot access records from other camps without transfer"
+          - "Limited to primary care scope"
+          - "Referral required for complex cases"
+
+      EmergencyResponseAccess:
+        Description: "Emergency medical interventions"
+        Permissions:
+          - "create:emergency_records"
+          - "access:critical_information"
+          - "coordinate:evacuation"
+          - "authorize:emergency_treatment"
+        ActivationTriggers:
+          - "Medical emergency"
+          - "Disease outbreak"
+          - "Mass casualty"
+          - "Natural disaster"
+
+      MobileClinicAccess:
+        Description: "Mobile healthcare unit operations"
+        Permissions:
+          - "create:encounter_records"
+          - "read:previous_encounters"
+          - "update:vaccination_records"
+          - "generate:referral_letters"
+        OperationalRequirements:
+          - "GPS tracking enabled"
+          - "Offline capability"
+          - "Sync when connected"
+          - "Daily reporting"
+
+    # Endorsement Requirements
+    EndorsementRequirements:
+      MinimumEndorsers: 1
+      PreferredEndorsers: 2
+      EndorsementTimeout: "60 seconds"
+      ByFunction:
+        CreateHealthRecord:
+          MinEndorsers: 1
+          RequiredAttributes: ["field_medical_staff", "active_deployment"]
+        IssueVaccination:
+          MinEndorsers: 1
+          RequiredAttributes: ["vaccination_certified", "cold_chain_trained"]
+        ReferPatient:
+          MinEndorsers: 1
+          RequiredAttributes: ["medical_officer", "referral_authority"]
+        RequestMedicalSupplies:
+          MinEndorsers: 2
+          RequiredAttributes: ["field_coordinator", "logistics_approved"]
+
+    # Channel Policies
+    ChannelPolicies:
+      FieldHealthChannel:
+        Role: "Member"
+        Permissions:
+          - "Submit health transactions"
+          - "Query patient records"
+          - "Receive emergency alerts"
+          - "Coordinate with partners"
+        Limitations:
+          - "Cannot modify channel config"
+          - "No access to other org data"
+          - "Audit trail for all actions"
+
+      SupplyChainChannel:
+        Role: "Participant"
+        Permissions:
+          - "Request medical supplies"
+          - "Track deliveries"
+          - "Report consumption"
+          - "Alert shortages"
+        Responsibilities:
+          - "Accurate inventory"
+          - "Proper storage"
+          - "Waste management"
+          - "Monthly reconciliation"
+
+    # Special Policies
+    SpecialPolicies:
+      VulnerablePopulations:
+        UnaccompaniedMinors:
+          Requirements:
+            - "Child protection officer present"
+            - "Guardian appointment"
+            - "Best interests assessment"
+            - "Regular follow-up"
+        PregnantWomen:
+          Requirements:
+            - "Prenatal care protocol"
+            - "Delivery preparation"
+            - "Postnatal follow-up"
+            - "Nutrition support"
+        ElderlyRefugees:
+          Requirements:
+            - "Chronic disease management"
+            - "Medication adherence"
+            - "Social support"
+            - "Mobility assistance"
+
+      CampHealthManagement:
+        DiseaseeSurveillance:
+          Monitoring: "Daily syndromic surveillance"
+          Reporting: "Weekly to UNHCR and WHO"
+          OutbreakThreshold: "Defined by WHO standards"
+          ResponseProtocol: "Immediate isolation and treatment"
+
+        WaterSanitation:
+          Standards: "SPHERE minimum standards"
+          Testing: "Daily water quality"
+          Maintenance: "Weekly facility inspection"
+          Reporting: "Monthly WASH reports"
+
+        NutritionPrograms:
+          Screening: "All new arrivals and monthly"
+          Treatment: "Severe acute malnutrition protocol"
+          Prevention: "Supplementary feeding programs"
+          Monitoring: "Growth tracking for children"
+
+################################################################################
+# Network Governance
+################################################################################
+
+NetworkGovernance:
+  # Voting Policies
+  VotingPolicies:
+    ProposalTypes:
+      AddOrganization:
+        ApprovalThreshold: "75%"
+        VotingPeriod: "7 days"
+        RequiredVoters: ["UNHCR", "HealthcareProvider1", "HealthcareProvider2"]
+
+      RemoveOrganization:
+        ApprovalThreshold: "80%"
+        VotingPeriod: "14 days"
+        RequiredVoters: "All active members"
+
+      PolicyChange:
+        ApprovalThreshold: "66%"
+        VotingPeriod: "7 days"
+        RequiredVoters: "All active members"
+
+      EmergencyAction:
+        ApprovalThreshold: "51%"
+        VotingPeriod: "24 hours"
+        RequiredVoters: ["UNHCR", "Any healthcare provider"]
+
+  # Compliance Framework
+  ComplianceFramework:
+    RegulatoryCompliance:
+      - "GDPR (European Union)"
+      - "HIPAA (United States)"
+      - "National healthcare regulations"
+      - "International humanitarian law"
+
+    AuditRequirements:
+      Internal:
+        Frequency: "Quarterly"
+        Scope: "All transactions and access logs"
+        Auditor: "Independent internal team"
+
+      External:
+        Frequency: "Annual"
+        Scope: "Full system and process audit"
+        Auditor: "Certified third party"
+
+    IncidentResponse:
+      DataBreach:
+        NotificationTime: "Within 72 hours"
+        NotifyParties: ["Affected individuals", "Regulators", "UNHCR"]
+        RemediationRequired: "Within 30 days"
+
+      SystemFailure:
+        ResponseTime: "Within 1 hour"
+        EscalationPath: "Technical -> Management -> Governance"
+        RecoveryObjective: "4 hours"
+
+  # Performance Standards
+  PerformanceStandards:
+    TransactionThroughput:
+      Minimum: "100 TPS"
+      Target: "500 TPS"
+      Peak: "1000 TPS"
+
+    ResponseTime:
+      Query: "< 2 seconds"
+      Transaction: "< 5 seconds"
+      Emergency: "< 1 second"
+
+    Availability:
+      Target: "99.9%"
+      Maintenance: "Scheduled only"
+      Redundancy: "Multi-region"
+
+################################################################################
+# Document Metadata
+################################################################################
+
+Metadata:
+  Version: "2.0.0"
+  LastUpdated: "2024-01-20"
+  NextReview: "2024-04-20"
+  ApprovedBy:
+    - "Network Governance Committee"
+    - "UNHCR Representative"
+    - "Healthcare Provider Council"
+    - "Refugee Organization Board"
+
+  ChangeLog:
+    - Version: "2.0.0"
+      Date: "2024-01-20"
+      Changes: "Complete organization policies definition"
+    - Version: "1.0.0"
+      Date: "2023-10-15"
+      Changes: "Initial policy framework"

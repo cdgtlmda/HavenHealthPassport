@@ -1,0 +1,54 @@
+# Audit Trail Configuration
+
+## Database Configuration
+audit:
+  database:
+    url: "postgresql://haven_cert_user:${POSTGRES_CERT_PASSWORD}@postgres-cert:5432/haven_cert"
+    schema: "audit"
+    pool_size: 10
+    max_overflow: 20
+
+  # File Backup Configuration
+  file_backup:
+    enabled: true
+    path: "/data/audit/backup"
+    rotation: "daily"
+    retention_days: 90
+    compression: true
+
+  # Audit Settings
+  settings:
+    # Events to always audit (HIPAA requirements)
+    mandatory_events:
+      - user_login
+      - user_logout
+      - patient_access
+      - patient_create
+      - patient_update
+      - patient_delete
+      - data_export
+      - permission_change
+
+    # Performance settings
+    queue_size: 10000
+    batch_size: 100
+    flush_interval_seconds: 5
+
+  # Privacy Settings
+  privacy:
+    # Fields to redact in audit logs
+    redact_fields:
+      - ssn
+      - credit_card
+      - bank_account
+
+    # IP address anonymization
+    anonymize_ip: false
+    ip_mask_bits: 8
+
+  # Retention Policy
+  retention:
+    # HIPAA requires 6 years minimum
+    retention_years: 7
+    archive_after_days: 365
+    purge_archived_after_years: 10

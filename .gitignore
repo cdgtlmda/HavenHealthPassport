@@ -1,0 +1,227 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+.venv
+.env
+*.egg-info/
+dist/
+build/
+*.egg
+.pytest_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+.tox/
+.hypothesis/
+*.log
+
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+.pnpm-debug.log*
+.npm
+.yarn-integrity
+*.tsbuildinfo
+.eslintcache
+
+# AWS
+.aws-sam/
+samconfig.toml
+.aws/
+
+# Docker
+*.pid
+*.seed
+*.pid.lock
+.dockerignore
+
+# IDE
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.swp
+*.swo
+*~
+.idea/
+*.iml
+.DS_Store
+
+# Blockchain artifacts
+network/crypto-config/
+network/channel-artifacts/
+network/organizations/
+wallet/
+identity/
+*.id
+*.tx
+
+# React Native
+*.jsbundle
+android/
+ios/
+.gradle/
+*.keystore
+!debug.keystore
+*.jks
+*.ipa
+*.apk
+*.aab
+*.xcworkspace
+*.xcuserdata
+
+# Build outputs
+build/
+dist/
+out/
+target/
+*.map
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Testing
+coverage/
+.nyc_output/
+test-results/
+junit.xml
+
+# Environment variables
+.env
+.env.local
+.env.development
+.env.test
+.env.production
+.env.aws
+.env.*
+!.env.example
+
+# Temporary files
+tmp/
+temp/
+.tmp/
+.temp/
+*.tmp
+*.temp
+*.bak
+*.backup
+*.cache
+
+# OS files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.lnk
+
+# Certificates
+*.pem
+*.key
+*.crt
+*.csr
+*.p12
+*.pfx
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Compiled files
+*.com
+*.class
+*.dll
+*.exe
+*.o
+*.so
+*.dylib
+
+# Archives
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+
+# Editor directories and files
+.idea
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Private/Personal directories - Error tracking and compliance reports
+compliance_reports/
+error_chunks/
+.parallel-strategy/
+.demo/
+.cursor/
+.claude/
+# Claude AI generated files
+claude.md
+claude_*.md
+.claude/
+
+# Cadence custom directory
+.cadence/
+
+# Credentials and sensitive files
+*.pem
+*.key
+*credentials*
+*token*
+*secret*
+*password*
+*api_key*
+service-account-key.json
+credentials/
+
+# Additional security files - NEVER commit these
+*.p12
+*.pfx
+*.crt
+*.csr
+config/keys/
+config/certificates/
+config/secrets/
+secrets/
+auth/
+private/
+secure/
+
+# JWT keys and tokens
+jwt_keys_production.json
+jwt_keys_staging.json
+auth_tokens.json
+refresh_tokens.json
+
+# Database credentials and connection strings
+db_credentials.json
+database_config.json
+connection_strings.json
+
+# Environment files with sensitive data
+.env.production.local
+.env.staging.local
+.env.secrets

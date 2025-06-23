@@ -1,0 +1,232 @@
+{
+  "version": "1.0",
+  "generated_at": "2025-06-06T08:36:58.446472",
+  "total_concepts": 5,
+  "languages": [
+    "en",
+    "es",
+    "fr",
+    "ar",
+    "zh",
+    "ru",
+    "fa",
+    "ps",
+    "ur",
+    "sw",
+    "so",
+    "am",
+    "ti",
+    "ha",
+    "hi",
+    "bn",
+    "pa",
+    "ta",
+    "te",
+    "ne",
+    "si",
+    "my",
+    "th",
+    "km",
+    "vi",
+    "id",
+    "tl",
+    "rw",
+    "lg",
+    "ny",
+    "sn",
+    "yo",
+    "ig",
+    "zu",
+    "xh",
+    "tr",
+    "ku",
+    "ckb",
+    "he",
+    "uk",
+    "pl",
+    "ro",
+    "sq",
+    "bs",
+    "hr",
+    "sr",
+    "pt",
+    "de",
+    "it",
+    "nl",
+    "ko",
+    "ja"
+  ],
+  "concepts": [
+    {
+      "code": "A15-A19",
+      "system": "ICD-10",
+      "primary_term": "Tuberculosis",
+      "category": "infectious_diseases",
+      "definition": "An infectious disease caused by Mycobacterium tuberculosis affecting primarily the lungs",
+      "patient_explanation": "A contagious disease that mainly affects the lungs and spreads through the air when infected people cough",
+      "synonyms": [
+        "TB",
+        "Consumption",
+        "Phthisis"
+      ],
+      "emergency_relevant": false,
+      "common_in_refugees": true,
+      "cultural_considerations": {
+        "stigma": "High stigma in many communities; confidentiality is crucial",
+        "treatment": "Long treatment duration requires cultural support systems"
+      },
+      "translations": {
+        "ur": {
+          "translation": "تپ دق",
+          "transliteration": "tap-e-diq",
+          "patient_friendly": "پھیپھڑوں کی ایک متعدی بیماری جو کھانسی سے پھیلتی ہے",
+          "cultural_notes": "اس بیماری میں سماجی رسوائی کا خطرہ ہے",
+          "regional_variants": {},
+          "verified": true,
+          "confidence_score": 0.94
+        },
+        "es": {
+          "translation": "Tuberculosis",
+          "transliteration": null,
+          "patient_friendly": "Una enfermedad contagiosa que afecta principalmente los pulmones",
+          "cultural_notes": "Enfermedad con estigma social; requiere apoyo familiar",
+          "regional_variants": {},
+          "verified": true,
+          "confidence_score": 0.98
+        }
+      }
+    },
+    {
+      "code": "A00",
+      "system": "ICD-10",
+      "primary_term": "Cholera",
+      "category": "infectious_diseases",
+      "definition": "An acute diarrheal infection caused by ingestion of contaminated water or food",
+      "patient_explanation": "A dangerous illness causing severe diarrhea and dehydration from contaminated water",
+      "synonyms": [
+        "Vibrio cholerae infection"
+      ],
+      "emergency_relevant": true,
+      "common_in_refugees": true,
+      "cultural_considerations": {
+        "prevention": "Clean water access and sanitation are critical",
+        "treatment": "Oral rehydration therapy must be culturally explained"
+      },
+      "translations": {
+        "bn": {
+          "translation": "কলেরা",
+          "transliteration": "kolera",
+          "patient_friendly": "দূষিত পানি থেকে হওয়া মারাত্মক ডায়রিয়া রোগ",
+          "cultural_notes": "পরিষ্কার পানি ও স্যানিটেশন অত্যন্ত গুরুত্বপূর্ণ",
+          "regional_variants": {},
+          "verified": true,
+          "confidence_score": 0.97
+        }
+      }
+    },
+    {
+      "code": "Z33",
+      "system": "ICD-10",
+      "primary_term": "Pregnancy",
+      "category": "pregnancy_childbirth",
+      "definition": "The state of carrying a developing embryo or fetus within the female body",
+      "patient_explanation": "The time when a baby is growing inside a woman's body",
+      "synonyms": [
+        "Gestation",
+        "Gravidity"
+      ],
+      "emergency_relevant": false,
+      "common_in_refugees": true,
+      "cultural_considerations": {
+        "privacy": "Female healthcare providers often preferred",
+        "family": "Family involvement varies by culture"
+      },
+      "translations": {
+        "fa": {
+          "translation": "بارداری",
+          "transliteration": "bārdāri",
+          "patient_friendly": "زمانی که کودک در شکم مادر رشد می‌کند",
+          "cultural_notes": "معاینات باید توسط پزشک زن انجام شود",
+          "regional_variants": {},
+          "verified": true,
+          "confidence_score": 0.96
+        },
+        "so": {
+          "translation": "Uur",
+          "transliteration": null,
+          "patient_friendly": "Wakhtiga uu ilmuhu ku korayo caloosha hooyadiis",
+          "cultural_notes": "Dhakhtarka haweenka ayaa loo doorbidaa",
+          "regional_variants": {},
+          "verified": true,
+          "confidence_score": 0.93
+        }
+      }
+    },
+    {
+      "code": "Z34",
+      "system": "ICD-10",
+      "primary_term": "Antenatal care",
+      "category": "pregnancy_childbirth",
+      "definition": "Medical care during pregnancy",
+      "patient_explanation": "Regular health checkups during pregnancy to keep mother and baby healthy",
+      "synonyms": [
+        "Prenatal care",
+        "ANC"
+      ],
+      "emergency_relevant": false,
+      "common_in_refugees": true,
+      "cultural_considerations": {
+        "access": "May be unfamiliar concept; importance needs explanation",
+        "frequency": "Regular visits may conflict with cultural practices"
+      },
+      "translations": {}
+    },
+    {
+      "code": "R57.0",
+      "system": "ICD-10",
+      "primary_term": "Emergency",
+      "category": "emergency_terms",
+      "definition": "A serious, unexpected, and potentially dangerous situation requiring immediate action",
+      "patient_explanation": "A very serious health problem that needs help right away",
+      "synonyms": [
+        "Crisis",
+        "Urgent situation"
+      ],
+      "emergency_relevant": true,
+      "common_in_refugees": true,
+      "cultural_considerations": {
+        "communication": "Language barriers critical in emergencies",
+        "decision": "Family involvement in emergency decisions varies"
+      },
+      "translations": {
+        "ar": {
+          "translation": "طوارئ",
+          "transliteration": "ṭawāriʾ",
+          "patient_friendly": "حالة صحية خطيرة تحتاج إلى مساعدة فورية",
+          "cultural_notes": null,
+          "regional_variants": {},
+          "verified": true,
+          "confidence_score": 0.99
+        },
+        "es": {
+          "translation": "Emergencia",
+          "transliteration": null,
+          "patient_friendly": "Un problema de salud grave que necesita ayuda inmediata",
+          "cultural_notes": null,
+          "regional_variants": {},
+          "verified": true,
+          "confidence_score": 0.99
+        },
+        "fr": {
+          "translation": "Urgence",
+          "transliteration": null,
+          "patient_friendly": "Un problème de santé grave nécessitant une aide immédiate",
+          "cultural_notes": null,
+          "regional_variants": {},
+          "verified": true,
+          "confidence_score": 0.99
+        }
+      }
+    }
+  ]
+}

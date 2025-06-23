@@ -1,0 +1,379 @@
+{
+  "title": "Evidence Inventory Report",
+  "generated_at": "2025-06-08T22:23:01.668552",
+  "total_evidence_items": 11,
+  "evidence_by_type": {
+    "test_result": {
+      "count": 1,
+      "items": [
+        {
+          "id": "f552b2fe-2730-42b5-b082-53688ed61249",
+          "type": "test_result",
+          "title": "Code Coverage Report",
+          "description": "Test coverage analysis results",
+          "created_at": "2025-06-08T22:23:01.668413",
+          "created_by": "EvidenceCollector",
+          "tags": [
+            "testing",
+            "coverage",
+            "quality"
+          ]
+        }
+      ]
+    },
+    "audit_log": {
+      "count": 2,
+      "items": [
+        {
+          "id": "2bedefb0-7e40-4bf8-a733-4bb66e3579eb",
+          "type": "audit_log",
+          "title": "HIPAA Audit Logs",
+          "description": "Access control and data handling audit logs",
+          "created_at": "2025-06-08T22:23:01.668422",
+          "created_by": "EvidenceCollector",
+          "tags": [
+            "audit",
+            "hipaa",
+            "security",
+            "access-control"
+          ]
+        },
+        {
+          "id": "1176a9b8-2b69-4183-aaa6-a6dcd3b59bb2",
+          "type": "audit_log",
+          "title": "API Access Logs",
+          "description": "API endpoint access and usage logs",
+          "created_at": "2025-06-08T22:23:01.668429",
+          "created_by": "EvidenceCollector",
+          "tags": [
+            "audit",
+            "api",
+            "access",
+            "monitoring"
+          ]
+        }
+      ]
+    },
+    "security_assessment": {
+      "count": 1,
+      "items": [
+        {
+          "id": "a67159eb-9dde-4dbb-9785-ecd4ad34e4ec",
+          "type": "security_assessment",
+          "title": "Vulnerability Scan Results",
+          "description": "Security vulnerability assessment findings",
+          "created_at": "2025-06-08T22:23:01.668492",
+          "created_by": "EvidenceCollector",
+          "tags": [
+            "security",
+            "vulnerability",
+            "scan"
+          ]
+        }
+      ]
+    },
+    "performance_metric": {
+      "count": 2,
+      "items": [
+        {
+          "id": "10bd161b-ac26-498a-bfee-ac87628083c0",
+          "type": "performance_metric",
+          "title": "API Performance Metrics",
+          "description": "API response time and throughput metrics",
+          "created_at": "2025-06-08T22:23:01.668507",
+          "created_by": "EvidenceCollector",
+          "tags": [
+            "performance",
+            "api",
+            "metrics",
+            "monitoring"
+          ]
+        },
+        {
+          "id": "1cff7f11-3bea-4ae9-9350-65336c9e701a",
+          "type": "performance_metric",
+          "title": "Database Performance Metrics",
+          "description": "Database query performance and optimization metrics",
+          "created_at": "2025-06-08T22:23:01.668513",
+          "created_by": "EvidenceCollector",
+          "tags": [
+            "performance",
+            "database",
+            "metrics",
+            "optimization"
+          ]
+        }
+      ]
+    },
+    "interoperability_test": {
+      "count": 2,
+      "items": [
+        {
+          "id": "fd5bb8be-d642-451d-bdfd-711528a99f60",
+          "type": "interoperability_test",
+          "title": "FHIR Conformance Test Results",
+          "description": "HL7 FHIR conformance and validation test results",
+          "created_at": "2025-06-08T22:23:01.668519",
+          "created_by": "EvidenceCollector",
+          "tags": [
+            "interoperability",
+            "fhir",
+            "hl7",
+            "conformance"
+          ]
+        },
+        {
+          "id": "74de2468-4cb4-4832-aea1-b36d72747ac0",
+          "type": "interoperability_test",
+          "title": "HL7 Message Validation Results",
+          "description": "HL7 v2 message parsing and validation test results",
+          "created_at": "2025-06-08T22:23:01.668525",
+          "created_by": "EvidenceCollector",
+          "tags": [
+            "interoperability",
+            "hl7",
+            "validation",
+            "messaging"
+          ]
+        }
+      ]
+    },
+    "configuration_snapshot": {
+      "count": 2,
+      "items": [
+        {
+          "id": "3680e055-9383-4c00-bef0-15aae38894a2",
+          "type": "configuration_snapshot",
+          "title": "Environment Configuration",
+          "description": "System environment and deployment configuration",
+          "created_at": "2025-06-08T22:23:01.668534",
+          "created_by": "EvidenceCollector",
+          "tags": [
+            "configuration",
+            "environment",
+            "deployment"
+          ]
+        },
+        {
+          "id": "db81e17c-a4ef-4798-a838-886cfae8e12f",
+          "type": "configuration_snapshot",
+          "title": "Security Configuration",
+          "description": "Security settings and access control configuration",
+          "created_at": "2025-06-08T22:23:01.668540",
+          "created_by": "EvidenceCollector",
+          "tags": [
+            "configuration",
+            "security",
+            "access-control"
+          ]
+        }
+      ]
+    },
+    "penetration_test": {
+      "count": 1,
+      "items": [
+        {
+          "id": "3b26bf47-9fae-4bae-ae49-02ad667b12ff",
+          "type": "penetration_test",
+          "title": "Penetration Test Report",
+          "description": "Security penetration testing results",
+          "created_at": "2025-06-08T22:23:01.668500",
+          "created_by": "EvidenceCollector",
+          "tags": [
+            "security",
+            "penetration-test",
+            "assessment"
+          ]
+        }
+      ]
+    }
+  },
+  "evidence_by_date": {
+    "2025-06-08": [
+      "f552b2fe-2730-42b5-b082-53688ed61249",
+      "2bedefb0-7e40-4bf8-a733-4bb66e3579eb",
+      "1176a9b8-2b69-4183-aaa6-a6dcd3b59bb2",
+      "a67159eb-9dde-4dbb-9785-ecd4ad34e4ec",
+      "3b26bf47-9fae-4bae-ae49-02ad667b12ff",
+      "10bd161b-ac26-498a-bfee-ac87628083c0",
+      "1cff7f11-3bea-4ae9-9350-65336c9e701a",
+      "fd5bb8be-d642-451d-bdfd-711528a99f60",
+      "74de2468-4cb4-4832-aea1-b36d72747ac0",
+      "3680e055-9383-4c00-bef0-15aae38894a2",
+      "db81e17c-a4ef-4798-a838-886cfae8e12f"
+    ]
+  },
+  "evidence_details": [
+    {
+      "id": "f552b2fe-2730-42b5-b082-53688ed61249",
+      "type": "test_result",
+      "title": "Code Coverage Report",
+      "description": "Test coverage analysis results",
+      "created_at": "2025-06-08T22:23:01.668413",
+      "created_by": "EvidenceCollector",
+      "tags": [
+        "testing",
+        "coverage",
+        "quality"
+      ],
+      "has_file": false,
+      "hash": "479e307d4296f136fcb8afe7b90f1048072e4a8e4580aa8d40c8d38138e03d82"
+    },
+    {
+      "id": "2bedefb0-7e40-4bf8-a733-4bb66e3579eb",
+      "type": "audit_log",
+      "title": "HIPAA Audit Logs",
+      "description": "Access control and data handling audit logs",
+      "created_at": "2025-06-08T22:23:01.668422",
+      "created_by": "EvidenceCollector",
+      "tags": [
+        "audit",
+        "hipaa",
+        "security",
+        "access-control"
+      ],
+      "has_file": false,
+      "hash": "4a808a2cd6c4894641768dc3bff5315f8a0712d7b7de069a9ad9393905496cd0"
+    },
+    {
+      "id": "1176a9b8-2b69-4183-aaa6-a6dcd3b59bb2",
+      "type": "audit_log",
+      "title": "API Access Logs",
+      "description": "API endpoint access and usage logs",
+      "created_at": "2025-06-08T22:23:01.668429",
+      "created_by": "EvidenceCollector",
+      "tags": [
+        "audit",
+        "api",
+        "access",
+        "monitoring"
+      ],
+      "has_file": false,
+      "hash": "c638679a09f8825b0a72d0783c9636fbe9431128c2224ad47b3667c0e419094e"
+    },
+    {
+      "id": "a67159eb-9dde-4dbb-9785-ecd4ad34e4ec",
+      "type": "security_assessment",
+      "title": "Vulnerability Scan Results",
+      "description": "Security vulnerability assessment findings",
+      "created_at": "2025-06-08T22:23:01.668492",
+      "created_by": "EvidenceCollector",
+      "tags": [
+        "security",
+        "vulnerability",
+        "scan"
+      ],
+      "has_file": false,
+      "hash": "b405eb292dab3a71fc19ae37407184407fcdb7b5aa7f35da310372548ec1237b"
+    },
+    {
+      "id": "3b26bf47-9fae-4bae-ae49-02ad667b12ff",
+      "type": "penetration_test",
+      "title": "Penetration Test Report",
+      "description": "Security penetration testing results",
+      "created_at": "2025-06-08T22:23:01.668500",
+      "created_by": "EvidenceCollector",
+      "tags": [
+        "security",
+        "penetration-test",
+        "assessment"
+      ],
+      "has_file": false,
+      "hash": "dbd5630fadbc6f3a017cf9063bf84582ee0580c9393668dfdb97bd885b6423a2"
+    },
+    {
+      "id": "10bd161b-ac26-498a-bfee-ac87628083c0",
+      "type": "performance_metric",
+      "title": "API Performance Metrics",
+      "description": "API response time and throughput metrics",
+      "created_at": "2025-06-08T22:23:01.668507",
+      "created_by": "EvidenceCollector",
+      "tags": [
+        "performance",
+        "api",
+        "metrics",
+        "monitoring"
+      ],
+      "has_file": false,
+      "hash": "2a18460c53788f1f61fceb1332b269160439c5bc2a736d0cf7be6b8d7899ed1e"
+    },
+    {
+      "id": "1cff7f11-3bea-4ae9-9350-65336c9e701a",
+      "type": "performance_metric",
+      "title": "Database Performance Metrics",
+      "description": "Database query performance and optimization metrics",
+      "created_at": "2025-06-08T22:23:01.668513",
+      "created_by": "EvidenceCollector",
+      "tags": [
+        "performance",
+        "database",
+        "metrics",
+        "optimization"
+      ],
+      "has_file": false,
+      "hash": "28949019be847ad93411707df52947763d14376409135519746ea73791921f62"
+    },
+    {
+      "id": "fd5bb8be-d642-451d-bdfd-711528a99f60",
+      "type": "interoperability_test",
+      "title": "FHIR Conformance Test Results",
+      "description": "HL7 FHIR conformance and validation test results",
+      "created_at": "2025-06-08T22:23:01.668519",
+      "created_by": "EvidenceCollector",
+      "tags": [
+        "interoperability",
+        "fhir",
+        "hl7",
+        "conformance"
+      ],
+      "has_file": false,
+      "hash": "03c7abe2b9892c8d563188a72010a0c2f333b8458da3d5f73ecb6f75857eefdb"
+    },
+    {
+      "id": "74de2468-4cb4-4832-aea1-b36d72747ac0",
+      "type": "interoperability_test",
+      "title": "HL7 Message Validation Results",
+      "description": "HL7 v2 message parsing and validation test results",
+      "created_at": "2025-06-08T22:23:01.668525",
+      "created_by": "EvidenceCollector",
+      "tags": [
+        "interoperability",
+        "hl7",
+        "validation",
+        "messaging"
+      ],
+      "has_file": false,
+      "hash": "d8e1b5e807da44ee8acb7b260cc18be83d86bd213b69cbb0237dc948ee6d83e1"
+    },
+    {
+      "id": "3680e055-9383-4c00-bef0-15aae38894a2",
+      "type": "configuration_snapshot",
+      "title": "Environment Configuration",
+      "description": "System environment and deployment configuration",
+      "created_at": "2025-06-08T22:23:01.668534",
+      "created_by": "EvidenceCollector",
+      "tags": [
+        "configuration",
+        "environment",
+        "deployment"
+      ],
+      "has_file": false,
+      "hash": "5e19084ec959327039c65753f29a7fa76abd3a2acde51bd9963867dd6ff286e7"
+    },
+    {
+      "id": "db81e17c-a4ef-4798-a838-886cfae8e12f",
+      "type": "configuration_snapshot",
+      "title": "Security Configuration",
+      "description": "Security settings and access control configuration",
+      "created_at": "2025-06-08T22:23:01.668540",
+      "created_by": "EvidenceCollector",
+      "tags": [
+        "configuration",
+        "security",
+        "access-control"
+      ],
+      "has_file": false,
+      "hash": "12fa59d9ca307453a0013c8c9c363e39ab824618bd8c5857afd7592bd6711c7a"
+    }
+  ]
+}

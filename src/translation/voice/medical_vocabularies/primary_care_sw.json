@@ -1,0 +1,138 @@
+{
+  "vocabulary_name": "refugee_health_primary_care_swahili",
+  "language_code": "sw",
+  "terms": [
+    {
+      "phrase": "malaria",
+      "sounds_like": ["ma-la-ree-a"],
+      "ipa": "malaria",
+      "display_as": "Malaria",
+      "english": "malaria"
+    },
+    {
+      "phrase": "kifua kikuu",
+      "sounds_like": ["kee-foo-ah kee-koo"],
+      "ipa": "kifua kikuː",
+      "display_as": "Kifua Kikuu (TB)",
+      "english": "tuberculosis"
+    },
+    {
+      "phrase": "kipindupindu",
+      "sounds_like": ["kee-peen-doo-peen-doo"],
+      "ipa": "kipindupindu",
+      "display_as": "Kipindupindu",
+      "english": "cholera"
+    },
+    {
+      "phrase": "kisukari",
+      "sounds_like": ["kee-soo-ka-ree"],
+      "ipa": "kisukari",
+      "display_as": "Kisukari",
+      "english": "diabetes"
+    },
+    {
+      "phrase": "shinikizo la damu",
+      "sounds_like": ["shee-nee-kee-zo la da-moo"],
+      "ipa": "ʃinikizo la damu",
+      "display_as": "Presha",
+      "english": "hypertension"
+    },
+    {
+      "phrase": "mshtuko wa baada ya kiwewe",
+      "sounds_like": ["m-shtu-ko wa ba-a-da ya kee-we-we"],
+      "ipa": "mʃtuko wa baːda ja kiwewe",
+      "display_as": "PTSD",
+      "english": "PTSD"
+    },
+    {
+      "phrase": "utapiamlo mkali",
+      "sounds_like": ["oo-ta-pee-am-lo m-ka-lee"],
+      "ipa": "utapiamlo mkali",
+      "display_as": "Utapiamlo",
+      "english": "acute malnutrition"
+    },
+    {
+      "phrase": "ORS",
+      "sounds_like": ["o-ar-es"],
+      "ipa": "oares",
+      "display_as": "ORS",
+      "english": "oral rehydration salts"
+    },
+    {
+      "phrase": "huduma ya wajawazito",
+      "sounds_like": ["hoo-doo-ma ya wa-ja-wa-zee-to"],
+      "ipa": "huduma ja wadʒawazito",
+      "display_as": "Kliniki ya wajawazito",
+      "english": "antenatal care"
+    },
+    {
+      "phrase": "chanjo ya MMR",
+      "sounds_like": ["chan-jo ya em-em-ar"],
+      "ipa": "tʃandʒo ja ememar",
+      "display_as": "Chanjo ya MMR",
+      "english": "MMR vaccine"
+    },
+    {
+      "phrase": "homa",
+      "sounds_like": ["ho-ma"],
+      "ipa": "homa",
+      "display_as": "Homa",
+      "english": "fever"
+    },
+    {
+      "phrase": "kuhara",
+      "sounds_like": ["koo-ha-ra"],
+      "ipa": "kuhara",
+      "display_as": "Kuhara",
+      "english": "diarrhea"
+    },
+    {
+      "phrase": "chanjo",
+      "sounds_like": ["chan-jo"],
+      "ipa": "tʃandʒo",
+      "display_as": "Chanjo",
+      "english": "vaccine"
+    },
+    {
+      "phrase": "dawa za kuua viini",
+      "sounds_like": ["da-wa za koo-wa vee-ee-nee"],
+      "ipa": "dawa za kuːa viːni",
+      "display_as": "Antibiotiki",
+      "english": "antibiotics"
+    },
+    {
+      "phrase": "kipimo cha damu",
+      "sounds_like": ["kee-pee-mo cha da-moo"],
+      "ipa": "kipimo tʃa damu",
+      "display_as": "Kipimo cha damu",
+      "english": "blood test"
+    }
+  ],
+  "medical_abbreviations": [
+    {"abbreviation": "BP", "expansion": "shinikizo la damu"},
+    {"abbreviation": "HR", "expansion": "mapigo ya moyo"},
+    {"abbreviation": "RR", "expansion": "kupumua"},
+    {"abbreviation": "TB", "expansion": "kifua kikuu"},
+    {"abbreviation": "ORS", "expansion": "maji ya ORS"},
+    {"abbreviation": "ANC", "expansion": "kliniki ya wajawazito"},
+    {"abbreviation": "PTSD", "expansion": "mshtuko wa baada ya kiwewe"},
+    {"abbreviation": "MMR", "expansion": "surua ukambi rubella"},
+    {"abbreviation": "BCG", "expansion": "chanjo ya TB"},
+    {"abbreviation": "MUAC", "expansion": "mzingo wa mkono"}
+  ],
+  "regional_variations": {
+    "kenya": {
+      "shinikizo la damu": ["presha", "BP"],
+      "kisukari": ["sukari", "shuga"],
+      "chanjo": ["sindano", "injection"]
+    },
+    "tanzania": {
+      "kifua kikuu": ["TB", "ukimwi wa mapafu"],
+      "homa": ["moto mwilini", "joto"]
+    },
+    "uganda": {
+      "malaria": ["omusujja", "febris"],
+      "kuhara": ["tumbo la kuhara", "kuendesha"]
+    }
+  }
+}

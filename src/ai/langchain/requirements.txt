@@ -1,0 +1,38 @@
+# LangChain Core Dependencies for Haven Health Passport
+# Python 3.11+ required
+
+# Core LangChain library
+langchain==0.1.16
+langchain-core==0.1.45
+langchain-text-splitters==0.0.1
+
+# Essential dependencies
+pydantic>=2.5.0,<3.0.0
+pydantic-settings>=2.1.0
+typing-extensions>=4.9.0
+tenacity>=8.2.3
+aiohttp>=3.9.0
+requests>=2.31.0
+numpy>=1.24.3
+SQLAlchemy>=2.0.0
+
+# JSON and YAML processing
+jsonpatch>=1.33
+PyYAML>=6.0.1
+
+# Async support
+anyio>=3.7.1
+asyncio>=3.4.3
+
+# Caching
+cachetools>=5.3.2
+
+# Type checking and validation
+mypy-extensions>=1.0.0
+
+# Development dependencies (optional)
+pytest>=7.4.3
+pytest-asyncio>=0.21.1
+black>=23.12.0
+ruff>=0.1.9
+mypy>=1.8.0

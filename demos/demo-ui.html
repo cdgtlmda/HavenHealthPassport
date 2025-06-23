@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Haven Health Passport Demo</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="demo-styles.css" rel="stylesheet">
+  <!-- React and React DOM -->
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <!-- Babel for JSX -->
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+  <div id="root"></div>
+
+  <!-- Import your actual components -->
+  <script type="text/babel" src="../web/src/components/patient/PatientRegistration.jsx" data-presets="react"></script>
+  <script type="text/babel" src="../web/src/components/auth/TOTPSetup.jsx" data-presets="react"></script>
+  <script type="text/babel" src="../web/src/components/auth/BackupCodes.jsx" data-presets="react"></script>
+  <script type="text/babel" src="../web/src/components/ConflictResolutionDialog.jsx" data-presets="react"></script>
+  
+  <!-- Demo App -->
+  <script type="text/babel" src="demo-app.js" data-presets="react"></script>
+  
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

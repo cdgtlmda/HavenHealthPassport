@@ -1,0 +1,90 @@
+{
+  "common": {
+    "appName": "ہیون ہیلتھ پاسپورٹ",
+    "loading": "لوڈ ہو رہا ہے...",
+    "error": "خرابی",
+    "success": "کامیابی",
+    "cancel": "منسوخ",
+    "save": "محفوظ کریں",
+    "delete": "حذف کریں",
+    "edit": "ترمیم",
+    "close": "بند کریں",
+    "confirm": "تصدیق کریں",
+    "back": "واپس",
+    "next": "اگلا",
+    "previous": "پچھلا",
+    "done": "مکمل",
+    "skip": "چھوڑیں",
+    "yes": "جی ہاں",
+    "no": "نہیں",
+    "ok": "ٹھیک ہے",
+    "search": "تلاش",
+    "filter": "فلٹر",
+    "sort": "ترتیب دیں",
+    "refresh": "تازہ کریں",
+    "retry": "دوبارہ کوشش",
+    "submit": "جمع کریں",
+    "continue": "جاری رکھیں"
+  },
+  "auth": {
+    "login": {
+      "title": "خوش آمدید",
+      "subtitle": "اپنے صحت کے ریکارڈ تک رسائی کے لیے سائن ان کریں",
+      "email": "ای میل",
+      "emailPlaceholder": "اپنا ای میل درج کریں",
+      "password": "پاس ورڈ",
+      "passwordPlaceholder": "اپنا پاس ورڈ درج کریں",
+      "forgotPassword": "پاس ورڈ بھول گئے؟",
+      "signIn": "سائن ان",
+      "noAccount": "اکاؤنٹ نہیں ہے؟",
+      "signUp": "سائن اپ کریں",
+      "invalidCredentials": "غلط ای میل یا پاس ورڈ"
+    },    "register": {
+      "title": "اکاؤنٹ بنائیں",
+      "subtitle": "اپنے صحت کے ریکارڈ کا انتظام کرنے کے لیے ہمارے ساتھ شامل ہوں",
+      "firstName": "پہلا نام",
+      "lastName": "آخری نام",
+      "dateOfBirth": "پیدائش کی تاریخ",
+      "email": "ای میل ایڈریس",
+      "password": "پاس ورڈ",
+      "confirmPassword": "پاس ورڈ کی تصدیق کریں",
+      "createAccount": "اکاؤنٹ بنائیں",
+      "alreadyHaveAccount": "پہلے سے اکاؤنٹ ہے؟",
+      "passwordsDoNotMatch": "پاس ورڈ میل نہیں کھاتے"
+    }
+  },
+  "health": {
+    "records": "صحت کے ریکارڈ",
+    "medications": "دوائیں",
+    "allergies": "الرجیاں",
+    "conditions": "طبی حالات",
+    "immunizations": "ٹیکے",
+    "appointments": "ملاقاتیں",
+    "vitals": "اہم نشانیاں",
+    "bloodPressure": "بلڈ پریشر",
+    "heartRate": "دل کی دھڑکن",
+    "temperature": "درجہ حرارت",
+    "weight": "وزن",
+    "height": "قد",
+    "bloodType": "خون کی قسم",
+    "emergency": "ایمرجنسی",
+    "emergencyContact": "ایمرجنسی رابطہ"
+  },
+  "medical": {
+    "terminology": {
+      "diagnosis": "تشخیص",
+      "symptom": "علامت",
+      "treatment": "علاج",
+      "procedure": "طریقہ کار",
+      "medication": "دوا",
+      "dosage": "خوراک",
+      "frequency": "تعدد",
+      "prescription": "نسخہ",
+      "specialist": "ماہر",
+      "examination": "معائنہ",
+      "laboratory": "لیبارٹری",
+      "xray": "ایکس رے",
+      "bloodTest": "خون کا ٹیسٹ"
+    }
+  }
+}

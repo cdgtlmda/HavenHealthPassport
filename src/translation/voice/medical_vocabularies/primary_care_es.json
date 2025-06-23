@@ -1,0 +1,63 @@
+{
+  "vocabulary_name": "refugee_health_primary_care_es",
+  "language_code": "es-US",
+  "terms": [
+    {
+      "phrase": "malaria",
+      "sounds_like": ["mah-LAH-ree-ah"],
+      "display_as": "Malaria"
+    },
+    {
+      "phrase": "tuberculosis",
+      "sounds_like": ["too-behr-koo-LOH-sees"],
+      "display_as": "Tuberculosis"
+    },
+    {
+      "phrase": "cólera",
+      "sounds_like": ["KOH-leh-rah"],
+      "display_as": "Cólera"
+    },
+    {
+      "phrase": "diabetes",
+      "sounds_like": ["dee-ah-BEH-tehs"],
+      "display_as": "Diabetes"
+    },
+    {
+      "phrase": "hipertensión",
+      "sounds_like": ["ee-pehr-tehn-see-OHN"],
+      "display_as": "Hipertensión"
+    },
+    {
+      "phrase": "presión arterial",
+      "sounds_like": ["preh-see-OHN ahr-teh-ree-AHL"],
+      "display_as": "Presión Arterial"
+    },
+    {
+      "phrase": "desnutrición aguda",
+      "sounds_like": ["dehs-noo-tree-see-OHN ah-GOO-dah"],
+      "display_as": "Desnutrición Aguda"
+    },
+    {
+      "phrase": "sales de rehidratación oral",
+      "sounds_like": ["SAH-lehs deh reh-ee-drah-tah-see-OHN oh-RAHL"],
+      "display_as": "Sales de Rehidratación Oral"
+    },
+    {
+      "phrase": "atención prenatal",
+      "sounds_like": ["ah-tehn-see-OHN preh-nah-TAHL"],
+      "display_as": "Atención Prenatal"
+    },
+    {
+      "phrase": "vacuna",
+      "sounds_like": ["bah-KOO-nah"],
+      "display_as": "Vacuna"
+    }
+  ],
+  "medical_abbreviations": [
+    {"abbreviation": "PA", "expansion": "presión arterial"},
+    {"abbreviation": "FC", "expansion": "frecuencia cardíaca"},
+    {"abbreviation": "FR", "expansion": "frecuencia respiratoria"},
+    {"abbreviation": "TB", "expansion": "tuberculosis"},
+    {"abbreviation": "SRO", "expansion": "sales de rehidratación oral"}
+  ]
+}

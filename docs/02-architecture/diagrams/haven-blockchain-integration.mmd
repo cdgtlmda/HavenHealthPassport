@@ -1,0 +1,206 @@
+graph TB
+    subgraph "Haven Health Passport System"
+        HHP[Haven Core Services]
+        API[API Gateway<br/>+ Lambda Authorizers]
+        AUTH[Authentication<br/>Cognito + IAM]
+        RECORDS[Health Records<br/>HealthLake + S3]
+        AI[AI Services<br/>Bedrock + SageMaker]
+    end
+
+    subgraph "AWS Managed Blockchain Network"
+        subgraph "Hyperledger Fabric Components"
+            ORDERER[Orderer Nodes<br/>Multi-Region HA]
+            CA[Certificate Authority<br/>AWS CloudHSM]
+            MSP[Membership Service<br/>Provider]
+        end
+
+        subgraph "Peer Nodes - Multi-Organization"
+            PEER1[Healthcare Providers<br/>Peer Nodes]
+            PEER2[Government Agencies<br/>Peer Nodes]
+            PEER3[UN/NGO<br/>Peer Nodes]
+            PEER4[Border Control<br/>Peer Nodes]
+        end
+
+        subgraph "Chaincode - Smart Contracts"
+            CC1[Identity Verification<br/>Contract]
+            CC2[Medical Record Hash<br/>Contract]
+            CC3[Access Control<br/>Contract]
+            CC4[Consent Management<br/>Contract]
+            CC5[Emergency Access<br/>Contract]
+        end
+
+        subgraph "Channels"
+            CH1[Identity Channel]
+            CH2[Medical Channel]
+            CH3[Access Channel]
+            CH4[Emergency Channel]
+        end
+    end
+
+    subgraph "AI-Enhanced Blockchain Services"
+        subgraph "Fraud Detection"
+            FD1[Transaction Anomaly<br/>SageMaker Model]
+            FD2[Identity Verification<br/>Rekognition]
+            FD3[Document Authenticity<br/>Custom ML Model]
+        end
+
+        subgraph "Automated Compliance"
+            COMP1[Regulation Checker<br/>Bedrock Claude 3]
+            COMP2[Cross-Border Rules<br/>Knowledge Base]
+            COMP3[Privacy Compliance<br/>Macie + GuardDuty]
+        end
+
+        subgraph "Smart Contract AI"
+            SC1[Contract Generation<br/>Bedrock CodeWhisperer]
+            SC2[Contract Validation<br/>Formal Verification]
+            SC3[Automated Testing<br/>Fuzzing + Analysis]
+        end
+    end
+
+    subgraph "Data Storage & Integration"
+        QLDB[Amazon QLDB<br/>Immutable Ledger]
+        S3BC[S3 Blockchain Data<br/>Cross-Region Replication]
+        NEPTUNE[Neptune Graph DB<br/>Relationship Mapping]
+        CACHE[ElastiCache<br/>Transaction Cache]
+    end
+
+    subgraph "Monitoring & Analytics"
+        CW[CloudWatch<br/>Metrics & Logs]
+        XRAY[X-Ray<br/>Transaction Tracing]
+        QS[QuickSight<br/>Blockchain Analytics]
+        ATHENA[Athena<br/>Query Service]
+    end
+
+    %% Main System Connections
+    HHP --> API
+    API --> AUTH
+    AUTH --> RECORDS
+    RECORDS --> AI
+
+    %% Blockchain Network Connections
+    API --> MSP
+    MSP --> CA
+    CA --> ORDERER
+
+    ORDERER --> CH1
+    ORDERER --> CH2
+    ORDERER --> CH3
+    ORDERER --> CH4
+
+    CH1 --> PEER1
+    CH1 --> PEER2
+    CH1 --> PEER3
+    CH1 --> PEER4
+
+    CH2 --> PEER1
+    CH2 --> PEER2
+
+    CH3 --> PEER2
+    CH3 --> PEER3
+    CH3 --> PEER4
+
+    CH4 --> PEER1
+    CH4 --> PEER4
+
+    %% Smart Contract Deployment
+    PEER1 --> CC1
+    PEER1 --> CC2
+    PEER1 --> CC3
+    PEER1 --> CC4
+    PEER1 --> CC5
+
+    PEER2 --> CC1
+    PEER2 --> CC3
+    PEER2 --> CC5
+
+    PEER3 --> CC2
+    PEER3 --> CC3
+    PEER3 --> CC4
+
+    PEER4 --> CC1
+    PEER4 --> CC3
+    PEER4 --> CC5
+
+    %% AI Integration
+    AI --> FD1
+    AI --> FD2
+    AI --> FD3
+
+    CC1 -.-> FD2
+    CC2 -.-> FD3
+    CC3 -.-> FD1
+
+    CC3 --> COMP1
+    CC3 --> COMP2
+    COMP1 --> COMP3
+
+    SC1 --> CC1
+    SC1 --> CC2
+    SC1 --> CC3
+    SC2 --> CC4
+    SC2 --> CC5
+    SC3 --> SC1
+
+    %% Data Flow
+    ORDERER --> QLDB
+    PEER1 --> S3BC
+    PEER2 --> S3BC
+    PEER3 --> S3BC
+    PEER4 --> S3BC
+
+    S3BC --> NEPTUNE
+    QLDB --> NEPTUNE
+
+    MSP --> CACHE
+    ORDERER --> CACHE
+
+    %% Monitoring
+    ORDERER --> CW
+    PEER1 --> CW
+    PEER2 --> CW
+    PEER3 --> CW
+    PEER4 --> CW
+
+    API --> XRAY
+    ORDERER --> XRAY
+
+    S3BC --> ATHENA
+    ATHENA --> QS
+    NEPTUNE --> QS
+    CW --> QS
+
+    %% Cross-Service Integration
+    RECORDS -.->|Hash Storage| CC2
+    AUTH -.->|Identity Verification| CC1
+    HHP -.->|Access Requests| CC3
+    HHP -.->|Consent Updates| CC4
+    HHP -.->|Emergency Access| CC5
+
+    %% Service Labels
+    subgraph "AWS Service Integration"
+        SVC1[Managed Blockchain<br/>Hyperledger Fabric]
+        SVC2[CloudHSM<br/>Key Management]
+        SVC3[QLDB<br/>Immutable Ledger]
+        SVC4[Neptune<br/>Graph Analytics]
+        SVC5[AI/ML Services<br/>Fraud & Compliance]
+    end
+
+    %% Style definitions
+    classDef core fill:#e3f2fd,stroke:#1565c0,stroke-width:2px;
+    classDef blockchain fill:#e8f5e9,stroke:#2e7d32,stroke-width:2px;
+    classDef peer fill:#fff3e0,stroke:#ef6c00,stroke-width:2px;
+    classDef smart fill:#f3e5f5,stroke:#6a1b9a,stroke-width:2px;
+    classDef ai fill:#ffebee,stroke:#c62828,stroke-width:2px;
+    classDef storage fill:#e0f2f1,stroke:#00695c,stroke-width:2px;
+    classDef monitor fill:#fce4ec,stroke:#ad1457,stroke-width:2px;
+    classDef service fill:#fff8e1,stroke:#f9a825,stroke-width:2px;
+
+    %% Apply styles
+    class HHP,API,AUTH,RECORDS,AI core;
+    class ORDERER,CA,MSP,CH1,CH2,CH3,CH4 blockchain;
+    class PEER1,PEER2,PEER3,PEER4 peer;
+    class CC1,CC2,CC3,CC4,CC5 smart;
+    class FD1,FD2,FD3,COMP1,COMP2,COMP3,SC1,SC2,SC3 ai;
+    class QLDB,S3BC,NEPTUNE,CACHE storage;
+    class CW,XRAY,QS,ATHENA monitor;
+    class SVC1,SVC2,SVC3,SVC4,SVC5 service;

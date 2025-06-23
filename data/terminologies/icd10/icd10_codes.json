@@ -1,0 +1,62 @@
+{
+  "A00": {
+    "description": "Cholera",
+    "category": "Intestinal infectious diseases",
+    "is_billable": false,
+    "children": [
+      "A00.0",
+      "A00.1",
+      "A00.9"
+    ]
+  },
+  "A00.0": {
+    "description": "Cholera due to Vibrio cholerae 01, biovar cholerae",
+    "parent": "A00",
+    "is_billable": true
+  },
+  "A00.1": {
+    "description": "Cholera due to Vibrio cholerae 01, biovar eltor",
+    "parent": "A00",
+    "is_billable": true
+  },
+  "A00.9": {
+    "description": "Cholera, unspecified",
+    "parent": "A00",
+    "is_billable": true
+  },
+  "J00": {
+    "description": "Acute nasopharyngitis [common cold]",
+    "category": "Acute upper respiratory infections",
+    "is_billable": true,
+    "includes": [
+      "Coryza (acute)",
+      "Infective nasopharyngitis NOS"
+    ],
+    "excludes1": [
+      "Acute pharyngitis (J02.-)",
+      "Acute sore throat NOS (J02.9)"
+    ]
+  },
+  "J45": {
+    "description": "Asthma",
+    "category": "Chronic lower respiratory diseases",
+    "is_billable": false,
+    "children": [
+      "J45.0",
+      "J45.1",
+      "J45.2",
+      "J45.3",
+      "J45.4",
+      "J45.5",
+      "J45.9"
+    ],
+    "use_additional_code": [
+      "to identify tobacco use (Z87.891)"
+    ]
+  },
+  "J45.909": {
+    "description": "Unspecified asthma, uncomplicated",
+    "parent": "J45.90",
+    "is_billable": true
+  }
+}

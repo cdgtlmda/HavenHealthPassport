@@ -1,0 +1,62 @@
+# Heartbeat Interval Configuration
+# Haven Health Passport - Production Settings
+
+# Core heartbeat settings for Raft consensus
+heartbeat:
+  # Base interval in milliseconds
+  interval: 500
+
+  # Timing parameters in Raft ticks
+  ticks:
+    heartbeatTick: 1      # 1 tick = 500ms
+    electionTick: 10      # 10 ticks = 5000ms
+    tickInterval: "500ms" # Base tick duration
+
+  # Follower timeout calculation
+  follower:
+    timeoutMultiplier: 10    # Timeout = interval * 10 = 5000ms
+    gracePeriod: 500         # Additional 500ms grace
+    effectiveTimeout: 5500   # Total timeout: 5500ms
+
+  # Jitter configuration to prevent thundering herd
+  jitter:
+    enabled: true
+    range: 50               # ±50ms random jitter
+
+  # Network adaptation
+  adaptive:
+    enabled: true
+    minInterval: 100        # Never go below 100ms
+    maxInterval: 5000       # Never exceed 5 seconds
+
+# Integration with election parameters
+electionIntegration:
+  # Heartbeat must be less than election timeout
+  maxHeartbeatRatio: 0.1    # Heartbeat = 10% of election timeout
+
+  # Coordination with leader lease
+  leaseRenewalHeartbeats: 3 # Renew lease every 3 heartbeats
+
+# Performance settings
+performance:
+  # Batch heartbeats with other messages
+  batching:
+    enabled: true
+    maxWait: 100            # Wait up to 100ms to batch
+
+  # Connection management
+  connections:
+    keepAlive: true
+    poolSize: 5             # Connection pool per follower
+
+# Monitoring
+monitoring:
+  # CloudWatch metrics
+  metrics:
+    namespace: "HavenHealth/Blockchain/Heartbeat"
+    interval: 60            # Publish metrics every 60s
+
+  # Alerts
+  alerts:
+    missedHeartbeats: 3     # Alert after 3 missed heartbeats
+    latencyThreshold: 250   # Alert if heartbeat takes > 250ms

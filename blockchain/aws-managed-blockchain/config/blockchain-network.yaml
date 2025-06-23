@@ -1,0 +1,87 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'Haven Health Passport - AWS Managed Blockchain Network Configuration'
+
+Parameters:
+  NetworkName:
+    Type: String
+    Default: HavenHealthPassportNetwork
+    Description: Name for the blockchain network
+
+  NetworkDescription:
+    Type: String
+    Default: 'Blockchain network for Haven Health Passport - Secure healthcare data management'
+    Description: Description of the blockchain network
+
+  AdminUsername:
+    Type: String
+    Default: HavenAdmin
+    Description: Administrator username for the first member
+    NoEcho: true
+
+  AdminPassword:
+    Type: String
+    Description: Administrator password for the first member (min 8 characters)
+    NoEcho: true
+    MinLength: 8
+    ConstraintDescription: Password must be at least 8 characters
+
+  MemberName:
+    Type: String
+    Default: HavenHealthFoundation
+    Description: Name for the first network member
+
+Resources:
+  # Create the Managed Blockchain Network
+  BlockchainNetwork:
+    Type: AWS::ManagedBlockchain::Network
+    Properties:
+      Name: !Ref NetworkName
+      Description: !Ref NetworkDescription
+      Framework: HYPERLEDGER_FABRIC
+      FrameworkVersion: '2.2'
+      FrameworkConfiguration:
+        NetworkFabricConfiguration:
+          Edition: STANDARD
+      VotingPolicy:
+        ApprovalThresholdPolicy:
+          ProposalDurationInHours: 24
+          ThresholdPercentage: 50
+          ThresholdComparator: GREATER_THAN
+
+  # Create the first member in the network
+  NetworkMember:
+    Type: AWS::ManagedBlockchain::Member
+    Properties:
+      NetworkId: !GetAtt BlockchainNetwork.Id
+      MemberConfiguration:
+        Name: !Ref MemberName
+        Description: 'Primary member for Haven Health Passport blockchain network'
+        MemberFrameworkConfiguration:
+          MemberFabricConfiguration:
+            AdminUsername: !Ref AdminUsername
+            AdminPassword: !Ref AdminPassword
+
+Outputs:
+  NetworkId:
+    Description: The ID of the blockchain network
+    Value: !GetAtt BlockchainNetwork.Id
+    Export:
+      Name: !Sub '${AWS::StackName}-NetworkId'
+
+  NetworkName:
+    Description: The name of the blockchain network
+    Value: !GetAtt BlockchainNetwork.Name
+    Export:
+      Name: !Sub '${AWS::StackName}-NetworkName'
+
+  MemberId:
+    Description: The ID of the first network member
+    Value: !GetAtt NetworkMember.Id
+    Export:
+      Name: !Sub '${AWS::StackName}-MemberId'
+
+  NetworkFramework:
+    Description: The blockchain framework
+    Value: HYPERLEDGER_FABRIC
+    Export:
+      Name: !Sub '${AWS::StackName}-Framework'

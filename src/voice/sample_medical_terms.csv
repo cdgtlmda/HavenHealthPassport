@@ -1,0 +1,21 @@
+term,sounds_like,display_as,category
+STEMI,stem-ee|s-t-e-m-i,ST-elevation myocardial infarction,conditions
+NSTEMI,non-stem-ee|n-stem-ee,Non-ST-elevation myocardial infarction,conditions
+AFib,ay-fib|atrial-fib,Atrial fibrillation,conditions
+VTach,vee-tack|v-tack,Ventricular tachycardia,conditions
+CHF,c-h-f|congestive-heart-failure,Congestive heart failure,conditions
+CABG,cabbage|c-a-b-g,Coronary artery bypass graft,procedures
+PCI,p-c-i|percutaneous-coronary-intervention,Percutaneous coronary intervention,procedures
+TEE,t-e-e|trans-esophageal-echo,Transesophageal echocardiogram,procedures
+cath,kath|catheterization,Cardiac catheterization,procedures
+stent,stent,Coronary stent placement,procedures
+Plavix,plav-icks,Clopidogrel (Plavix),medications
+Lasix,lay-sicks,Furosemide (Lasix),medications
+Lopressor,low-press-or,Metoprolol (Lopressor),medications
+Coumadin,coo-ma-din,Warfarin (Coumadin),medications
+ASA,ay-ess-ay|aspirin,Aspirin,medications
+EF,e-f|ejection-fraction,Ejection fraction,measurements
+LVEF,l-v-e-f|left-ventricular-e-f,Left ventricular ejection fraction,measurements
+BNP,b-n-p|brain-natriuretic-peptide,Brain natriuretic peptide,lab_tests
+troponin,trow-poh-nin,Troponin level,lab_tests
+CK-MB,c-k-m-b,Creatine kinase MB,lab_tests

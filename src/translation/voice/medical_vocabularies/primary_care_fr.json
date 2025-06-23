@@ -1,0 +1,138 @@
+{
+  "vocabulary_name": "refugee_health_primary_care_french",
+  "language_code": "fr",
+  "terms": [
+    {
+      "phrase": "paludisme",
+      "sounds_like": ["pa-lu-dees-m"],
+      "ipa": "palydism",
+      "display_as": "Paludisme",
+      "english": "malaria"
+    },
+    {
+      "phrase": "tuberculose",
+      "sounds_like": ["tu-ber-ku-loz"],
+      "ipa": "tybɛʁkyloz",
+      "display_as": "Tuberculose",
+      "english": "tuberculosis"
+    },
+    {
+      "phrase": "choléra",
+      "sounds_like": ["ko-le-ra"],
+      "ipa": "kɔleʁa",
+      "display_as": "Choléra",
+      "english": "cholera"
+    },
+    {
+      "phrase": "diabète",
+      "sounds_like": ["dee-ya-bet"],
+      "ipa": "djabɛt",
+      "display_as": "Diabète",
+      "english": "diabetes"
+    },
+    {
+      "phrase": "hypertension artérielle",
+      "sounds_like": ["ee-per-tan-syon ar-te-ree-el"],
+      "ipa": "ipɛʁtɑ̃sjɔ̃ aʁteʁjɛl",
+      "display_as": "Hypertension",
+      "english": "hypertension"
+    },
+    {
+      "phrase": "trouble de stress post-traumatique",
+      "sounds_like": ["troo-bl duh stres post-tro-ma-teek"],
+      "ipa": "tʁubl də stʁɛs pɔsttʁomatik",
+      "display_as": "TSPT",
+      "english": "PTSD"
+    },
+    {
+      "phrase": "malnutrition aiguë",
+      "sounds_like": ["mal-nu-tree-syon e-gu"],
+      "ipa": "malnytrsisjɔ̃ egy",
+      "display_as": "Malnutrition aiguë",
+      "english": "acute malnutrition"
+    },
+    {
+      "phrase": "sels de réhydratation orale",
+      "sounds_like": ["sel duh re-ee-dra-ta-syon o-ral"],
+      "ipa": "sɛl də ʁeidʁatasjɔ̃ ɔʁal",
+      "display_as": "SRO",
+      "english": "ORS"
+    },
+    {
+      "phrase": "soins prénatals",
+      "sounds_like": ["swan pre-na-tal"],
+      "ipa": "swɛ̃ pʁenatal",
+      "display_as": "Soins prénatals",
+      "english": "antenatal care"
+    },
+    {
+      "phrase": "vaccin ROR",
+      "sounds_like": ["vak-san ror"],
+      "ipa": "vaksɛ̃ ʁɔʁ",
+      "display_as": "Vaccin ROR",
+      "english": "MMR vaccine"
+    },
+    {
+      "phrase": "fièvre",
+      "sounds_like": ["fee-evr"],
+      "ipa": "fjɛvʁ",
+      "display_as": "Fièvre",
+      "english": "fever"
+    },
+    {
+      "phrase": "diarrhée",
+      "sounds_like": ["dee-ya-re"],
+      "ipa": "djaʁe",
+      "display_as": "Diarrhée",
+      "english": "diarrhea"
+    },
+    {
+      "phrase": "vaccin",
+      "sounds_like": ["vak-san"],
+      "ipa": "vaksɛ̃",
+      "display_as": "Vaccin",
+      "english": "vaccine"
+    },
+    {
+      "phrase": "antibiotiques",
+      "sounds_like": ["an-tee-bee-o-teek"],
+      "ipa": "ɑ̃tibjɔtik",
+      "display_as": "Antibiotiques",
+      "english": "antibiotics"
+    },
+    {
+      "phrase": "prise de sang",
+      "sounds_like": ["preez duh san"],
+      "ipa": "pʁiz də sɑ̃",
+      "display_as": "Prise de sang",
+      "english": "blood test"
+    }
+  ],
+  "medical_abbreviations": [
+    {"abbreviation": "TA", "expansion": "tension artérielle"},
+    {"abbreviation": "FC", "expansion": "fréquence cardiaque"},
+    {"abbreviation": "FR", "expansion": "fréquence respiratoire"},
+    {"abbreviation": "TB", "expansion": "tuberculose"},
+    {"abbreviation": "SRO", "expansion": "sels de réhydratation orale"},
+    {"abbreviation": "CPN", "expansion": "consultation prénatale"},
+    {"abbreviation": "TSPT", "expansion": "trouble de stress post-traumatique"},
+    {"abbreviation": "ROR", "expansion": "rougeole oreillons rubéole"},
+    {"abbreviation": "BCG", "expansion": "Bacille de Calmette et Guérin"},
+    {"abbreviation": "PB", "expansion": "périmètre brachial"}
+  ],
+  "regional_variations": {
+    "west_africa": {
+      "paludisme": ["palu", "fièvre jaune"],
+      "diabète": ["le sucre", "maladie du sucre"],
+      "hypertension": ["tension", "la tension"]
+    },
+    "north_africa": {
+      "vaccin": ["piqûre", "injection"],
+      "fièvre": ["température", "chaleur"]
+    },
+    "haiti": {
+      "paludisme": ["malaria", "lafyèv"],
+      "diarrhée": ["dyare", "vant lach"]
+    }
+  }
+}

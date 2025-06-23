@@ -1,0 +1,167 @@
+# HAPI FHIR Server Configuration for Haven Health Passport
+spring:
+  main:
+    allow-circular-references: true
+    allow-bean-definition-overriding: true
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://postgres:5432/haven_health_fhir}
+    username: ${SPRING_DATASOURCE_USERNAME:haven_user}
+    password: ${SPRING_DATASOURCE_PASSWORD:haven_password}
+    driver-class-name: org.postgresql.Driver
+    max-active: 15
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 5
+      connection-timeout: 30000
+      idle-timeout: 600000
+      max-lifetime: 1800000
+      # Transaction Isolation Level
+      transaction-isolation: TRANSACTION_READ_COMMITTED
+      # Connection pool transaction settings
+      auto-commit: false
+      connection-test-query: SELECT 1
+      validation-timeout: 5000
+      leak-detection-threshold: 60000
+      # PostgreSQL specific settings
+      data-source-properties:
+        reWriteBatchedInserts: true
+        stringtype: unspecified
+        assumeMinServerVersion: 9.4
+        currentSchema: public
+  jpa:
+    properties:
+      hibernate:
+        dialect: ca.uhn.fhir.jpa.model.dialect.HapiFhirPostgres94Dialect
+        format_sql: false
+        show_sql: false
+        hbm2ddl.auto: update
+        jdbc.batch_size: 20
+        cache.use_query_cache: false
+        cache.use_second_level_cache: false
+        cache.use_structured_entries: false
+        cache.use_minimal_puts: false
+        # Transaction Isolation Configuration
+        connection.isolation: 2  # READ_COMMITTED
+        order_inserts: true
+        order_updates: true
+        batch_versioned_data: true
+    # JPA Transaction Settings
+    hibernate:
+      connection:
+        provider_disables_autocommit: true
+      transaction:
+        jta:
+          platform: org.hibernate.service.jta.platform.internal.NoJtaPlatform
+  batch:
+    job:
+      enabled: true
+
+hapi:
+  fhir:
+    # Version and Server Settings
+    fhir_version: R4
+    server_address: ${HAPI_FHIR_SERVER_ADDRESS:http://localhost:8080/fhir}
+    defer_indexing_for_codesystems_of_size: 101
+    implementationguides:
+      enabled: true
+
+    # Server Metadata
+    server:
+      name: Haven Health Passport FHIR Server
+      id: haven-health-fhir
+
+    # CORS Configuration
+    cors:
+      allow_credentials: true
+      allowed_origin:
+        - '*'
+      allowed_headers:
+        - Authorization
+        - Content-Type
+        - Accept
+        - Origin
+        - X-Requested-With
+      allowed_methods:
+        - GET
+        - POST
+        - PUT
+        - DELETE
+        - OPTIONS
+        - PATCH
+      exposed_headers:
+        - Location
+        - Content-Location
+        - ETag
+    # Validation Settings
+    validation:
+      enabled: true
+      requests_enabled: true
+      responses_enabled: false
+
+    # Authentication and Authorization
+    auth:
+      enabled: ${FHIR_AUTH_ENABLED:true}
+
+    # Security Interceptor Configuration
+    security:
+      oauth2:
+        enabled: ${FHIR_AUTH_ENABLED:true}
+        issuer: ${FHIR_OAUTH2_ISSUER:https://auth.havenhealthpassport.org}
+        audience: ${FHIR_OAUTH2_AUDIENCE:https://fhir.havenhealthpassport.org}
+      token_endpoint: ${FHIR_TOKEN_ENDPOINT:http://localhost:8000/api/v1/auth/validate}
+      allow_anonymous_read: ${FHIR_ALLOW_ANONYMOUS_READ:false}
+
+    # Authorization Interceptor Configuration
+    authorization:
+      enabled: ${FHIR_AUTH_ENABLED:true}
+      interceptor_class: org.havenhealthpassport.interceptor.HavenAuthorizationInterceptor
+      cache_ttl_seconds: 300
+      audit_authorization_decisions: true
+
+    # Subscription Settings
+    subscription:
+      resthook_enabled: true
+      websocket_enabled: true
+
+    # Search Settings
+    search:
+      total_mode: ACCURATE
+      default_page_size: 20
+      max_page_size: 200
+
+    # Bulk Export
+    bulk_export_enabled: true
+
+    # Referential Integrity
+    enforce_referential_integrity_on_write: false
+    enforce_referential_integrity_on_delete: false
+
+    # External References
+    allow_external_references: true
+
+    # Indexing
+    advanced_lucene_indexing: true
+
+    # Narrative Generation
+    narrative_enabled: true
+
+    # Partition Settings
+    partitioning:
+      enabled: false
+
+    # Terminology Settings
+    terminology:
+      graphql:
+        enabled: true
+
+    # Audit Settings
+    audit:
+      enabled: true
+
+# Logging Configuration
+logging:
+  level:
+    root: INFO
+    ca.uhn.fhir: INFO
+    org.springframework: INFO
+    org.hibernate: WARN

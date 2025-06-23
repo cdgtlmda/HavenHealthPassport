@@ -1,0 +1,173 @@
+# AWS SageMaker Production Configuration for Haven Health Passport
+# CRITICAL: This is for a refugee healthcare system - NO MOCKS in production
+
+sagemaker:
+  region: us-east-1
+  role_arn: arn:aws:iam::${AWS_ACCOUNT_ID}:role/HavenHealthSageMakerRole
+  
+  # Cultural Adaptation Models
+  cultural_models:
+    training:
+      instance_type: ml.p3.2xlarge  # GPU for faster training
+      instance_count: 1
+      max_runtime_seconds: 86400  # 24 hours
+      volume_size_gb: 100
+      enable_network_isolation: true
+      enable_inter_container_traffic_encryption: true
+      
+    inference:
+      instance_type: ml.m5.xlarge  # Cost-effective for inference
+      initial_instance_count: 2  # For redundancy
+      max_instance_count: 10  # Auto-scaling
+      model_data_download_timeout_seconds: 600
+      container_startup_health_check_timeout_seconds: 600
+      
+    endpoints:
+      cultural_pattern_classifier:
+        variant_name: AllTraffic
+        initial_variant_weight: 1
+        accelerator_type: ml.eia2.medium  # Elastic Inference for cost optimization
+        
+      cultural_sensitivity_analyzer:
+        variant_name: AllTraffic
+        initial_variant_weight: 1
+        
+  # Medical Translation Models
+  translation_models:
+    training:
+      instance_type: ml.p3.8xlarge  # Multi-GPU for parallel training
+      instance_count: 1
+      max_runtime_seconds: 172800  # 48 hours
+      volume_size_gb: 500
+      
+    inference:
+      instance_type: ml.g4dn.xlarge  # GPU for real-time translation
+      initial_instance_count: 3  # For high availability
+      max_instance_count: 20
+      
+  # Voice Processing Models
+  voice_models:
+    training:
+      instance_type: ml.p3.2xlarge
+      instance_count: 1
+      max_runtime_seconds: 86400
+      
+    inference:
+      instance_type: ml.m5.2xlarge
+      initial_instance_count: 2
+      max_instance_count: 15
+      
+# Auto-scaling Configuration
+auto_scaling:
+  metric_type: SageMakerVariantInvocationsPerInstance
+  target_value: 1000  # Invocations per instance
+  scale_in_cooldown_seconds: 300
+  scale_out_cooldown_seconds: 60
+  
+# Model Monitoring
+model_monitoring:
+  enable_data_capture: true
+  sampling_percentage: 100  # Capture all for healthcare compliance
+  enable_model_quality_monitoring: true
+  enable_data_quality_monitoring: true
+  enable_bias_monitoring: true
+  
+  schedule:
+    frequency: Hourly  # Frequent monitoring for healthcare
+    
+  constraints:
+    max_inference_latency_ms: 500  # Half-second max for real-time
+    min_accuracy_threshold: 0.95  # 95% accuracy for medical
+    
+# Security Configuration  
+security:
+  enable_network_isolation: true
+  vpc_config:
+    subnets:
+      - subnet-healthcare-1a
+      - subnet-healthcare-1b
+    security_groups:
+      - sg-sagemaker-healthcare
+      
+  encryption:
+    kms_key_id: alias/haven-health-sagemaker
+    volume_kms_key_id: alias/haven-health-sagemaker-volume
+    
+# Cost Optimization
+cost_optimization:
+  use_spot_instances_for_training: true
+  spot_instance_interruption_behavior: stop
+  max_wait_time_seconds: 86400
+  
+  inference_optimization:
+    enable_elastic_inference: true
+    enable_multi_model_endpoint: true
+    enable_serverless_inference: false  # Not for critical healthcare
+    
+# Deployment Configuration
+deployment:
+  strategy: blue_green  # Zero-downtime deployment
+  traffic_shifting:
+    type: linear
+    interval_minutes: 5
+    percentage_increment: 10
+    
+  rollback:
+    enable_auto_rollback: true
+    alarms:
+      - ModelLatencyHigh
+      - Error4xxHigh
+      - DataDriftDetected
+      
+# Training Data Configuration
+training_data:
+  s3_bucket: haven-health-training-data
+  s3_prefix: cultural-adaptation/
+  
+  preprocessing:
+    remove_pii: true
+    anonymize_patient_data: true
+    validate_medical_terms: true
+    
+# Model Registry
+model_registry:
+  enable: true
+  model_package_group_name: haven-health-cultural-models
+  
+  approval_status: PendingManualApproval  # Require human review
+  
+  tags:
+    - Key: Project
+      Value: HavenHealthPassport
+    - Key: Compliance
+      Value: HIPAA
+    - Key: DataClassification
+      Value: PHI
+    - Key: Purpose
+      Value: RefugeeHealthcare
+    
+# Logging and Monitoring
+logging:
+  cloudwatch_logs_group: /aws/sagemaker/haven-health
+  enable_profiler: true
+  enable_debugger: true
+  
+  metrics_to_track:
+    - ModelLatency
+    - MemoryUtilization
+    - CPUUtilization
+    - DiskUtilization
+    - InferenceAccuracy
+    - CulturalSensitivityScore
+    
+# Compliance and Audit
+compliance:
+  enable_audit_logs: true
+  enable_access_logging: true
+  data_retention_days: 2555  # 7 years for HIPAA
+  
+  required_tags:
+    - PHI
+    - HIPAA
+    - DataClassification
+    - PatientConsent

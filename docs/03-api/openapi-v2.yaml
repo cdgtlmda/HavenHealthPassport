@@ -1,0 +1,449 @@
+openapi: 3.0.3
+info:
+  title: Haven Health Passport API
+  description: |
+    REST API for refugee health record management with blockchain verification.
+    
+    ## Overview
+    Haven Health Passport provides secure, portable health records for refugees and displaced populations.
+    The API supports patient management, health record storage, AI-powered analysis, and real-time updates.
+    
+    ## Authentication
+    All endpoints require JWT authentication. Include the token in the Authorization header:
+    ```
+    Authorization: Bearer <your-jwt-token>
+    ```
+    
+    ## Rate Limiting
+    API calls are rate-limited to ensure fair usage:
+    - Standard tier: 100 requests per minute
+    - Premium tier: 1000 requests per minute
+    
+    ## Error Codes
+    - 400: Bad Request - Invalid input data
+    - 401: Unauthorized - Missing or invalid authentication
+    - 403: Forbidden - Insufficient permissions
+    - 404: Not Found - Resource does not exist
+    - 429: Too Many Requests - Rate limit exceeded
+    - 500: Internal Server Error - Server-side error
+    
+  version: 2.0.0
+  contact:
+    name: Haven Health Passport Support
+    email: support@havenhealthpassport.org
+    url: https://havenhealthpassport.org/support
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  x-logo:
+    url: https://havenhealthpassport.org/logo.png
+    altText: Haven Health Passport Logo
+
+servers:
+  - url: https://api.havenhealthpassport.org/api/v2
+    description: Production server
+  - url: https://staging-api.havenhealthpassport.org/api/v2
+    description: Staging server
+  - url: http://localhost:8000/api/v2
+    description: Development server
+
+security:
+  - bearerAuth: []
+
+tags:
+  - name: health
+    description: Health check and system status endpoints
+  - name: authentication
+    description: User authentication and authorization
+  - name: patients
+    description: Patient record management
+  - name: health-records
+    description: Medical records and observations
+  - name: analysis
+    description: AI-powered health analysis
+  - name: remediation
+    description: Treatment plans and interventions
+  - name: notifications
+    description: Notification management
+  - name: websocket
+    description: Real-time WebSocket connections
+
+paths:
+  # Health Check Endpoints
+  /health:
+    get:
+      tags:
+        - health
+      summary: Health check
+      description: Check if the API service is running and healthy
+      operationId: healthCheck
+      security: []
+      responses:
+        '200':
+          description: Service is healthy
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthResponse'
+              example:
+                status: "healthy"
+                timestamp: "2025-06-04T12:00:00Z"
+                version: "2.0.0"
+                services:
+                  database: "connected"
+                  redis: "connected"
+                  blockchain: "connected"
+
+  # Patient Management Endpoints
+  /patients:
+    get:
+      tags:
+        - patients
+      summary: List patients
+      description: Retrieve a paginated list of patients with optional filtering
+      operationId: listPatients
+      parameters:
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/PageSizeParam'
+        - name: search
+          in: query
+          description: Search in patient name or identifier
+          schema:
+            type: string
+        - name: active
+          in: query
+          description: Filter by active status
+          schema:
+            type: boolean
+        - name: verification_status
+          in: query
+          description: Filter by verification status
+          schema:
+            type: string
+            enum: [unverified, pending, verified, rejected]
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PatientListResponse'
+              example:
+                items:
+                  - id: "550e8400-e29b-41d4-a716-446655440000"
+                    identifier:
+                      - system: "UNHCR"
+                        value: "REF-2025-001234"
+                    name:
+                      - given: ["John"]
+                        family: "Doe"
+                    birthDate: "1990-01-15"
+                    gender: "male"
+                    active: true
+                    verificationStatus: "verified"
+                total: 100
+                page: 1
+                page_size: 20
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+
+    post:
+      tags:
+        - patients
+      summary: Create patient
+      description: Create a new patient record
+      operationId: createPatient
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatientCreateRequest'
+            example:
+              identifier:
+                - system: "UNHCR"
+                  value: "REF-2025-001234"
+              name:
+                - given: ["John", "Michael"]
+                  family: "Doe"
+                  use: "official"
+              birthDate: "1990-01-15"
+              gender: "male"
+              contact:
+                - system: "phone"
+                  value: "+1234567890"
+                  use: "mobile"
+              language: ["en", "ar"]
+      responses:
+        '201':
+          description: Patient created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PatientResponse'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+
+  /patients/{patientId}:
+    get:
+      tags:
+        - patients
+      summary: Get patient by ID
+      description: Retrieve detailed patient information by ID
+      operationId: getPatient
+      parameters:
+        - $ref: '#/components/parameters/PatientIdParam'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PatientResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+
+    put:
+      tags:
+        - patients
+      summary: Update patient
+      description: Update patient information
+      operationId: updatePatient
+      parameters:
+        - $ref: '#/components/parameters/PatientIdParam'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatientUpdateRequest'
+      responses:
+        '200':
+          description: Patient updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PatientResponse'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+
+    delete:
+      tags:
+        - patients
+      summary: Delete patient
+      description: Soft delete a patient record
+      operationId: deletePatient
+      parameters:
+        - $ref: '#/components/parameters/PatientIdParam'
+      responses:
+        '204':
+          description: Patient deleted successfully
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: JWT token obtained from /auth/login endpoint
+
+  parameters:
+    PageParam:
+      name: page
+      in: query
+      description: Page number (1-based)
+      schema:
+        type: integer
+        minimum: 1
+        default: 1
+
+    PageSizeParam:
+      name: page_size
+      in: query
+      description: Number of items per page
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 20
+
+    PatientIdParam:
+      name: patientId
+      in: path
+      required: true
+      description: Patient UUID
+      schema:
+        type: string
+        format: uuid
+
+  responses:
+    BadRequestError:
+      description: Bad request - Invalid input data
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            error: "Bad Request"
+            message: "Invalid input data"
+            details:
+              - field: "birthDate"
+                message: "Must be in YYYY-MM-DD format"
+
+    UnauthorizedError:
+      description: Unauthorized - Missing or invalid authentication
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            error: "Unauthorized"
+            message: "Invalid authentication credentials"
+
+    ForbiddenError:
+      description: Forbidden - Insufficient permissions
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            error: "Forbidden"
+            message: "Insufficient permissions for this operation"
+
+    NotFoundError:
+      description: Not Found - Resource does not exist
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            error: "Not Found"
+            message: "Resource not found"
+
+  schemas:
+    # Common Schemas
+    HealthResponse:
+      type: object
+      required:
+        - status
+        - timestamp
+        - version
+      properties:
+        status:
+          type: string
+          enum: [healthy, degraded, unhealthy]
+        timestamp:
+          type: string
+          format: date-time
+        version:
+          type: string
+        services:
+          type: object
+          additionalProperties:
+            type: string
+
+    ErrorResponse:
+      type: object
+      required:
+        - error
+        - message
+      properties:
+        error:
+          type: string
+        message:
+          type: string
+        details:
+          type: array
+          items:
+            type: object
+            properties:
+              field:
+                type: string
+              message:
+                type: string
+
+    PaginatedResponse:
+      type: object
+      required:
+        - items
+        - total
+        - page
+        - page_size
+      properties:
+        items:
+          type: array
+          items: {}
+        total:
+          type: integer
+        page:
+          type: integer
+        page_size:
+          type: integer
+        has_next:
+          type: boolean
+        has_prev:
+          type: boolean
+
+    # Patient Schemas
+    PatientIdentifier:
+      type: object
+      required:
+        - system
+        - value
+      properties:
+        system:
+          type: string
+          description: Identifier system (e.g., UNHCR, national ID)
+        value:
+          type: string
+          description: Identifier value
+        type:
+          type: string
+          description: Identifier type
+
+    PatientName:
+      type: object
+      required:
+        - given
+        - family
+      properties:
+        given:
+          type: array
+          items:
+            type: string
+        family:
+          type: string
+        prefix:
+          type: array
+          items:
+            type: string
+        suffix:
+          type: array
+          items:
+            type: string
+        use:
+          type: string
+          enum: [official, nickname, maiden]
+          default: official

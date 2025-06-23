@@ -1,0 +1,52 @@
+{
+  "symptoms": {
+    "pain": {
+      "medical_term": "pain",
+      "descriptions": {
+        "en": ["pain", "hurt", "ache", "discomfort"],
+        "ar": ["ألم", "وجع", "أذى"],
+        "es": ["dolor", "molestia", "malestar"],
+        "fr": ["douleur", "mal", "gêne"],
+        "sw": ["maumivu", "uchungu", "umwa"],
+        "fa": ["درد", "رنج", "ناراحتی"],
+        "ur": ["درد", "تکلیف", "اذیت"],
+        "bn": ["ব্যথা", "যন্ত্রণা", "কষ্ট"],
+        "hi": ["दर्द", "पीड़ा", "तकलीफ़"]
+      },
+      "cultural_expressions": {
+        "ar": "Often uses metaphors like fire or knives",
+        "sw": "May describe as animal actions (biting, burning)",
+        "fa": "Relates to elements (burning, pressure)"
+      }
+    },
+    "fever": {
+      "medical_term": "pyrexia",
+      "descriptions": {
+        "en": ["fever", "high temperature", "hot"],
+        "ar": ["حمى", "سخونة", "حرارة"],
+        "es": ["fiebre", "calentura", "temperatura"],
+        "fr": ["fièvre", "température", "chaleur"],
+        "sw": ["homa", "joto", "mwili moto"],
+        "fa": ["تب", "گرمی", "حرارت"],
+        "ur": ["بخار", "گرمی", "تپش"],
+        "bn": ["জ্বর", "গরম", "তাপ"],
+        "hi": ["बुखार", "ताप", "गर्मी"]
+      }
+    },
+    "depression": {
+      "medical_term": "depression",
+      "descriptions": {
+        "en": ["sad", "depressed", "hopeless"],
+        "ar": ["حزين", "مكتئب", "يائس"],
+        "es": ["triste", "deprimido", "sin esperanza"],
+        "fr": ["triste", "déprimé", "désespéré"],
+        "sw": ["huzuni", "masikitiko", "kukata tamaa"],
+        "fa": ["غمگین", "افسرده", "ناامید"],
+        "ur": ["اداس", "مایوس", "دل گرفتہ"],
+        "bn": ["দুঃখিত", "বিষণ্ণ", "হতাশ"],
+        "hi": ["उदास", "निराश", "दुखी"]
+      },
+      "note": "Often expressed as physical symptoms"
+    }
+  }
+}

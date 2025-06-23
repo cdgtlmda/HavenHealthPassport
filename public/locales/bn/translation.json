@@ -1,0 +1,90 @@
+{
+  "common": {
+    "appName": "হেভেন স্বাস্থ্য পাসপোর্ট",
+    "loading": "লোড হচ্ছে...",
+    "error": "ত্রুটি",
+    "success": "সফল",
+    "cancel": "বাতিল",
+    "save": "সংরক্ষণ",
+    "delete": "মুছুন",
+    "edit": "সম্পাদনা",
+    "close": "বন্ধ",
+    "confirm": "নিশ্চিত করুন",
+    "back": "পিছনে",
+    "next": "পরবর্তী",
+    "previous": "পূর্ববর্তী",
+    "done": "সম্পন্ন",
+    "skip": "এড়িয়ে যান",
+    "yes": "হ্যাঁ",
+    "no": "না",
+    "ok": "ঠিক আছে",
+    "search": "অনুসন্ধান",
+    "filter": "ফিল্টার",
+    "sort": "সাজান",
+    "refresh": "রিফ্রেশ",
+    "retry": "পুনরায় চেষ্টা",
+    "submit": "জমা দিন",
+    "continue": "চালিয়ে যান"
+  },
+  "auth": {
+    "login": {
+      "title": "স্বাগতম",
+      "subtitle": "আপনার স্বাস্থ্য রেকর্ড অ্যাক্সেস করতে সাইন ইন করুন",
+      "email": "ইমেইল",
+      "emailPlaceholder": "আপনার ইমেইল লিখুন",
+      "password": "পাসওয়ার্ড",
+      "passwordPlaceholder": "আপনার পাসওয়ার্ড লিখুন",
+      "forgotPassword": "পাসওয়ার্ড ভুলে গেছেন?",
+      "signIn": "সাইন ইন",
+      "noAccount": "অ্যাকাউন্ট নেই?",
+      "signUp": "সাইন আপ করুন",
+      "invalidCredentials": "ভুল ইমেইল বা পাসওয়ার্ড"
+    },    "register": {
+      "title": "অ্যাকাউন্ট তৈরি করুন",
+      "subtitle": "আপনার স্বাস্থ্য রেকর্ড পরিচালনা করতে আমাদের সাথে যোগ দিন",
+      "firstName": "নাম",
+      "lastName": "পদবী",
+      "dateOfBirth": "জন্ম তারিখ",
+      "email": "ইমেইল ঠিকানা",
+      "password": "পাসওয়ার্ড",
+      "confirmPassword": "পাসওয়ার্ড নিশ্চিত করুন",
+      "createAccount": "অ্যাকাউন্ট তৈরি করুন",
+      "alreadyHaveAccount": "ইতিমধ্যে অ্যাকাউন্ট আছে?",
+      "passwordsDoNotMatch": "পাসওয়ার্ড মিলছে না"
+    }
+  },
+  "health": {
+    "records": "স্বাস্থ্য রেকর্ড",
+    "medications": "ওষুধ",
+    "allergies": "অ্যালার্জি",
+    "conditions": "স্বাস্থ্য অবস্থা",
+    "immunizations": "টিকা",
+    "appointments": "অ্যাপয়েন্টমেন্ট",
+    "vitals": "গুরুত্বপূর্ণ লক্ষণ",
+    "bloodPressure": "রক্তচাপ",
+    "heartRate": "হৃদস্পন্দন",
+    "temperature": "তাপমাত্রা",
+    "weight": "ওজন",
+    "height": "উচ্চতা",
+    "bloodType": "রক্তের গ্রুপ",
+    "emergency": "জরুরি",
+    "emergencyContact": "জরুরি যোগাযোগ"
+  },
+  "medical": {
+    "terminology": {
+      "diagnosis": "রোগ নির্ণয়",
+      "symptom": "উপসর্গ",
+      "treatment": "চিকিৎসা",
+      "procedure": "পদ্ধতি",
+      "medication": "ওষুধ",
+      "dosage": "মাত্রা",
+      "frequency": "পুনরাবৃত্তি",
+      "prescription": "প্রেসক্রিপশন",
+      "specialist": "বিশেষজ্ঞ",
+      "examination": "পরীক্ষা",
+      "laboratory": "ল্যাবরেটরি",
+      "xray": "এক্স-রে",
+      "bloodTest": "রক্ত পরীক্ষা"
+    }
+  }
+}

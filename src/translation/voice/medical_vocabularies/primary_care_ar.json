@@ -1,0 +1,143 @@
+{
+  "vocabulary_name": "refugee_health_primary_care_arabic",
+  "language_code": "ar",
+  "terms": [
+    {
+      "phrase": "ملاريا",
+      "sounds_like": ["ma-laa-ree-yaa"],
+      "ipa": "malaːrijaː",
+      "display_as": "ملاريا",
+      "english": "malaria"
+    },
+    {
+      "phrase": "السل",
+      "sounds_like": ["as-sil", "too-ber-koo-looz"],
+      "ipa": "asːilː",
+      "display_as": "السل / درن",
+      "english": "tuberculosis"
+    },
+    {
+      "phrase": "الكوليرا",
+      "sounds_like": ["al-koo-lee-raa"],
+      "ipa": "alkuːliːraː",
+      "display_as": "الكوليرا",
+      "english": "cholera"
+    },
+    {
+      "phrase": "السكري",
+      "sounds_like": ["as-suk-ka-ree", "da-aa as-suk-kar"],
+      "ipa": "asːukːariː",
+      "display_as": "مرض السكري",
+      "english": "diabetes"
+    },
+    {
+      "phrase": "ضغط الدم المرتفع",
+      "sounds_like": ["dagh-t ad-dam al-mur-ta-fi"],
+      "ipa": "dˤaɣtˤ adːam almurtafiʕ",
+      "display_as": "ارتفاع ضغط الدم",
+      "english": "hypertension"
+    },
+    {
+      "phrase": "اضطراب ما بعد الصدمة",
+      "sounds_like": ["id-ti-raab maa ba'd as-sad-ma"],
+      "ipa": "idˤtˤiraːb maː baʕd asˤːadma",
+      "display_as": "PTSD",
+      "english": "post traumatic stress disorder"
+    },
+    {
+      "phrase": "سوء التغذية الحاد",
+      "sounds_like": ["soo' at-tagh-zee-ya al-haad"],
+      "ipa": "suːʔ atːaɣðija alħaːdː",
+      "display_as": "سوء التغذية الحاد",
+      "english": "acute malnutrition"
+    },
+    {
+      "phrase": "أملاح الإماهة الفموية",
+      "sounds_like": ["am-laah al-i-maa-ha al-fa-ma-wee-ya"],
+      "ipa": "amlaːħ alimaːha alfamawija",
+      "display_as": "ORS",
+      "english": "oral rehydration salts"
+    },
+    {
+      "phrase": "رعاية ما قبل الولادة",
+      "sounds_like": ["ri-aa-yat maa qabl al-wi-laa-da"],
+      "ipa": "riʕaːjat maː qabl alwilaːda",
+      "display_as": "رعاية الحوامل",
+      "english": "antenatal care"
+    },
+    {
+      "phrase": "لقاح الحصبة والنكاف والحصبة الألمانية",
+      "sounds_like": ["li-qaah al-has-ba wan-nu-kaaf wal-has-ba al-al-maa-nee-ya"],
+      "ipa": "liqaːħ alħasˤba wannukaːf walħasˤba alʔalmaːnija",
+      "display_as": "لقاح MMR",
+      "english": "MMR vaccine"
+    },
+    {
+      "phrase": "الحمى",
+      "sounds_like": ["al-hum-maa"],
+      "ipa": "alħumːaː",
+      "display_as": "الحمى",
+      "english": "fever"
+    },
+    {
+      "phrase": "الإسهال",
+      "sounds_like": ["al-is-haal"],
+      "ipa": "alishaːl",
+      "display_as": "الإسهال",
+      "english": "diarrhea"
+    },
+    {
+      "phrase": "اللقاح",
+      "sounds_like": ["al-li-qaah"],
+      "ipa": "alliqaːħ",
+      "display_as": "اللقاح / التطعيم",
+      "english": "vaccine"
+    },
+    {
+      "phrase": "المضادات الحيوية",
+      "sounds_like": ["al-mu-daa-daat al-ha-ya-wee-ya"],
+      "ipa": "almudˤaːdaːt alħajawija",
+      "display_as": "المضادات الحيوية",
+      "english": "antibiotics"
+    },
+    {
+      "phrase": "فحص الدم",
+      "sounds_like": ["fahs ad-dam"],
+      "ipa": "faħsˤ adːam",
+      "display_as": "فحص الدم",
+      "english": "blood test"
+    }
+  ],
+  "medical_abbreviations": [
+    {"abbreviation": "BP", "expansion": "ضغط الدم", "arabic": "ض.د"},
+    {"abbreviation": "HR", "expansion": "معدل ضربات القلب", "arabic": "ن.ق"},
+    {"abbreviation": "RR", "expansion": "معدل التنفس", "arabic": "م.ت"},
+    {"abbreviation": "TB", "expansion": "السل", "arabic": "سل"},
+    {"abbreviation": "ORS", "expansion": "أملاح الإماهة الفموية", "arabic": "أ.إ.ف"},
+    {"abbreviation": "ANC", "expansion": "رعاية ما قبل الولادة", "arabic": "ر.ق.و"},
+    {"abbreviation": "PTSD", "expansion": "اضطراب ما بعد الصدمة", "arabic": "ا.م.ص"},
+    {"abbreviation": "MMR", "expansion": "الحصبة والنكاف والحصبة الألمانية", "arabic": "ح.ن.ح"},
+    {"abbreviation": "BCG", "expansion": "لقاح السل", "arabic": "ل.س"},
+    {"abbreviation": "MUAC", "expansion": "محيط منتصف العضد", "arabic": "م.م.ع"}
+  ],
+  "dialectal_variations": {
+    "levantine": {
+      "السكري": ["السكر", "مرض السكر"],
+      "ضغط الدم": ["الضغط", "البريشر"],
+      "الحمى": ["السخونة", "الحرارة"]
+    },
+    "egyptian": {
+      "السكري": ["السكر", "البول السكري"],
+      "ضغط الدم": ["الضغط", "ضغط"],
+      "الإسهال": ["الإسهال", "البطن"]
+    },
+    "gulf": {
+      "السكري": ["السكر", "داء السكري"],
+      "المضادات الحيوية": ["المضاد", "الأنتيبيوتيك"]
+    },
+    "maghrebi": {
+      "الحمى": ["السخانة", "الحمى"],
+      "اللقاح": ["التلقيح", "الفاكسان"]
+    }
+  }
+}

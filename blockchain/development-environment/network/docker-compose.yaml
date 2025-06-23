@@ -1,0 +1,212 @@
+# Haven Health Passport - Docker Compose for Development Network
+# This file defines the local development network for testing
+
+version: '3.7'
+
+volumes:
+  orderer.havenhealthpassport.com:
+  peer0.havenhealthfoundation.com:
+  peer1.havenhealthfoundation.com:
+  peer2.havenhealthfoundation.com:
+
+networks:
+  haven-health-network:
+    name: haven-health-network
+
+services:
+  orderer.havenhealthpassport.com:
+    container_name: orderer.havenhealthpassport.com
+    image: hyperledger/fabric-orderer:2.2
+    labels:
+      service: hyperledger-fabric
+    environment:
+      - FABRIC_LOGGING_SPEC=INFO
+      - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
+      - ORDERER_GENERAL_LISTENPORT=7050
+      - ORDERER_GENERAL_LOCALMSPID=OrdererMSP
+      - ORDERER_GENERAL_LOCALMSPDIR=/var/hyperledger/orderer/msp
+      - ORDERER_GENERAL_TLS_ENABLED=true
+      - ORDERER_GENERAL_TLS_PRIVATEKEY=/var/hyperledger/orderer/tls/server.key
+      - ORDERER_GENERAL_TLS_CERTIFICATE=/var/hyperledger/orderer/tls/server.crt
+      - ORDERER_GENERAL_TLS_ROOTCAS=[/var/hyperledger/orderer/tls/ca.crt]
+      - ORDERER_GENERAL_CLUSTER_CLIENTCERTIFICATE=/var/hyperledger/orderer/tls/server.crt
+      - ORDERER_GENERAL_CLUSTER_CLIENTPRIVATEKEY=/var/hyperledger/orderer/tls/server.key
+      - ORDERER_GENERAL_CLUSTER_ROOTCAS=[/var/hyperledger/orderer/tls/ca.crt]
+      - ORDERER_GENERAL_BOOTSTRAPMETHOD=file
+      - ORDERER_GENERAL_BOOTSTRAPFILE=/var/hyperledger/orderer/orderer.genesis.block
+      - ORDERER_CHANNELPARTICIPATION_ENABLED=true
+      - ORDERER_ADMIN_TLS_ENABLED=true
+      - ORDERER_ADMIN_TLS_CERTIFICATE=/var/hyperledger/orderer/tls/server.crt
+      - ORDERER_ADMIN_TLS_PRIVATEKEY=/var/hyperledger/orderer/tls/server.key
+      - ORDERER_ADMIN_TLS_ROOTCAS=[/var/hyperledger/orderer/tls/ca.crt]
+      - ORDERER_ADMIN_TLS_CLIENTROOTCAS=[/var/hyperledger/orderer/tls/ca.crt]
+      - ORDERER_ADMIN_LISTENADDRESS=0.0.0.0:9443
+      - ORDERER_OPERATIONS_LISTENADDRESS=orderer.havenhealthpassport.com:9444
+      - ORDERER_METRICS_PROVIDER=prometheus
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric
+    command: orderer
+    volumes:
+      - ../channel-artifacts/artifacts/genesis.block:/var/hyperledger/orderer/orderer.genesis.block
+      - ../crypto-config/ordererOrganizations/havenhealthpassport.com/orderers/orderer.havenhealthpassport.com/msp:/var/hyperledger/orderer/msp      - ../crypto-config/ordererOrganizations/havenhealthpassport.com/orderers/orderer.havenhealthpassport.com/tls/:/var/hyperledger/orderer/tls
+      - orderer.havenhealthpassport.com:/var/hyperledger/production/orderer
+    ports:
+      - 7050:7050
+      - 9443:9443
+      - 9444:9444
+    networks:
+      - haven-health-network
+
+  peer0.havenhealthfoundation.com:
+    container_name: peer0.havenhealthfoundation.com
+    image: hyperledger/fabric-peer:2.2
+    labels:
+      service: hyperledger-fabric
+    environment:
+      - FABRIC_LOGGING_SPEC=INFO
+      - PEER_ID=peer0.havenhealthfoundation.com
+      - PEER_ADDRESS=peer0.havenhealthfoundation.com:7051
+      - PEER_LISTENADDRESS=0.0.0.0:7051
+      - PEER_CHAINCODEADDRESS=peer0.havenhealthfoundation.com:7052
+      - PEER_CHAINCODELISTENADDRESS=0.0.0.0:7052
+      - PEER_GOSSIP_BOOTSTRAP=peer1.havenhealthfoundation.com:8051
+      - PEER_GOSSIP_EXTERNALENDPOINT=peer0.havenhealthfoundation.com:7051
+      - PEER_LOCALMSPID=HavenHealthFoundationMSP
+      - PEER_MSPCONFIGPATH=/etc/hyperledger/fabric/msp
+      - PEER_TLS_ENABLED=true
+      - PEER_TLS_CERT_FILE=/etc/hyperledger/fabric/tls/server.crt
+      - PEER_TLS_KEY_FILE=/etc/hyperledger/fabric/tls/server.key
+      - PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/fabric/tls/ca.crt
+      - PEER_GOSSIP_USELEADERELECTION=true
+      - PEER_GOSSIP_ORGLEADER=false
+      - PEER_PROFILE_ENABLED=false
+      - PEER_OPERATIONS_LISTENADDRESS=peer0.havenhealthfoundation.com:9445
+      - PEER_METRICS_PROVIDER=prometheus
+      - CHAINCODE_AS_A_SERVICE_BUILDER_CONFIG={"peername":"peer0havenhealthfoundation"}
+      - CORE_CHAINCODE_EXECUTETIMEOUT=300s
+      - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
+      - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=haven-health-network
+    volumes:
+      - ../crypto-config/peerOrganizations/havenhealthfoundation.com/peers/peer0.havenhealthfoundation.com/msp:/etc/hyperledger/fabric/msp
+      - ../crypto-config/peerOrganizations/havenhealthfoundation.com/peers/peer0.havenhealthfoundation.com/tls:/etc/hyperledger/fabric/tls
+      - peer0.havenhealthfoundation.com:/var/hyperledger/production
+      - /var/run/docker.sock:/host/var/run/docker.sock
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
+    command: peer node start
+    ports:
+      - 7051:7051
+      - 9445:9445
+    networks:
+      - haven-health-network
+  peer1.havenhealthfoundation.com:
+    container_name: peer1.havenhealthfoundation.com
+    image: hyperledger/fabric-peer:2.2
+    labels:
+      service: hyperledger-fabric
+    environment:
+      - FABRIC_LOGGING_SPEC=INFO
+      - PEER_ID=peer1.havenhealthfoundation.com
+      - PEER_ADDRESS=peer1.havenhealthfoundation.com:8051
+      - PEER_LISTENADDRESS=0.0.0.0:8051
+      - PEER_CHAINCODEADDRESS=peer1.havenhealthfoundation.com:8052
+      - PEER_CHAINCODELISTENADDRESS=0.0.0.0:8052
+      - PEER_GOSSIP_BOOTSTRAP=peer0.havenhealthfoundation.com:7051
+      - PEER_GOSSIP_EXTERNALENDPOINT=peer1.havenhealthfoundation.com:8051
+      - PEER_LOCALMSPID=HavenHealthFoundationMSP
+      - PEER_MSPCONFIGPATH=/etc/hyperledger/fabric/msp
+      - PEER_TLS_ENABLED=true
+      - PEER_TLS_CERT_FILE=/etc/hyperledger/fabric/tls/server.crt
+      - PEER_TLS_KEY_FILE=/etc/hyperledger/fabric/tls/server.key
+      - PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/fabric/tls/ca.crt
+      - PEER_GOSSIP_USELEADERELECTION=true
+      - PEER_GOSSIP_ORGLEADER=false
+      - PEER_PROFILE_ENABLED=false
+      - PEER_OPERATIONS_LISTENADDRESS=peer1.havenhealthfoundation.com:9446
+      - PEER_METRICS_PROVIDER=prometheus
+      - CHAINCODE_AS_A_SERVICE_BUILDER_CONFIG={"peername":"peer1havenhealthfoundation"}
+      - CORE_CHAINCODE_EXECUTETIMEOUT=300s
+      - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
+      - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=haven-health-network
+    volumes:
+      - ../crypto-config/peerOrganizations/havenhealthfoundation.com/peers/peer1.havenhealthfoundation.com/msp:/etc/hyperledger/fabric/msp
+      - ../crypto-config/peerOrganizations/havenhealthfoundation.com/peers/peer1.havenhealthfoundation.com/tls:/etc/hyperledger/fabric/tls
+      - peer1.havenhealthfoundation.com:/var/hyperledger/production
+      - /var/run/docker.sock:/host/var/run/docker.sock
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
+    command: peer node start
+    ports:
+      - 8051:8051
+      - 9446:9446
+    networks:
+      - haven-health-network
+
+  peer2.havenhealthfoundation.com:
+    container_name: peer2.havenhealthfoundation.com
+    image: hyperledger/fabric-peer:2.2
+    labels:
+      service: hyperledger-fabric
+    environment:
+      - FABRIC_LOGGING_SPEC=INFO      - PEER_ID=peer2.havenhealthfoundation.com
+      - PEER_ADDRESS=peer2.havenhealthfoundation.com:9051
+      - PEER_LISTENADDRESS=0.0.0.0:9051
+      - PEER_CHAINCODEADDRESS=peer2.havenhealthfoundation.com:9052
+      - PEER_CHAINCODELISTENADDRESS=0.0.0.0:9052
+      - PEER_GOSSIP_BOOTSTRAP=peer0.havenhealthfoundation.com:7051
+      - PEER_GOSSIP_EXTERNALENDPOINT=peer2.havenhealthfoundation.com:9051
+      - PEER_LOCALMSPID=HavenHealthFoundationMSP
+      - PEER_MSPCONFIGPATH=/etc/hyperledger/fabric/msp
+      - PEER_TLS_ENABLED=true
+      - PEER_TLS_CERT_FILE=/etc/hyperledger/fabric/tls/server.crt
+      - PEER_TLS_KEY_FILE=/etc/hyperledger/fabric/tls/server.key
+      - PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/fabric/tls/ca.crt
+      - PEER_GOSSIP_USELEADERELECTION=true
+      - PEER_GOSSIP_ORGLEADER=false
+      - PEER_PROFILE_ENABLED=false
+      - PEER_OPERATIONS_LISTENADDRESS=peer2.havenhealthfoundation.com:9447
+      - PEER_METRICS_PROVIDER=prometheus
+      - CHAINCODE_AS_A_SERVICE_BUILDER_CONFIG={"peername":"peer2havenhealthfoundation"}
+      - CORE_CHAINCODE_EXECUTETIMEOUT=300s
+      - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
+      - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=haven-health-network
+    volumes:
+      - ../crypto-config/peerOrganizations/havenhealthfoundation.com/peers/peer2.havenhealthfoundation.com/msp:/etc/hyperledger/fabric/msp
+      - ../crypto-config/peerOrganizations/havenhealthfoundation.com/peers/peer2.havenhealthfoundation.com/tls:/etc/hyperledger/fabric/tls
+      - peer2.havenhealthfoundation.com:/var/hyperledger/production
+      - /var/run/docker.sock:/host/var/run/docker.sock
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
+    command: peer node start
+    ports:
+      - 9051:9051
+      - 9447:9447
+    networks:
+      - haven-health-network
+
+  cli:
+    container_name: cli
+    image: hyperledger/fabric-tools:2.2
+    labels:
+      service: hyperledger-fabric
+    tty: true
+    stdin_open: true
+    environment:
+      - GOPATH=/opt/gopath
+      - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
+      - FABRIC_LOGGING_SPEC=INFO
+      - PEER_ID=cli
+      - PEER_ADDRESS=peer0.havenhealthfoundation.com:7051
+      - PEER_LOCALMSPID=HavenHealthFoundationMSP      - PEER_TLS_ENABLED=true
+      - PEER_TLS_CERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/havenhealthfoundation.com/peers/peer0.havenhealthfoundation.com/tls/server.crt
+      - PEER_TLS_KEY_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/havenhealthfoundation.com/peers/peer0.havenhealthfoundation.com/tls/server.key
+      - PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/havenhealthfoundation.com/peers/peer0.havenhealthfoundation.com/tls/ca.crt
+      - PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/havenhealthfoundation.com/users/Admin@havenhealthfoundation.com/msp
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
+    command: /bin/bash
+    volumes:
+      - /var/run/:/host/var/run/
+      - ../crypto-config:/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/
+      - ../channel-artifacts:/opt/gopath/src/github.com/hyperledger/fabric/peer/channel-artifacts
+    depends_on:
+      - peer0.havenhealthfoundation.com
+      - peer1.havenhealthfoundation.com
+      - peer2.havenhealthfoundation.com
+    networks:
+      - haven-health-network

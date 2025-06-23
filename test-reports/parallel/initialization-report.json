@@ -1,0 +1,41 @@
+{
+  "startTime": 2509.572791993618,
+  "steps": [
+    {
+      "step": "Test directories created",
+      "duration": 2.2206250429153442,
+      "timestamp": "2025-06-11T21:12:48.639Z"
+    },
+    {
+      "step": "Database initialization skipped",
+      "duration": 0.021625041961669922,
+      "timestamp": "2025-06-11T21:12:48.639Z"
+    },
+    {
+      "step": "AWS initialization skipped",
+      "duration": 0.009083986282348633,
+      "timestamp": "2025-06-11T21:12:48.640Z"
+    },
+    {
+      "step": "Test monitoring initialized",
+      "duration": 0.032791972160339355,
+      "timestamp": "2025-06-11T21:12:48.640Z"
+    }
+  ],
+  "errors": [],
+  "endTime": 2512.2268750071526,
+  "totalDuration": 2.6550410389900208,
+  "environment": {
+    "nodeVersion": "v18.20.8",
+    "platform": "darwin",
+    "cpus": 14,
+    "memory": 51539607552,
+    "testWorkers": 8
+  },
+  "configuration": {
+    "parallelExecution": true,
+    "workerCount": 8,
+    "databaseIsolation": true,
+    "awsResources": false
+  }
+}

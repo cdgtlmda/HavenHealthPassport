@@ -1,0 +1,55 @@
+# Patient Test Data Set
+
+## Overview
+This document contains test patient data for certification testing of the Haven Health Passport system.
+
+## Test Patients
+
+### Patient 1: Standard Adult Patient
+```json
+{
+  "resourceType": "Patient",
+  "id": "test-patient-001",
+  "identifier": [{
+    "system": "http://example.org/mrn",
+    "value": "TEST-12345"
+  }],
+  "name": [{
+    "family": "TestPatient",
+    "given": ["John", "James"],
+    "use": "official"
+  }],
+  "gender": "male",
+  "birthDate": "1980-01-15",
+  "address": [{
+    "line": ["123 Main Street"],
+    "city": "Boston",
+    "state": "MA",
+    "postalCode": "02101",
+    "country": "USA"
+  }],
+  "telecom": [{
+    "system": "phone",
+    "value": "+1-617-555-0123",
+    "use": "mobile"
+  }]
+}
+```
+
+### Patient 2: Pediatric Patient
+```json
+{
+  "resourceType": "Patient",
+  "id": "test-patient-002",
+  "identifier": [{
+    "system": "http://example.org/mrn",
+    "value": "TEST-67890"
+  }],
+  "name": [{
+    "family": "TestChild",
+    "given": ["Sarah", "Ann"]
+  }],
+  "gender": "female",
+  "birthDate": "2018-06-20"
+}
+```

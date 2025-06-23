@@ -1,0 +1,204 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://havenhealthpassport.org/schemas/endorsement-requirements.json",
+  "title": "Haven Health Passport Endorsement Requirements Schema",
+  "description": "Schema for validating endorsement policy requirements",
+  "type": "object",
+  "required": ["GlobalEndorsementRequirements", "PolicyMetadata"],
+
+  "definitions": {
+    "endorsementRule": {
+      "type": "string",
+      "pattern": "^(OR|AND|OutOf)\\(.+\\)$",
+      "description": "Endorsement rule using OR, AND, or OutOf syntax"
+    },
+
+    "mspIdentifier": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9]+MSP\\.(peer|admin|client)$",
+      "description": "MSP identifier with role"
+    },
+
+    "timeLimit": {
+      "type": "string",
+      "pattern": "^\\d+\\s*(hours?|minutes?|seconds?|days?)$",
+      "description": "Time limit specification"
+    },
+
+    "endorsementRequirement": {
+      "type": "object",
+      "required": ["Rule", "MinEndorsers"],
+      "properties": {
+        "Rule": {"$ref": "#/definitions/endorsementRule"},
+        "MinEndorsers": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10
+        },
+        "Description": {"type": "string"},
+        "RequiredAttributes": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "AdditionalChecks": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "AuditRequired": {"type": "boolean"},
+        "TimeLimit": {"$ref": "#/definitions/timeLimit"},
+        "RequireFollowUp": {"type": "boolean"},
+        "BypassCache": {"type": "boolean"},
+        "NotifyPatient": {"type": "boolean"},
+        "RequireJustification": {"type": "boolean"},
+        "RetentionPeriod": {"type": "string"},
+        "ComplianceCheck": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "EncryptionLevel": {
+          "type": "string",
+          "enum": ["AES-128", "AES-256", "RSA-2048", "RSA-4096"]
+        }
+      }
+    }
+  },
+
+  "properties": {
+    "GlobalEndorsementRequirements": {
+      "type": "object",
+      "required": ["MinimumEndorsers", "EndorsementTimeout", "ValidationMode"],
+      "properties": {
+        "MinimumEndorsers": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "EndorsementTimeout": {"$ref": "#/definitions/timeLimit"},
+        "ValidationMode": {
+          "type": "string",
+          "enum": ["STRICT", "RELAXED", "CUSTOM"]
+        },
+        "SignatureVerification": {
+          "type": "object",
+          "properties": {
+            "Algorithm": {"type": "string"},
+            "ValidateTimestamp": {"type": "boolean"},
+            "MaxClockSkew": {"$ref": "#/definitions/timeLimit"}
+          }
+        },
+        "CachingPolicy": {
+          "type": "object",
+          "properties": {
+            "Enabled": {"type": "boolean"},
+            "TTL": {"$ref": "#/definitions/timeLimit"},
+            "MaxEntries": {"type": "integer"}
+          }
+        }
+      }
+    },
+
+    "HealthcareDataEndorsement": {
+      "type": "object",
+      "properties": {
+        "PatientRecords": {
+          "type": "object",
+          "properties": {
+            "CreateRecord": {"type": "object"},
+            "UpdateRecord": {"type": "object"},
+            "ReadRecord": {"type": "object"},
+            "DeleteRecord": {"type": "object"}
+          }
+        },
+        "MedicalHistory": {"type": "object"},
+        "Prescriptions": {"type": "object"}
+      }
+    },
+
+    "RefugeeDataEndorsement": {
+      "type": "object",
+      "properties": {
+        "IdentityVerification": {"type": "object"},
+        "CampHealthRecords": {"type": "object"}
+      }
+    },
+
+    "CrossBorderEndorsement": {
+      "type": "object",
+      "properties": {
+        "DataTransfer": {"type": "object"}
+      }
+    },
+
+    "EmergencyEndorsement": {
+      "type": "object",
+      "properties": {
+        "MassCasualty": {"type": "object"},
+        "DisasterResponse": {"type": "object"}
+      }
+    },
+
+    "ComplianceEndorsement": {
+      "type": "object",
+      "properties": {
+        "RegulatoryCompliance": {"type": "object"},
+        "InternalAudit": {"type": "object"}
+      }
+    },
+
+    "SpecialCaseEndorsement": {
+      "type": "object",
+      "properties": {
+        "VulnerablePopulations": {"type": "object"},
+        "ResearchData": {"type": "object"}
+      }
+    },
+
+    "PolicyMetadata": {
+      "type": "object",
+      "required": ["Version", "LastUpdated", "ReviewCycle"],
+      "properties": {
+        "Version": {
+          "type": "string",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$"
+        },
+        "LastUpdated": {
+          "type": "string",
+          "format": "date"
+        },
+        "ReviewCycle": {
+          "type": "string",
+          "enum": ["Monthly", "Quarterly", "Annually"]
+        },
+        "Governance": {
+          "type": "object",
+          "properties": {
+            "Owner": {"type": "string"},
+            "Approvers": {
+              "type": "array",
+              "items": {"type": "string"}
+            },
+            "ModificationPolicy": {"type": "string"}
+          }
+        },
+        "Monitoring": {
+          "type": "object",
+          "properties": {
+            "TrackEndorsementTime": {"type": "boolean"},
+            "TrackFailureReasons": {"type": "boolean"},
+            "AlertThresholds": {"type": "object"}
+          }
+        },
+        "DisasterRecovery": {
+          "type": "object",
+          "properties": {
+            "BackupEndorsers": {"type": "boolean"},
+            "FailoverPolicy": {
+              "type": "string",
+              "enum": ["AUTOMATIC", "MANUAL", "HYBRID"]
+            },
+            "MinimumAvailableEndorsers": {"type": "integer"}
+          }
+        }
+      }
+    }
+  }
+}

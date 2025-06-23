@@ -1,0 +1,187 @@
+{
+  "specialized_medical_domains": {
+    "maternal_health": {
+      "domain": "Maternal and Reproductive Health",
+      "translation_chain": {
+        "pre_translation": [
+          "Identify gender of healthcare provider preference",
+          "Check cultural sensitivities around pregnancy",
+          "Consider family involvement norms"
+        ],
+        "translation_steps": [
+          {
+            "step": 1,
+            "action": "Translate medical terms with appropriate formality",
+            "example": "prenatal care → atención prenatal (formal) vs cuidado del embarazo (informal)"
+          },
+          {
+            "step": 2,
+            "action": "Add cultural context for procedures",
+            "example": "ultrasound → include explanation if unfamiliar technology"
+          },
+          {
+            "step": 3,
+            "action": "Include family decision-making language where appropriate",
+            "example": "discuss with your family → común hablar con la familia"
+          }
+        ],
+        "post_translation": [
+          "Verify no cultural taboos violated",
+          "Ensure privacy concerns addressed",
+          "Add provider gender preference notes"
+        ]
+      },
+      "critical_terms": {
+        "pregnancy": ["embarazo", "grossesse", "uur", "حمل", "بارداری"],
+        "prenatal": ["prenatal", "prénatal", "uurka kahor", "قبل الولادة"],
+        "delivery": ["parto", "accouchement", "dhalmada", "ولادة"],
+        "midwife": ["partera", "sage-femme", "umuliso", "قابلة"]
+      }
+    },
+    "mental_health": {
+      "domain": "Mental Health and Psychosocial Support",
+      "translation_chain": {
+        "pre_translation": [
+          "Assess stigma level in target culture",
+          "Identify somatic presentation patterns",
+          "Consider indirect communication preferences"
+        ],
+        "translation_steps": [
+          {
+            "step": 1,
+            "action": "Use destigmatizing language",
+            "example": "depression → emotional exhaustion/heavy heart in some cultures"
+          },
+          {
+            "step": 2,
+            "action": "Include physical symptom connections",
+            "example": "anxiety → mention chest tightness, stomach problems"
+          },
+          {
+            "step": 3,
+            "action": "Normalize with context",
+            "example": "after trauma → after difficult experiences"
+          }
+        ],
+        "cultural_adaptations": {
+          "ar": "Focus on heart/chest metaphors (قلب مكسور)",
+          "so": "Use burden/weight metaphors (culays)",
+          "fa": "Reference soul/spirit concepts (روح)"
+        }
+      }
+    },
+    "pediatric_care": {
+      "domain": "Child Health and Nutrition",
+      "translation_chain": {
+        "pre_translation": [
+          "Consider parent education level",
+          "Include visual aid recommendations",
+          "Account for extended family involvement"
+        ],
+        "translation_steps": [
+          {
+            "step": 1,
+            "action": "Use parent-friendly language",
+            "example": "malnutrition → child not growing well"
+          },
+          {
+            "step": 2,
+            "action": "Include practical examples",
+            "example": "balanced diet → examples with local foods"
+          },
+          {
+            "step": 3,
+            "action": "Emphasize positive actions",
+            "example": "treatment → helping child grow strong"
+          }
+        ]
+      }
+    },
+    "infectious_disease": {
+      "domain": "Infectious Disease Control",
+      "translation_chain": {
+        "pre_translation": [
+          "Check disease stigma in culture",
+          "Identify transmission misconceptions",
+          "Consider isolation implications"
+        ],
+        "translation_steps": [
+          {
+            "step": 1,
+            "action": "Clear transmission explanation",
+            "example": "airborne → spreads through air when coughing"
+          },
+          {
+            "step": 2,
+            "action": "Destigmatize with medical facts",
+            "example": "TB → medical condition, not curse"
+          },
+          {
+            "step": 3,
+            "action": "Practical prevention focus",
+            "example": "isolation → protecting family while recovering"
+          }
+        ]
+      }
+    },
+    "chronic_disease": {
+      "domain": "Non-Communicable Disease Management",
+      "translation_chain": {
+        "pre_translation": [
+          "Assess understanding of chronic conditions",
+          "Consider medication compliance factors",
+          "Account for dietary restrictions"
+        ],
+        "translation_steps": [
+          {
+            "step": 1,
+            "action": "Explain chronic nature clearly",
+            "example": "lifelong condition → needs daily care like eating"
+          },
+          {
+            "step": 2,
+            "action": "Connect to familiar concepts",
+            "example": "blood pressure → like water pressure in pipes"
+          },
+          {
+            "step": 3,
+            "action": "Emphasize control not cure",
+            "example": "management → living well with condition"
+          }
+        ]
+      }
+    },
+    "emergency_medicine": {
+      "domain": "Emergency and Acute Care",
+      "translation_chain": {
+        "pre_translation": [
+          "Prioritize clarity over completeness",
+          "Use direct, action-oriented language",
+          "Consider family notification needs"
+        ],
+        "translation_steps": [
+          {
+            "step": 1,
+            "action": "Lead with urgency indicator",
+            "example": "EMERGENCY/طوارئ/URGENCE first"
+          },
+          {
+            "step": 2,
+            "action": "Simple action instructions",
+            "example": "call ambulance now → specific local number"
+          },
+          {
+            "step": 3,
+            "action": "Key symptoms only",
+            "example": "chest pain, can't breathe, unconscious"
+          }
+        ],
+        "critical_phrases": {
+          "help": ["help", "ayuda", "aide", "مساعدة", "msaada"],
+          "emergency": ["emergency", "emergencia", "urgence", "طوارئ", "dharura"],
+          "hospital": ["hospital", "hospital", "hôpital", "مستشفى", "hospitali"]
+        }
+      }
+    }
+  }
+}

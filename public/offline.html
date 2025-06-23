@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Haven Health Passport - Offline</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background-color: #f3f4f6;
+      color: #1f2937;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .offline-container {
+      background-color: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      padding: 40px;
+      max-width: 500px;
+      width: 100%;
+      text-align: center;
+    }
+
+    .offline-icon {
+      width: 120px;
+      height: 120px;
+      margin: 0 auto 30px;
+      position: relative;
+    }
+
+    .offline-icon svg {
+      width: 100%;
+      height: 100%;
+      fill: #9ca3af;
+    }
+
+    h1 {
+      font-size: 28px;
+      font-weight: 700;
+      color: #1f2937;
+      margin-bottom: 16px;
+    }
+
+    p {
+      font-size: 16px;
+      color: #6b7280;
+      line-height: 1.6;
+      margin-bottom: 24px;
+    }
+
+    .feature-list {
+      text-align: left;
+      margin-bottom: 32px;
+    }
+
+    .feature-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .feature-icon {
+      width: 24px;
+      height: 24px;
+      margin-right: 12px;
+      fill: #10b981;
+    }
+
+    .feature-text {
+      color: #4b5563;
+      font-size: 14px;
+    }
+
+    .retry-button {
+      background-color: #1e40af;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      font-size: 16px;
+      font-weight: 500;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    .retry-button:hover {
+      background-color: #1e3a8a;
+    }
+
+    .retry-button:focus {
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(30, 64, 175, 0.1);
+    }
+
+    .status-message {
+      margin-top: 20px;
+      padding: 12px;
+      border-radius: 6px;
+      font-size: 14px;
+      display: none;
+    }
+
+    .status-message.success {
+      background-color: #d1fae5;
+      color: #065f46;
+      display: block;
+    }
+
+    .status-message.error {
+      background-color: #fee2e2;
+      color: #991b1b;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <div class="offline-container">
+    <div class="offline-icon">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM19 18H6c-2.21 0-4-1.79-4-4s1.79-4 4-4h.71C7.37 7.69 9.48 6 12 6c3.04 0 5.5 2.46 5.5 5.5v.5H19c1.66 0 3 1.34 3 3s-1.34 3-3 3z"/>
+        <path d="M12 9L8 13h3v4h2v-4h3L12 9z" transform="rotate(180 12 13)"/>
+      </svg>
+    </div>
+
+    <h1>You're Offline</h1>
+    <p>No internet connection detected. Don't worry, your health data is safe and you can still access many features offline.</p>
+
+    <div class="feature-list">
+      <div class="feature-item">
+        <svg class="feature-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/>
+        </svg>
+        <span class="feature-text">View your saved health records</span>
+      </div>
+      <div class="feature-item">
+        <svg class="feature-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/>
+        </svg>
+        <span class="feature-text">Update medical information</span>
+      </div>
+      <div class="feature-item">
+        <svg class="feature-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/>
+        </svg>
+        <span class="feature-text">Access emergency contacts</span>
+      </div>
+      <div class="feature-item">
+        <svg class="feature-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/>
+        </svg>
+        <span class="feature-text">Changes will sync when connected</span>
+      </div>
+    </div>
+
+    <button class="retry-button" onclick="checkConnection()">Check Connection</button>
+
+    <div id="statusMessage" class="status-message"></div>
+  </div>
+
+  <script>
+    function checkConnection() {
+      const statusEl = document.getElementById('statusMessage');
+      statusEl.className = 'status-message';
+      statusEl.textContent = 'Checking connection...';
+      statusEl.style.display = 'block';
+
+      // Check if we're back online
+      if (navigator.onLine) {
+        statusEl.className = 'status-message success';
+        statusEl.textContent = 'Connection restored! Redirecting...';
+        
+        setTimeout(() => {
+          // Try to navigate to the page they originally wanted
+          const originalUrl = new URLSearchParams(window.location.search).get('originalUrl');
+          window.location.href = originalUrl || '/';
+        }, 1500);
+      } else {
+        statusEl.className = 'status-message error';
+        statusEl.textContent = 'Still offline. Please check your internet connection.';
+        
+        setTimeout(() => {
+          statusEl.style.display = 'none';
+        }, 3000);
+      }
+    }
+
+    // Automatically check when connection is restored
+    window.addEventListener('online', () => {
+      checkConnection();
+    });
+  </script>
+</body>
+</html>

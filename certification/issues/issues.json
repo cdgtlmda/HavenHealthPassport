@@ -1,0 +1,140 @@
+{
+  "version": "1.0",
+  "updated_at": "2025-06-01T02:20:05.369111",
+  "issues": {
+    "9bb05e84-48b8-40a2-9da3-29a1ceee330c": {
+      "id": "9bb05e84-48b8-40a2-9da3-29a1ceee330c",
+      "type": "missing_evidence",
+      "severity": "critical",
+      "status": "open",
+      "title": "Missing HIPAA audit logs",
+      "description": "No audit logs found for patient data access",
+      "affected_standard": "hipaa",
+      "affected_requirements": [],
+      "affected_evidence": [],
+      "created_at": "2025-06-01T02:19:45.250925",
+      "updated_at": "2025-06-01T02:19:45.251066",
+      "created_by": "TestUser",
+      "assigned_to": null,
+      "resolution": null,
+      "resolution_date": null,
+      "tags": [
+        "hipaa",
+        "audit",
+        "critical"
+      ],
+      "metadata": {}
+    },
+    "766f6911-d8d7-46f6-b8cc-10150e41f4c5": {
+      "id": "766f6911-d8d7-46f6-b8cc-10150e41f4c5",
+      "type": "failed_validation",
+      "severity": "high",
+      "status": "resolved",
+      "title": "FHIR resource validation failure",
+      "description": "Patient resource missing required fields",
+      "affected_standard": "hl7_fhir",
+      "affected_requirements": [],
+      "affected_evidence": [],
+      "created_at": "2025-06-01T02:19:45.251096",
+      "updated_at": "2025-06-01T02:19:45.251640",
+      "created_by": "TestUser",
+      "assigned_to": "Developer1",
+      "resolution": "Fixed missing fields",
+      "resolution_date": null,
+      "tags": [
+        "fhir",
+        "validation"
+      ],
+      "metadata": {}
+    },
+    "53215d1e-397b-4047-80d7-2fc718bdf1ed": {
+      "id": "53215d1e-397b-4047-80d7-2fc718bdf1ed",
+      "type": "performance_issue",
+      "severity": "medium",
+      "status": "open",
+      "title": "API response time exceeds threshold",
+      "description": "95th percentile response time is 3.2s (threshold: 2s)",
+      "affected_standard": null,
+      "affected_requirements": [],
+      "affected_evidence": [],
+      "created_at": "2025-06-01T02:19:45.251104",
+      "updated_at": "2025-06-01T02:19:45.251105",
+      "created_by": "TestUser",
+      "assigned_to": null,
+      "resolution": null,
+      "resolution_date": null,
+      "tags": [
+        "performance",
+        "api"
+      ],
+      "metadata": {}
+    },
+    "640e64ee-6117-4c7d-a67a-4627cffbaba1": {
+      "id": "640e64ee-6117-4c7d-a67a-4627cffbaba1",
+      "type": "missing_evidence",
+      "severity": "critical",
+      "status": "open",
+      "title": "Missing HIPAA audit logs",
+      "description": "No audit logs found for patient data access",
+      "affected_standard": "hipaa",
+      "affected_requirements": [],
+      "affected_evidence": [],
+      "created_at": "2025-06-01T02:20:05.368529",
+      "updated_at": "2025-06-01T02:20:05.368666",
+      "created_by": "TestUser",
+      "assigned_to": null,
+      "resolution": null,
+      "resolution_date": null,
+      "tags": [
+        "hipaa",
+        "audit",
+        "critical"
+      ],
+      "metadata": {}
+    },
+    "2c0065bc-588f-416a-a1d8-e10f0d7de972": {
+      "id": "2c0065bc-588f-416a-a1d8-e10f0d7de972",
+      "type": "failed_validation",
+      "severity": "high",
+      "status": "in_progress",
+      "title": "FHIR resource validation failure",
+      "description": "Patient resource missing required fields",
+      "affected_standard": "hl7_fhir",
+      "affected_requirements": [],
+      "affected_evidence": [],
+      "created_at": "2025-06-01T02:20:05.368683",
+      "updated_at": "2025-06-01T02:20:05.368684",
+      "created_by": "TestUser",
+      "assigned_to": "Developer1",
+      "resolution": null,
+      "resolution_date": null,
+      "tags": [
+        "fhir",
+        "validation"
+      ],
+      "metadata": {}
+    },
+    "8cd7001a-ffc5-47ed-8465-8d7fa1a829e6": {
+      "id": "8cd7001a-ffc5-47ed-8465-8d7fa1a829e6",
+      "type": "performance_issue",
+      "severity": "medium",
+      "status": "open",
+      "title": "API response time exceeds threshold",
+      "description": "95th percentile response time is 3.2s (threshold: 2s)",
+      "affected_standard": null,
+      "affected_requirements": [],
+      "affected_evidence": [],
+      "created_at": "2025-06-01T02:20:05.368691",
+      "updated_at": "2025-06-01T02:20:05.368692",
+      "created_by": "TestUser",
+      "assigned_to": null,
+      "resolution": null,
+      "resolution_date": null,
+      "tags": [
+        "performance",
+        "api"
+      ],
+      "metadata": {}
+    }
+  }
+}

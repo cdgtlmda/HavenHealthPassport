@@ -1,0 +1,5 @@
+# Lambda function dependencies
+# Note: boto3 is included in the Lambda runtime, but we specify version for consistency
+boto3>=1.28.0
+redis>=4.5.0
+scikit-learn>=1.3.0

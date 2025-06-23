@@ -1,0 +1,259 @@
+# Consenter Set Configuration
+# Haven Health Passport - Raft Consensus Participants
+# This file defines the specific orderer nodes that participate in the Raft consensus protocol
+
+consenterSet:
+  # Metadata about the consenter set
+  metadata:
+    name: "haven-health-consenter-set"
+    description: "Production consenter set for Haven Health Passport ordering service"
+    createdAt: "2025-05-31T00:00:00Z"
+    version: "1.0.0"
+
+  # Global configuration for all consenters
+  globalConfig:
+    # TLS configuration
+    tls:
+      enabled: true
+      clientAuthRequired: true
+
+    # Performance settings
+    performance:
+      sendBufferSize: 100
+      recvBufferSize: 100
+
+    # Timeouts
+    timeouts:
+      dialTimeout: "10s"
+      readTimeout: "10s"
+      writeTimeout: "10s"
+
+  # List of consenter nodes
+  consenters:
+    # Consenter 1 - Primary node in us-east-1a
+    - id: "orderer0.havenhealthpassport.com"
+      host: "orderer0.havenhealthpassport.com"
+      port: 7050
+      clientTLSCert: |
+        # REPLACE WITH YOUR ACTUAL CLIENT TLS CERTIFICATE
+        # Load from secure certificate management system
+        # DO NOT commit real certificates to version control
+      serverTLSCert: |
+        # REPLACE WITH YOUR ACTUAL SERVER TLS CERTIFICATE
+        # Load from secure certificate management system
+        # DO NOT commit real certificates to version control
+      metadata:
+        region: "us-east-1"
+        availabilityZone: "us-east-1a"
+        instanceType: "bc.m5.xlarge"
+        role: "primary"
+        backupRole: "none"
+
+    # Consenter 2 - Secondary node in us-east-1a
+    - id: "orderer1.havenhealthpassport.com"
+      host: "orderer1.havenhealthpassport.com"
+      port: 7050
+      clientTLSCert: |
+        # REPLACE WITH YOUR ACTUAL CLIENT TLS CERTIFICATE
+        # Load from secure certificate management system
+        # DO NOT commit real certificates to version control
+      serverTLSCert: |
+        # REPLACE WITH YOUR ACTUAL SERVER TLS CERTIFICATE
+        # Load from secure certificate management system
+        # DO NOT commit real certificates to version control
+      metadata:
+        region: "us-east-1"
+        availabilityZone: "us-east-1a"
+        instanceType: "bc.m5.xlarge"
+        role: "secondary"
+        backupRole: "primary"
+
+    # Consenter 3 - Primary node in us-east-1b
+    - id: "orderer2.havenhealthpassport.com"
+      host: "orderer2.havenhealthpassport.com"
+      port: 7050
+      clientTLSCert: |
+        # REPLACE WITH YOUR ACTUAL CLIENT TLS CERTIFICATE
+        # Load from secure certificate management system
+        # DO NOT commit real certificates to version control
+      serverTLSCert: |
+        # REPLACE WITH YOUR ACTUAL SERVER TLS CERTIFICATE
+        # Load from secure certificate management system
+        # DO NOT commit real certificates to version control
+      metadata:
+        region: "us-east-1"
+        availabilityZone: "us-east-1b"
+        instanceType: "bc.m5.xlarge"
+        role: "secondary"
+        backupRole: "none"
+
+    # Consenter 4 - Secondary node in us-east-1b
+    - id: "orderer3.havenhealthpassport.com"
+      host: "orderer3.havenhealthpassport.com"
+      port: 7050
+      clientTLSCert: |
+        # REPLACE WITH YOUR ACTUAL CLIENT TLS CERTIFICATE
+        # Load from secure certificate management system
+        # DO NOT commit real certificates to version control
+      serverTLSCert: |
+        # REPLACE WITH YOUR ACTUAL SERVER TLS CERTIFICATE
+        # Load from secure certificate management system
+        # DO NOT commit real certificates to version control
+      metadata:
+        region: "us-east-1"
+        availabilityZone: "us-east-1b"
+        instanceType: "bc.m5.xlarge"
+        role: "secondary"
+        backupRole: "none"
+
+    # Consenter 5 - Arbiter node in us-east-1c
+    - id: "orderer4.havenhealthpassport.com"
+      host: "orderer4.havenhealthpassport.com"
+      port: 7050
+      clientTLSCert: |
+        # REPLACE WITH YOUR ACTUAL CLIENT TLS CERTIFICATE
+        # Load from secure certificate management system
+        # DO NOT commit real certificates to version control
+      serverTLSCert: |
+        # REPLACE WITH YOUR ACTUAL SERVER TLS CERTIFICATE
+        # Load from secure certificate management system
+        # DO NOT commit real certificates to version control
+      metadata:
+        region: "us-east-1"
+        availabilityZone: "us-east-1c"
+        instanceType: "bc.m5.xlarge"
+        role: "arbiter"
+        backupRole: "secondary"
+
+  # Consensus policies
+  consensusPolicies:
+    # Minimum number of consenters required for consensus
+    quorum: 3  # (5+1)/2 = 3 for a 5-node cluster
+
+    # Leader election policies
+    leaderElection:
+      # Method for leader election
+      method: "raft-native"
+
+      # Priority weights for leader selection
+      priorities:
+        primary: 100
+        secondary: 50
+        arbiter: 25
+
+    # Node addition/removal policies
+    membershipChanges:
+      # Requires majority approval to add new consenter
+      addConsenter: "MAJORITY Orderer"
+
+      # Requires majority approval to remove consenter
+      removeConsenter: "MAJORITY Orderer"
+
+      # Grace period before removing failed node
+      failureGracePeriod: "5m"
+
+  # Health monitoring
+  healthMonitoring:
+    # Health check configuration
+    healthChecks:
+      # Interval between health checks
+      interval: "10s"
+
+      # Timeout for health check response
+      timeout: "5s"
+
+      # Number of consecutive failures before marking unhealthy
+      unhealthyThreshold: 3
+
+      # Number of consecutive successes before marking healthy
+      healthyThreshold: 2
+
+    # Metrics to monitor
+    metrics:
+      - name: "raftLeader"
+        description: "Current Raft leader ID"
+        type: "gauge"
+      - name: "raftTerm"
+        description: "Current Raft term"
+        type: "counter"
+      - name: "consensusLatency"
+        description: "Time to reach consensus"
+        type: "histogram"
+      - name: "blockCommitTime"
+        description: "Time to commit block"
+        type: "histogram"
+
+  # Disaster recovery
+  disasterRecovery:
+    # Backup configuration
+    backup:
+      # Enable automatic backups
+      enabled: true
+
+      # Backup interval
+      interval: "6h"
+
+      # Backup retention
+      retention: "30d"
+
+      # Backup location
+      location: "s3://haven-health-blockchain-backups/consenters/"
+
+    # Recovery procedures
+    recovery:
+      # Automatic recovery from backup
+      autoRecover: true
+
+      # Maximum age of backup to use for recovery
+      maxBackupAge: "24h"
+
+      # Consensus state verification after recovery
+      verifyState: true
+
+  # Security configuration
+  security:
+    # Certificate management
+    certificates:
+      # Certificate authority
+      ca: "haven-health-ca"
+
+      # Certificate rotation
+      rotation:
+        enabled: true
+        interval: "90d"
+        overlap: "7d"
+
+    # Access control
+    accessControl:
+      # IP whitelisting
+      ipWhitelist:
+        enabled: true
+        ranges:
+          - "10.0.0.0/16"  # VPC CIDR
+          - "172.31.0.0/16"  # AWS Managed Blockchain CIDR
+
+    # Audit logging
+    audit:
+      enabled: true
+      logLevel: "INFO"
+      retention: "365d"
+
+  # Integration endpoints
+  endpoints:
+    # Admin endpoint for consenter management
+    admin:
+      host: "admin.blockchain.havenhealthpassport.com"
+      port: 7051
+      tls: true
+
+    # Metrics endpoint for monitoring
+    metrics:
+      host: "metrics.blockchain.havenhealthpassport.com"
+      port: 9443
+      tls: true
+
+    # Operations endpoint for health checks
+    operations:
+      host: "ops.blockchain.havenhealthpassport.com"
+      port: 8443
+      tls: true

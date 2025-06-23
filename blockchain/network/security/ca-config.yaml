@@ -1,0 +1,425 @@
+# Copyright Haven Health Passport. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+################################################################################
+#
+#   Certificate Authority Configuration
+#
+#   Configuration for identity management and certificate authority setup
+#   in the Haven Health Passport blockchain network.
+#
+################################################################################
+
+# Root Certificate Authority
+RootCA:
+  Name: "haven-health-ca-root"
+  Type: "Root CA"
+
+  # CA Server Configuration
+  Server:
+    Port: 7054
+    Address: "0.0.0.0"
+    TLS:
+      Enabled: true
+      CertFile: "/etc/hyperledger/fabric-ca-server/tls-cert.pem"
+      KeyFile: "/etc/hyperledger/fabric-ca-server/tls-key.pem"
+      ClientAuth:
+        Type: "RequireAndVerifyClientCert"
+        CertFiles:
+          - "/etc/hyperledger/fabric-ca-server/ca-cert.pem"
+
+  # CA Database
+  Database:
+    Type: "postgres"
+    Datasource: "host=localhost port=5432 user=causer password=capass dbname=fabric_ca sslmode=require"
+    TLS:
+      Enabled: true
+      CertFiles:
+        - "/etc/hyperledger/fabric-ca-server/db-cert.pem"
+
+  # Certificate Profiles
+  Profiles:
+    ca:
+      Usage:
+        - "cert sign"
+        - "crl sign"
+      Expiry: "131400h"  # 15 years
+      CAConstraint:
+        IsCA: true
+        MaxPathLen: 1
+
+    tls:
+      Usage:
+        - "server auth"
+        - "client auth"
+      Expiry: "8760h"  # 1 year
+
+    peer:
+      Usage:
+        - "digital signature"
+        - "key encipherment"
+      Expiry: "8760h"  # 1 year
+
+    orderer:
+      Usage:
+        - "digital signature"
+        - "key encipherment"
+      Expiry: "8760h"  # 1 year
+
+    client:
+      Usage:
+        - "digital signature"
+      Expiry: "8760h"  # 1 year
+
+    user:
+      Usage:
+        - "digital signature"
+        - "key encipherment"
+      Expiry: "8760h"  # 1 year
+
+  # Key Algorithm Configuration
+  KeyAlgorithm:
+    Default: "ecdsa"
+    ECDSA:
+      Curve: "P256"
+      SignatureAlgorithm: "ECDSAWithSHA256"
+    RSA:
+      KeySize: 4096
+      SignatureAlgorithm: "SHA512WithRSA"
+
+################################################################################
+# Intermediate Certificate Authorities
+################################################################################
+
+IntermediateCAs:
+  # Healthcare Provider 1 CA
+  HealthcareProvider1CA:
+    Name: "healthcare-provider1-ca"
+    ParentCA: "haven-health-ca-root"
+
+    Server:
+      Port: 7055
+      MaxEnrollments: -1  # Unlimited
+
+    IdentityTypes:
+      - Type: "peer"
+        Attributes:
+          - "hf.Type=peer"
+          - "provider.name=HealthcareProvider1"
+
+      - Type: "orderer"
+        Attributes:
+          - "hf.Type=orderer"
+          - "provider.name=HealthcareProvider1"
+
+      - Type: "client"
+        Attributes:
+          - "hf.Type=client"
+          - "provider.name=HealthcareProvider1"
+
+      - Type: "user"
+        Attributes:
+          - "hf.Type=user"
+          - "provider.name=HealthcareProvider1"
+          - "healthcare.role"
+
+    RegistrationPolicies:
+      DefaultRole: "client"
+      AllowedRoles:
+        - "peer"
+        - "orderer"
+        - "client"
+        - "user"
+
+      AttributeRequirements:
+        user:
+          Required:
+            - "healthcare.license"
+            - "healthcare.role"
+          Optional:
+            - "department"
+            - "specialization"
+
+  # UNHCR CA
+  UNHCRCA:
+    Name: "unhcr-ca"
+    ParentCA: "haven-health-ca-root"
+
+    Server:
+      Port: 7056
+      MaxEnrollments: -1
+
+    IdentityTypes:
+      - Type: "peer"
+        Attributes:
+          - "hf.Type=peer"
+          - "organization.name=UNHCR"
+
+      - Type: "client"
+        Attributes:
+          - "hf.Type=client"
+          - "organization.name=UNHCR"
+
+      - Type: "user"
+        Attributes:
+          - "hf.Type=user"
+          - "organization.name=UNHCR"
+          - "unhcr.role"
+          - "unhcr.region"
+
+    RegistrationPolicies:
+      AttributeRequirements:
+        user:
+          Required:
+            - "unhcr.employee_id"
+            - "unhcr.role"
+            - "security.clearance"
+
+  # Refugee Organization CA
+  RefugeeOrgCA:
+    Name: "refugee-org-ca"
+    ParentCA: "haven-health-ca-root"
+
+    Server:
+      Port: 7057
+      MaxEnrollments: -1
+
+    IdentityTypes:
+      - Type: "peer"
+        Attributes:
+          - "hf.Type=peer"
+          - "organization.name=RefugeeOrg"
+
+      - Type: "user"
+        Attributes:
+          - "hf.Type=user"
+          - "organization.name=RefugeeOrg"
+          - "field.location"
+          - "medical.role"
+
+################################################################################
+# Identity Mixer Configuration
+################################################################################
+
+IdentityMixer:
+  Enabled: true
+
+  # Idemix CA Configuration
+  IdemixCA:
+    Name: "idemix-ca"
+
+    # Issuer Configuration
+    Issuer:
+      RevocationPublicKeyfile: "/etc/hyperledger/idemix/ca/IssuerRevocationPublicKey"
+      RevocationPrivateKeyfile: "/etc/hyperledger/idemix/ca/IssuerRevocationPrivateKey"
+
+    # Attribute Names for Anonymous Credentials
+    AttributeNames:
+      - "Role"
+      - "Organization"
+      - "Country"
+      - "HealthcareProvider"
+
+    # Non-revocation Proof
+    NonRevocationProof:
+      Enabled: true
+      VerificationInterval: "24h"
+
+  # Privacy Settings
+  Privacy:
+    AnonymousTransactions: true
+    SelectiveDisclosure: true
+    UnlinkableTransactions: true
+
+################################################################################
+# Certificate Revocation
+################################################################################
+
+Revocation:
+  # CRL Configuration
+  CRL:
+    Enabled: true
+    Expiry: "24h"
+
+    # CRL Distribution Points
+    DistributionPoints:
+      - "http://crl.haven-health.org/root.crl"
+      - "http://crl-backup.haven-health.org/root.crl"
+
+    # CRL Generation
+    Generation:
+      Interval: "12h"
+      RetentionPeriod: "90d"
+
+  # OCSP Configuration
+  OCSP:
+    Enabled: true
+
+    Responder:
+      Address: "ocsp.haven-health.org:8080"
+      Certificate: "/etc/hyperledger/ocsp/cert.pem"
+      Key: "/etc/hyperledger/ocsp/key.pem"
+
+    Response:
+      CacheDuration: "1h"
+      MaxAge: "24h"
+
+################################################################################
+# HSM Integration
+################################################################################
+
+HSM:
+  Enabled: true
+
+  # HSM Configuration
+  Configuration:
+    Library: "/usr/lib/softhsm/libsofthsm2.so"
+    Pin: "${HSM_PIN}"
+    Label: "HavenHealthHSM"
+
+    # Key Storage
+    KeyStorage:
+      CAKeys: true
+      TLSKeys: true
+      SigningKeys: true
+
+    # HSM Slots
+    Slots:
+      CA: 0
+      TLS: 1
+      Signing: 2
+
+  # Key Management
+  KeyManagement:
+    KeyGeneration: "HSM"
+    KeyStorage: "HSM"
+
+    # Key Rotation
+    Rotation:
+      Enabled: true
+      CAKeyRotation: "5 years"
+      TLSKeyRotation: "1 year"
+      SigningKeyRotation: "6 months"
+
+    # Backup
+    Backup:
+      Enabled: true
+      Frequency: "Daily"
+      Encryption: "AES-256-GCM"
+      Location: "secure-backup-hsm"
+
+################################################################################
+# Enrollment Policies
+################################################################################
+
+Enrollment:
+  # Registration Requirements
+  Registration:
+    RequireApproval: true
+    ApprovalLevels:
+      peer: 2
+      orderer: 3
+      admin: 3
+      user: 1
+
+    # Identity Verification
+    IdentityVerification:
+      Methods:
+        - "Document verification"
+        - "Biometric verification"
+        - "Multi-factor authentication"
+
+      RequiredDocuments:
+        healthcare_provider:
+          - "Medical license"
+          - "Institution affiliation"
+          - "Government ID"
+
+        unhcr_staff:
+          - "UNHCR ID"
+          - "Security clearance"
+          - "Assignment letter"
+
+        field_worker:
+          - "Organization ID"
+          - "Training certificate"
+          - "Deployment order"
+
+  # Enrollment Limits
+  Limits:
+    MaxEnrollmentsPerIdentity: 3
+    EnrollmentExpiry: "365d"
+    ReEnrollmentGracePeriod: "30d"
+
+################################################################################
+# Security Policies
+################################################################################
+
+SecurityPolicies:
+  # Password Policy
+  PasswordPolicy:
+    MinLength: 12
+    RequireUppercase: true
+    RequireLowercase: true
+    RequireNumbers: true
+    RequireSpecialChars: true
+    PasswordHistory: 5
+    MaxAge: "90d"
+    MinAge: "1d"
+
+  # Multi-Factor Authentication
+  MFA:
+    Required: true
+    Methods:
+      - "TOTP"
+      - "SMS"
+      - "Hardware token"
+      - "Biometric"
+
+    EnforcementLevels:
+      admin: "Always"
+      user: "Sensitive operations"
+      peer: "Configuration changes"
+
+  # Session Management
+  SessionManagement:
+    MaxSessionDuration: "8h"
+    IdleTimeout: "30m"
+    MaxConcurrentSessions: 3
+    SessionTokenRotation: true
+
+################################################################################
+# Audit Configuration
+################################################################################
+
+Audit:
+  Enabled: true
+
+  # Audit Events
+  Events:
+    - "Certificate issuance"
+    - "Certificate revocation"
+    - "Identity registration"
+    - "Failed authentication"
+    - "Permission changes"
+    - "Key operations"
+
+  # Audit Log
+  Logging:
+    Format: "JSON"
+    Destination:
+      - Type: "File"
+        Path: "/var/log/fabric-ca/audit.log"
+        Rotation: "Daily"
+        Retention: "90 days"
+
+      - Type: "Syslog"
+        Server: "syslog.haven-health.org:514"
+        Protocol: "TCP"
+        TLS: true
+
+      - Type: "SIEM"
+        Endpoint: "https://siem.haven-health.org/api/logs"
+        APIKey: "${SIEM_API_KEY}"
+
+# End of CA Configuration

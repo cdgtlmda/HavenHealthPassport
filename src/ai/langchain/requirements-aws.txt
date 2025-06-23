@@ -1,0 +1,43 @@
+# LangChain AWS Integration Dependencies
+# Extends core LangChain with AWS-specific capabilities
+
+# Core LangChain AWS integration
+langchain-aws==0.1.0
+
+# AWS SDK dependencies
+boto3>=1.34.0
+botocore>=1.34.0
+
+# AWS-specific authentication
+aws-requests-auth>=0.4.3
+
+# Additional AWS integrations
+langchain-community>=0.0.38  # For AWS-specific community integrations
+
+# Bedrock-specific utilities
+anthropic-bedrock>=0.5.0  # For Claude models on Bedrock
+pydantic>=2.5.0  # Already in core, ensuring compatibility
+
+# AWS Lambda integration support
+aws-lambda-powertools>=2.31.0
+aws-xray-sdk>=2.12.0  # For distributed tracing
+
+# S3 integration for document storage
+s3fs>=2023.12.0
+aioboto3>=12.0.0  # Async S3 operations
+
+# CloudWatch integration
+watchtower>=3.0.1  # CloudWatch logging handler
+
+# Secrets Manager integration
+aws-secretsmanager-caching>=1.1.1
+
+# DynamoDB integration for memory persistence
+boto3-stubs[dynamodb]>=1.34.0  # Type hints for DynamoDB
+
+# SageMaker integration (for custom models)
+sagemaker>=2.199.0
+
+# Testing utilities
+moto[all]>=4.2.0  # AWS service mocking for tests
+# pytest-mock removed - NO MOCKS allowed in medical compliance testing

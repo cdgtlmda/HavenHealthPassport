@@ -1,0 +1,367 @@
+# Block Size Limits Configuration
+# Haven Health Passport - Storage and Performance Optimization
+
+# Overview
+# Block size limits ensure blocks don't exceed network and storage capabilities
+# Two limits work together: absoluteMaxBytes (hard limit) and preferredMaxBytes (soft limit)
+
+blockSizeLimits:
+  # Production configuration
+  production:
+    # Absolute maximum block size (hard limit)
+    # No block can exceed this size, even if it means including only one transaction
+    absoluteMaxBytes: 104857600  # 100 MB
+
+    # Preferred maximum block size (soft limit)
+    # Orderer cuts block when this size is reached, unless it would result in empty block
+    preferredMaxBytes: 10485760   # 10 MB
+
+    # Dynamic size adjustment
+    dynamic:
+      enabled: true
+
+      # Factors affecting dynamic sizing
+      factors:
+        # Network bandwidth consideration
+        networkBandwidth:
+          # Measure available bandwidth between nodes
+          measurementInterval: "5m"
+
+          # Target utilization percentage
+          targetUtilization: 50
+
+          # Bandwidth thresholds (Mbps)
+          thresholds:
+            - bandwidth: "> 1000"
+              sizeMultiplier: 1.0
+              description: "Gigabit or better"
+
+            - bandwidth: "100-1000"
+              sizeMultiplier: 0.5
+              description: "Fast Ethernet to Gigabit"
+
+            - bandwidth: "10-100"
+              sizeMultiplier: 0.2
+              description: "Standard Ethernet"
+
+            - bandwidth: "< 10"
+              sizeMultiplier: 0.1
+              description: "Low bandwidth connection"
+
+        # Storage performance consideration
+        storagePerformance:
+          # Measure disk I/O performance
+          measurementType: "iops-and-throughput"
+
+          # Performance thresholds
+          thresholds:
+            - iops: "> 10000"
+              throughputMBps: "> 500"
+              sizeMultiplier: 1.0
+              storageType: "NVMe SSD"
+
+            - iops: "3000-10000"
+              throughputMBps: "125-500"
+              sizeMultiplier: 0.8
+              storageType: "Standard SSD"
+
+            - iops: "500-3000"
+              throughputMBps: "50-125"
+              sizeMultiplier: 0.5
+              storageType: "High-performance HDD"
+
+            - iops: "< 500"
+              throughputMBps: "< 50"
+              sizeMultiplier: 0.3
+              storageType: "Standard HDD"
+
+        # Memory pressure consideration
+        memoryPressure:
+          # Monitor available memory
+          checkInterval: "30s"
+
+          # Thresholds and actions
+          thresholds:
+            - availableMemoryPercent: "> 50"
+              sizeMultiplier: 1.0
+              action: "normal-operation"
+
+            - availableMemoryPercent: "20-50"
+              sizeMultiplier: 0.7
+              action: "reduce-block-size"
+
+            - availableMemoryPercent: "10-20"
+              sizeMultiplier: 0.5
+              action: "aggressive-reduction"
+
+            - availableMemoryPercent: "< 10"
+              sizeMultiplier: 0.3
+              action: "emergency-mode"
+
+        # Node count consideration
+        nodeCount:
+          # More nodes = smaller blocks for faster propagation
+          scalingFactor: "inverse-logarithmic"
+
+          thresholds:
+            - nodes: "< 10"
+              sizeMultiplier: 1.0
+
+            - nodes: "10-50"
+              sizeMultiplier: 0.8
+
+            - nodes: "50-100"
+              sizeMultiplier: 0.6
+
+            - nodes: "> 100"
+              sizeMultiplier: 0.4
+
+    # Channel-specific size limits
+    channelLimits:
+      # System channel for admin operations
+      "system-channel":
+        absoluteMaxBytes: 10485760    # 10 MB
+        preferredMaxBytes: 2097152    # 2 MB
+        rationale: "Admin transactions are small and infrequent"
+
+      # Healthcare data channel
+      "healthcare-data":
+        absoluteMaxBytes: 104857600   # 100 MB
+        preferredMaxBytes: 10485760   # 10 MB
+        rationale: "Medical records can include large attachments"
+
+      # Emergency response channel
+      "emergency-response":
+        absoluteMaxBytes: 5242880     # 5 MB
+        preferredMaxBytes: 1048576    # 1 MB
+        rationale: "Small blocks for rapid propagation"
+
+      # Bulk transfer channel
+      "bulk-transfer":
+        absoluteMaxBytes: 1073741824  # 1 GB
+        preferredMaxBytes: 104857600  # 100 MB
+        rationale: "Optimized for large data migrations"
+
+      # Audit log channel
+      "audit-log":
+        absoluteMaxBytes: 52428800    # 50 MB
+        preferredMaxBytes: 5242880    # 5 MB
+        rationale: "Many small transactions, moderate block size"
+
+  # Development configuration
+  development:
+    absoluteMaxBytes: 2097152    # 2 MB
+    preferredMaxBytes: 524288    # 512 KB
+    dynamic:
+      enabled: false
+    rationale: "Small blocks for easier debugging and faster sync"
+
+  # Testing configuration
+  testing:
+    absoluteMaxBytes: 10485760   # 10 MB
+    preferredMaxBytes: 2097152   # 2 MB
+    dynamic:
+      enabled: true
+    rationale: "Moderate sizes for realistic testing"
+
+# Size calculation strategies
+sizeCalculation:
+  # What counts toward block size
+  includes:
+    - component: "transaction-payload"
+      description: "Actual transaction data"
+      typical: "1KB - 100KB"
+
+    - component: "transaction-metadata"
+      description: "Headers, signatures, timestamps"
+      typical: "500B - 2KB"
+
+    - component: "endorsements"
+      description: "Peer endorsement signatures"
+      typical: "200B per endorser"
+
+    - component: "read-write-set"
+      description: "State changes from transaction"
+      typical: "100B - 10KB"
+
+    - component: "block-metadata"
+      description: "Block header and signatures"
+      typical: "2KB - 5KB"
+
+  # Overhead calculations
+  overhead:
+    # Typical overhead percentages
+    protocolOverhead: 10          # Protocol encoding
+    cryptographicOverhead: 15     # Signatures and hashes
+    metadataOverhead: 5           # Block and transaction metadata
+    totalTypicalOverhead: 30      # Total overhead percentage
+
+    # Safety margin
+    safetyMargin: 20              # Additional buffer percentage
+
+# Storage optimization
+storageOptimization:
+  # Compression settings
+  compression:
+    enabled: true
+    algorithm: "snappy"           # Fast compression
+
+    # Compression by data type
+    dataTypes:
+      - type: "json"
+        expectedRatio: 0.3        # 70% reduction
+
+      - type: "xml"
+        expectedRatio: 0.25       # 75% reduction
+
+      - type: "binary"
+        expectedRatio: 0.9        # 10% reduction
+
+      - type: "already-compressed"
+        expectedRatio: 1.0        # No reduction
+
+    # When to compress
+    compressionThreshold: 10240   # Compress blocks larger than 10KB
+
+  # Pruning strategy
+  pruning:
+    enabled: true
+
+    # What to prune
+    privateDataPruning:
+      enabled: true
+      blocksTolive: 1000          # Keep private data for 1000 blocks
+
+    # Archive before pruning
+    archival:
+      enabled: true
+      destination: "s3://haven-health-blockchain-archive"
+      compressionLevel: 9         # Maximum compression for archives
+
+# Network optimization
+networkOptimization:
+  # Block propagation strategy
+  propagation:
+    # Use gossip protocol efficiently
+    gossipSettings:
+      # Fan-out for block dissemination
+      fanout: 3
+
+      # Maximum message size for gossip
+      maxPropagationBurstSize: 10
+
+      # Interval between gossip rounds
+      pullInterval: "4s"
+
+    # Prioritization
+    priority:
+      # Priority levels for different channels
+      emergency: 1      # Highest priority
+      healthcare: 2
+      system: 3
+      audit: 4
+      bulk: 5          # Lowest priority
+
+    # Bandwidth allocation
+    bandwidthAllocation:
+      # Reserve bandwidth for critical channels
+      reserved:
+        emergency: "20%"
+        healthcare: "40%"
+        system: "10%"
+        audit: "20%"
+        bulk: "10%"
+
+# Performance monitoring
+monitoring:
+  # Metrics to track
+  metrics:
+    - name: "BlockSize"
+      type: "histogram"
+      buckets: [1024, 10240, 102400, 1048576, 10485760, 104857600]
+      unit: "bytes"
+      description: "Distribution of block sizes"
+
+    - name: "BlockSizeUtilization"
+      type: "gauge"
+      unit: "percentage"
+      description: "Percentage of preferred max bytes used"
+
+    - name: "BlockPropagationTime"
+      type: "histogram"
+      unit: "milliseconds"
+      description: "Time to propagate block to all nodes"
+
+    - name: "CompressionRatio"
+      type: "gauge"
+      unit: "ratio"
+      description: "Average compression ratio achieved"
+
+    - name: "NetworkBandwidthUsage"
+      type: "gauge"
+      unit: "megabits_per_second"
+      description: "Current network bandwidth usage"
+
+  # Alarms
+  alarms:
+    - name: "BlockSizeNearLimit"
+      condition: "BlockSize > 0.9 * absoluteMaxBytes"
+      severity: "WARNING"
+      message: "Blocks approaching size limit"
+
+    - name: "PoorCompressionRatio"
+      condition: "CompressionRatio > 0.8"
+      severity: "INFO"
+      message: "Compression not effective"
+
+    - name: "SlowBlockPropagation"
+      condition: "BlockPropagationTime.p95 > 5000"
+      severity: "WARNING"
+      message: "Block propagation taking too long"
+
+# Recommendations
+recommendations:
+  # Size selection guide
+  sizeSelection:
+    # Factors to consider
+    factors:
+      - "Network topology and bandwidth"
+      - "Storage performance characteristics"
+      - "Average transaction size"
+      - "Number of endorsing peers"
+      - "Geographic distribution of nodes"
+
+    # Quick reference
+    quickReference:
+      - useCase: "High-frequency trading"
+        absoluteMax: "10MB"
+        preferred: "1MB"
+
+      - useCase: "Healthcare records"
+        absoluteMax: "100MB"
+        preferred: "10MB"
+
+      - useCase: "IoT sensor data"
+        absoluteMax: "50MB"
+        preferred: "5MB"
+
+      - useCase: "Document management"
+        absoluteMax: "500MB"
+        preferred: "50MB"
+
+  # Tuning process
+  tuning:
+    steps:
+      - "Baseline current performance"
+      - "Identify bottlenecks (network/storage/CPU)"
+      - "Adjust limits incrementally"
+      - "Monitor impact on latency and throughput"
+      - "Find optimal balance for use case"
+
+    # Warning signs
+    warnings:
+      - "Blocks consistently hitting absolute max"
+      - "High transaction rejection rate"
+      - "Increasing block propagation time"
+      - "Memory pressure on nodes"
+      - "Storage filling faster than expected"

@@ -1,0 +1,225 @@
+{
+  "total_concepts": 11,
+  "languages": [
+    "ar",
+    "fr",
+    "es",
+    "sw",
+    "fa",
+    "ps",
+    "ur",
+    "bn",
+    "hi"
+  ],
+  "concepts": [
+    {
+      "concept_id": "22298006",
+      "fsn": "Myocardial infarction (disorder)",
+      "preferred_term_en": "Myocardial infarction",
+      "hierarchy": "404684003",
+      "semantic_tag": "disorder",
+      "is_emergency": true,
+      "needs_translation": [
+        "ar",
+        "fr",
+        "es",
+        "sw",
+        "fa",
+        "ps",
+        "ur",
+        "bn",
+        "hi"
+      ]
+    },
+    {
+      "concept_id": "38341003",
+      "fsn": "Hypertensive disorder, systemic arterial (disorder)",
+      "preferred_term_en": "Hypertension",
+      "hierarchy": "404684003",
+      "semantic_tag": "disorder",
+      "is_emergency": false,
+      "needs_translation": [
+        "ar",
+        "fr",
+        "es",
+        "sw",
+        "fa",
+        "ps",
+        "ur",
+        "bn",
+        "hi"
+      ]
+    },
+    {
+      "concept_id": "73211009",
+      "fsn": "Diabetes mellitus (disorder)",
+      "preferred_term_en": "Diabetes mellitus",
+      "hierarchy": "404684003",
+      "semantic_tag": "disorder",
+      "is_emergency": false,
+      "needs_translation": [
+        "ar",
+        "fr",
+        "es",
+        "sw",
+        "fa",
+        "ps",
+        "ur",
+        "bn",
+        "hi"
+      ]
+    },
+    {
+      "concept_id": "195967001",
+      "fsn": "Asthma (disorder)",
+      "preferred_term_en": "Asthma",
+      "hierarchy": "404684003",
+      "semantic_tag": "disorder",
+      "is_emergency": false,
+      "needs_translation": [
+        "ar",
+        "fr",
+        "es",
+        "sw",
+        "fa",
+        "ps",
+        "ur",
+        "bn",
+        "hi"
+      ]
+    },
+    {
+      "concept_id": "82423001",
+      "fsn": "Chronic pain (finding)",
+      "preferred_term_en": "Chronic pain",
+      "hierarchy": "404684003",
+      "semantic_tag": "finding",
+      "is_emergency": false,
+      "needs_translation": [
+        "ar",
+        "fr",
+        "es",
+        "sw",
+        "fa",
+        "ps",
+        "ur",
+        "bn",
+        "hi"
+      ]
+    },
+    {
+      "concept_id": "80891009",
+      "fsn": "Heart structure (body structure)",
+      "preferred_term_en": "Heart",
+      "hierarchy": "123037004",
+      "semantic_tag": "body structure",
+      "is_emergency": false,
+      "needs_translation": [
+        "ar",
+        "fr",
+        "es",
+        "sw",
+        "fa",
+        "ps",
+        "ur",
+        "bn",
+        "hi"
+      ]
+    },
+    {
+      "concept_id": "39057004",
+      "fsn": "Pulmonary valve structure (body structure)",
+      "preferred_term_en": "Pulmonary valve",
+      "hierarchy": "123037004",
+      "semantic_tag": "body structure",
+      "is_emergency": false,
+      "needs_translation": [
+        "ar",
+        "fr",
+        "es",
+        "sw",
+        "fa",
+        "ps",
+        "ur",
+        "bn",
+        "hi"
+      ]
+    },
+    {
+      "concept_id": "80146002",
+      "fsn": "Appendectomy (procedure)",
+      "preferred_term_en": "Appendectomy",
+      "hierarchy": "71388002",
+      "semantic_tag": "procedure",
+      "is_emergency": false,
+      "needs_translation": [
+        "ar",
+        "fr",
+        "es",
+        "sw",
+        "fa",
+        "ps",
+        "ur",
+        "bn",
+        "hi"
+      ]
+    },
+    {
+      "concept_id": "174041007",
+      "fsn": "Computed tomography of chest (procedure)",
+      "preferred_term_en": "CT of chest",
+      "hierarchy": "71388002",
+      "semantic_tag": "procedure",
+      "is_emergency": false,
+      "needs_translation": [
+        "ar",
+        "fr",
+        "es",
+        "sw",
+        "fa",
+        "ps",
+        "ur",
+        "bn",
+        "hi"
+      ]
+    },
+    {
+      "concept_id": "387207008",
+      "fsn": "Ibuprofen (substance)",
+      "preferred_term_en": "Ibuprofen",
+      "hierarchy": "373873005",
+      "semantic_tag": "substance",
+      "is_emergency": false,
+      "needs_translation": [
+        "ar",
+        "fr",
+        "es",
+        "sw",
+        "fa",
+        "ps",
+        "ur",
+        "bn",
+        "hi"
+      ]
+    },
+    {
+      "concept_id": "387517004",
+      "fsn": "Paracetamol (substance)",
+      "preferred_term_en": "Paracetamol",
+      "hierarchy": "373873005",
+      "semantic_tag": "substance",
+      "is_emergency": false,
+      "needs_translation": [
+        "ar",
+        "fr",
+        "es",
+        "sw",
+        "fa",
+        "ps",
+        "ur",
+        "bn",
+        "hi"
+      ]
+    }
+  ]
+}

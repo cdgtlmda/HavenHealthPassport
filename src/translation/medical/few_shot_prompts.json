@@ -1,0 +1,128 @@
+{
+  "few_shot_prompts": {
+    "medical_translation": {
+      "system_prompt": "You are a medical translator specializing in culturally-sensitive healthcare communication for refugee populations. Provide accurate medical translations while considering cultural context and patient understanding.",
+      "examples": [
+        {
+          "input": {
+            "term": "hypertension",
+            "source_lang": "en",
+            "target_lang": "ar",
+            "context": "explaining diagnosis to elderly patient"
+          },
+          "output": {
+            "translation": "ارتفاع ضغط الدم",
+            "patient_friendly": "ضغط الدم المرتفع",
+            "explanation": "حالة يكون فيها ضغط الدم في الشرايين مرتفعاً بشكل مستمر",
+            "cultural_note": "Use 'الضغط' colloquially, explain importance of medication compliance"
+          }
+        },
+        {
+          "input": {
+            "term": "diabetes",
+            "source_lang": "en",
+            "target_lang": "es",
+            "context": "newly diagnosed patient education"
+          },
+          "output": {
+            "translation": "diabetes",
+            "patient_friendly": "azúcar en la sangre",
+            "explanation": "Una condición donde su cuerpo no puede controlar el azúcar en la sangre",
+            "cultural_note": "Discuss dietary modifications respecting traditional foods"
+          }
+        },
+        {
+          "input": {
+            "term": "depression",
+            "source_lang": "en",
+            "target_lang": "sw",
+            "context": "mental health screening"
+          },
+          "output": {
+            "translation": "unyogovu",
+            "patient_friendly": "huzuni kali",
+            "explanation": "Hali ya kihisia inayosababisha huzuni kali na kupoteza matumaini",
+            "cultural_note": "May present as physical symptoms; approach with sensitivity"
+          }
+        }
+      ]
+    },
+    "symptom_translation": {
+      "system_prompt": "Translate patient-reported symptoms accurately while recognizing cultural expressions of illness.",
+      "examples": [
+        {
+          "input": {
+            "symptom": "My heart is burning",
+            "source_lang": "en",
+            "target_lang": "medical",
+            "cultural_context": "Middle Eastern patient"
+          },
+          "output": {
+            "medical_interpretation": "heartburn/acid reflux",
+            "differential": ["GERD", "gastritis", "anxiety"],
+            "follow_up_questions": ["Do you feel this after eating?", "Any chest pain?"],
+            "cultural_note": "Burning sensations often used to describe various discomforts"
+          }
+        }
+      ]
+    },
+    "medication_instructions": {
+      "system_prompt": "Provide clear, culturally-appropriate medication instructions ensuring patient understanding and compliance.",
+      "examples": [
+        {
+          "input": {
+            "medication": "metformin",
+            "dosage": "500mg twice daily",
+            "target_lang": "ur",
+            "patient_profile": "elderly, low literacy"
+          },
+          "output": {
+            "translation": "میٹ فارمن - شوگر کی دوا",
+            "instructions": "صبح ناشتے کے ساتھ ایک گولی، رات کھانے کے ساتھ ایک گولی",
+            "visual_aid": "Use pill calendar",
+            "important_notes": "کھانے کے ساتھ لیں تاکہ پیٹ خراب نہ ہو",
+            "family_education": "Include family member in education"
+          }
+        }
+      ]
+    }
+  },
+  "chain_of_thought_examples": {
+    "complex_diagnosis": {
+      "prompt": "Explain pre-eclampsia to a Somali-speaking pregnant woman",
+      "reasoning_steps": [
+        "1. Identify key concepts: high blood pressure, pregnancy complication, risks",
+        "2. Consider cultural context: pregnancy beliefs, family involvement",
+        "3. Use appropriate metaphors: avoid direct scary terms initially",
+        "4. Build understanding progressively: start with blood pressure concept",
+        "5. Emphasize positive actions: regular checkups, rest, medication if needed"
+      ],
+      "output": {
+        "so": {
+          "simple": "Cadaadiska dhiigga oo sare markaa uur leedahay",
+          "explanation": "Waa xaalad dhici karta marka uurka, dhiigga cadaadiskiisu aad u sarreeyo",
+          "risks": "Waxay khatar ku tahay hooyo iyo ilmo, laakiin waa la daweyn karaa",
+          "action": "Muhiim in aad si joogto ah u tagto dhakhtarka"
+        }
+      }
+    }
+  },
+  "cultural_adaptation_rules": {
+    "general": [
+      "Avoid direct translation of mental health terms that carry stigma",
+      "Use family-inclusive language when culturally appropriate",
+      "Provide context for Western medical concepts",
+      "Respect traditional medicine beliefs while ensuring medical accuracy",
+      "Consider literacy levels and use simple language",
+      "Include visual aids recommendations when helpful"
+    ],
+    "language_specific": {
+      "ar": "Use formal medical terms with explanation; consider gender of speaker",
+      "es": "Balance medical terminology with colloquial understanding",
+      "sw": "Use metaphors and stories to explain complex concepts",
+      "fa": "Respect privacy concerns, especially for women's health",
+      "ur": "Include family decision-makers in communication",
+      "bn": "Be aware of hierarchical communication preferences"
+    }
+  }
+}

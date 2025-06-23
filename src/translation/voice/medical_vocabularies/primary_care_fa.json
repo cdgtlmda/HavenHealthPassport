@@ -1,0 +1,139 @@
+{
+  "vocabulary_name": "refugee_health_primary_care_farsi",
+  "language_code": "fa",
+  "terms": [
+    {
+      "phrase": "مالاریا",
+      "sounds_like": ["maa-laa-ree-yaa"],
+      "ipa": "mɒːlɒːrijɒː",
+      "display_as": "مالاریا",
+      "english": "malaria"
+    },
+    {
+      "phrase": "سل",
+      "sounds_like": ["sel"],
+      "ipa": "sel",
+      "display_as": "سل / توبرکلوز",
+      "english": "tuberculosis"
+    },
+    {
+      "phrase": "وبا",
+      "sounds_like": ["va-baa"],
+      "ipa": "vabɒː",
+      "display_as": "وبا",
+      "english": "cholera"
+    },
+    {
+      "phrase": "دیابت",
+      "sounds_like": ["dee-yaa-bet"],
+      "ipa": "dijɒːbet",
+      "display_as": "دیابت / قند",
+      "english": "diabetes"
+    },
+    {
+      "phrase": "فشار خون بالا",
+      "sounds_like": ["fe-shaar-e khoon-e baa-laa"],
+      "ipa": "feʃɒːre xune bɒːlɒː",
+      "display_as": "فشار خون",
+      "english": "hypertension"
+    },
+    {
+      "phrase": "اختلال استرس پس از سانحه",
+      "sounds_like": ["ekh-te-laal-e es-tres pas az saa-ne-he"],
+      "ipa": "extelɒːle estres pæs æz sɒːnehe",
+      "display_as": "PTSD",
+      "english": "PTSD"
+    },
+    {
+      "phrase": "سوء تغذیه حاد",
+      "sounds_like": ["soo-e tagh-zee-ye-ye haad"],
+      "ipa": "sue tæɣzije hɒːd",
+      "display_as": "سوء تغذیه",
+      "english": "acute malnutrition"
+    },
+    {
+      "phrase": "او آر اس",
+      "sounds_like": ["o-aar-es"],
+      "ipa": "oɒːres",
+      "display_as": "ORS",
+      "english": "oral rehydration salts"
+    },
+    {
+      "phrase": "مراقبت‌های دوران بارداری",
+      "sounds_like": ["mo-raa-ghe-bat-haa-ye do-raan-e baar-daa-ree"],
+      "ipa": "morɒːɣebæthɒːje dorɒːne bɒːrdɒːri",
+      "display_as": "مراقبت بارداری",
+      "english": "antenatal care"
+    },
+    {
+      "phrase": "واکسن ام ام آر",
+      "sounds_like": ["vaak-san em-em-aar"],
+      "ipa": "vɒːksan ememɒːr",
+      "display_as": "واکسن MMR",
+      "english": "MMR vaccine"
+    },
+    {
+      "phrase": "تب",
+      "sounds_like": ["tab"],
+      "ipa": "tæb",
+      "display_as": "تب",
+      "english": "fever"
+    },
+    {
+      "phrase": "اسهال",
+      "sounds_like": ["es-haal"],
+      "ipa": "eshɒːl",
+      "display_as": "اسهال",
+      "english": "diarrhea"
+    },
+    {
+      "phrase": "واکسن",
+      "sounds_like": ["vaak-san"],
+      "ipa": "vɒːksan",
+      "display_as": "واکسن",
+      "english": "vaccine"
+    },
+    {
+      "phrase": "آنتی‌بیوتیک",
+      "sounds_like": ["aan-tee-bee-yo-teek"],
+      "ipa": "ɒːntibijotik",
+      "display_as": "آنتی‌بیوتیک",
+      "english": "antibiotics"
+    },
+    {
+      "phrase": "آزمایش خون",
+      "sounds_like": ["aaz-maa-yesh-e khoon"],
+      "ipa": "ɒːzmɒːjeʃe xun",
+      "display_as": "آزمایش خون",
+      "english": "blood test"
+    }
+  ],
+  "medical_abbreviations": [
+    {"abbreviation": "BP", "expansion": "فشار خون", "persian": "ف.خ"},
+    {"abbreviation": "HR", "expansion": "ضربان قلب", "persian": "ض.ق"},
+    {"abbreviation": "RR", "expansion": "تعداد تنفس", "persian": "ت.ت"},
+    {"abbreviation": "TB", "expansion": "سل", "persian": "سل"},
+    {"abbreviation": "ORS", "expansion": "او آر اس", "persian": "ORS"},
+    {"abbreviation": "ANC", "expansion": "مراقبت دوران بارداری", "persian": "م.ب"},
+    {"abbreviation": "PTSD", "expansion": "اختلال استرس پس از سانحه", "persian": "PTSD"},
+    {"abbreviation": "MMR", "expansion": "سرخک اوریون سرخجه", "persian": "MMR"},
+    {"abbreviation": "BCG", "expansion": "واکسن سل", "persian": "BCG"},
+    {"abbreviation": "MUAC", "expansion": "دور بازو", "persian": "د.ب"}
+  ],
+  "dialectal_variations": {
+    "afghan_dari": {
+      "دیابت": ["مرض قند", "شکر"],
+      "فشار خون": ["پرشر", "فشار"],
+      "واکسن": ["واکسین", "پیچکاری"]
+    },
+    "iranian": {
+      "تب": ["تب", "حرارت"],
+      "اسهال": ["دل پیچه", "اسهال"],
+      "آنتی‌بیوتیک": ["آنتی‌بیوتیک", "دارو"]
+    },
+    "tajiki": {
+      "مالاریا": ["безгак", "малярия"],
+      "سل": ["сил", "туберкулёз"]
+    }
+  }
+}

@@ -1,0 +1,126 @@
+{
+  "body_parts": {
+    "head": {
+      "scientific": "cranium/caput",
+      "common": "head",
+      "translations": {
+        "ar": {"term": "رأس", "formal": "الجمجمة", "transliteration": "ra's"},
+        "es": {"term": "cabeza", "formal": "cráneo"},
+        "fr": {"term": "tête", "formal": "crâne"},
+        "sw": {"term": "kichwa", "formal": "fuvu la kichwa"},
+        "fa": {"term": "سر", "formal": "جمجمه", "transliteration": "sar"},
+        "ps": {"term": "سر", "formal": "کوپړۍ", "transliteration": "sar"},
+        "ur": {"term": "سر", "formal": "کھوپڑی", "transliteration": "sar"},
+        "bn": {"term": "মাথা", "formal": "মস্তক", "transliteration": "matha"},
+        "so": {"term": "madax", "formal": "madax"},
+        "hi": {"term": "सिर", "formal": "कपाल", "transliteration": "sir"}
+      },
+      "cultural_notes": "Universal term, no cultural sensitivities",
+      "gender_neutral": true
+    },
+    "chest": {
+      "scientific": "thorax",
+      "common": "chest",
+      "translations": {
+        "ar": {"term": "صدر", "formal": "القفص الصدري", "transliteration": "sadr"},
+        "es": {"term": "pecho", "formal": "tórax", "gender_note": "Use 'tórax' in clinical settings"},
+        "fr": {"term": "poitrine", "formal": "thorax", "gender_note": "Use 'thorax' for neutrality"},
+        "sw": {"term": "kifua", "formal": "kifua"},
+        "fa": {"term": "سینه", "formal": "قفسه سینه", "transliteration": "sineh"},
+        "ps": {"term": "سینه", "formal": "د سینې قفس", "transliteration": "seena"},
+        "ur": {"term": "سینہ", "formal": "چھاتی", "transliteration": "seena"},
+        "bn": {"term": "বুক", "formal": "বক্ষ", "transliteration": "buk"},
+        "so": {"term": "laab", "formal": "sakhar"},
+        "hi": {"term": "छाती", "formal": "वक्ष", "transliteration": "chhati"}
+      },
+      "cultural_notes": "Use clinical terms in mixed-gender settings; some cultures prefer indirect references",
+      "gender_considerations": "high"
+    },
+    "abdomen": {
+      "scientific": "abdomen",
+      "common": "belly/stomach area",
+      "translations": {
+        "ar": {"term": "بطن", "formal": "البطن", "transliteration": "batn"},
+        "es": {"term": "abdomen", "formal": "vientre", "colloquial": "barriga"},
+        "fr": {"term": "abdomen", "formal": "ventre"},
+        "sw": {"term": "tumbo", "formal": "tumbo"},
+        "fa": {"term": "شکم", "formal": "ناحیه شکمی", "transliteration": "shekam"},
+        "ps": {"term": "ګېډه", "formal": "نس", "transliteration": "gedah"},
+        "ur": {"term": "پیٹ", "formal": "بطن", "transliteration": "pait"},
+        "bn": {"term": "পেট", "formal": "উদর", "transliteration": "pet"},
+        "so": {"term": "calool", "formal": "calool"},
+        "hi": {"term": "पेट", "formal": "उदर", "transliteration": "pet"}
+      },
+      "cultural_notes": "Generally acceptable term across cultures",
+      "gender_neutral": true
+    },
+    "reproductive_organs_female": {
+      "scientific": "female reproductive system",
+      "common": "private parts",
+      "translations": {
+        "ar": {"term": "الأعضاء التناسلية الأنثوية", "euphemism": "المنطقة الحساسة"},
+        "es": {"term": "órganos reproductivos femeninos", "euphemism": "partes íntimas"},
+        "fr": {"term": "organes reproducteurs féminins", "euphemism": "parties intimes"},
+        "sw": {"term": "viungo vya uzazi vya kike", "euphemism": "sehemu za siri"},
+        "fa": {"term": "دستگاه تناسلی زنان", "euphemism": "نواحی خصوصی"},
+        "ur": {"term": "نسوانی تولیدی اعضاء", "euphemism": "مخصوص حصے"},
+        "bn": {"term": "নারী প্রজনন অঙ্গ", "euphemism": "গোপনাঙ্গ"},
+        "hi": {"term": "महिला प्रजनन अंग", "euphemism": "गुप्तांग"}
+      },
+      "cultural_notes": "Requires female healthcare provider in many cultures; use euphemisms when appropriate",
+      "sensitivity": "very high",
+      "provider_gender": "female preferred"
+    },
+    "reproductive_organs_male": {
+      "scientific": "male reproductive system",
+      "common": "private parts",
+      "translations": {
+        "ar": {"term": "الأعضاء التناسلية الذكرية", "euphemism": "المنطقة الحساسة"},
+        "es": {"term": "órganos reproductivos masculinos", "euphemism": "partes íntimas"},
+        "fr": {"term": "organes reproducteurs masculins", "euphemism": "parties intimes"},
+        "sw": {"term": "viungo vya uzazi vya kiume", "euphemism": "sehemu za siri"},
+        "fa": {"term": "دستگاه تناسلی مردان", "euphemism": "نواحی خصوصی"},
+        "ur": {"term": "مردانہ تولیدی اعضاء", "euphemism": "مخصوص حصے"},
+        "bn": {"term": "পুরুষ প্রজনন অঙ্গ", "euphemism": "গোপনাঙ্গ"},
+        "hi": {"term": "पुरुष प्रजनन अंग", "euphemism": "गुप्तांग"}
+      },
+      "cultural_notes": "Privacy and same-gender provider often preferred",
+      "sensitivity": "very high",
+      "provider_gender": "male preferred"
+    },
+    "breast": {
+      "scientific": "mammary gland",
+      "common": "breast",
+      "translations": {
+        "ar": {"term": "ثدي", "clinical": "الثدي", "euphemism": "الصدر"},
+        "es": {"term": "seno", "clinical": "mama", "euphemism": "pecho"},
+        "fr": {"term": "sein", "clinical": "glande mammaire"},
+        "sw": {"term": "matiti", "clinical": "tezi ya maziwa"},
+        "fa": {"term": "پستان", "clinical": "غدد پستانی", "euphemism": "سینه"},
+        "ur": {"term": "چھاتی", "clinical": "پستان", "euphemism": "سینہ"},
+        "bn": {"term": "স্তন", "clinical": "স্তন", "euphemism": "বুক"},
+        "hi": {"term": "स्तन", "clinical": "स्तन ग्रंथि", "euphemism": "छाती"}
+      },
+      "cultural_notes": "Female provider strongly preferred; use clinical terms; privacy screens important",
+      "sensitivity": "very high",
+      "provider_gender": "female required in most cultures"
+    }
+  },
+  "cultural_guidelines": {
+    "general_principles": [
+      "Always ask permission before physical examination",
+      "Offer same-gender healthcare providers when possible",
+      "Use clinical/formal terms rather than colloquial ones",
+      "Provide privacy screens and appropriate covering",
+      "Allow family member presence if requested (with patient consent)",
+      "Be aware of religious considerations during examination"
+    ],
+    "communication_tips": [
+      "Use diagrams or models to explain without direct reference",
+      "Ask about preferred terminology at start of consultation",
+      "Respect requests for specific gender providers",
+      "Explain medical necessity of examinations clearly",
+      "Allow time for questions in patient's preferred language"
+    ]
+  }
+}

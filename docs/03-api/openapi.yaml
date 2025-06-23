@@ -1,0 +1,748 @@
+openapi: 3.0.3
+info:
+  title: Haven Health Passport API
+  description: REST API for refugee health record management with blockchain verification
+  version: 2.0.0
+  contact:
+    name: Haven Health Passport Team
+    email: support@havenhealthpassport.org
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+
+servers:
+  - url: https://api.havenhealthpassport.org
+    description: Production server
+  - url: https://staging-api.havenhealthpassport.org
+    description: Staging server
+  - url: http://localhost:8000
+    description: Development server
+
+tags:
+  - name: health
+    description: Health check endpoints
+  - name: auth
+    description: Authentication endpoints
+  - name: files
+    description: File management endpoints
+  - name: patients
+    description: Patient management endpoints
+  - name: records
+    description: Health record management endpoints
+
+paths:
+  /health/live:
+    get:
+      tags:
+        - health
+      summary: Liveness check
+      description: Basic health check to verify service is running
+      operationId: healthLive
+      responses:
+        '200':
+          description: Service is healthy
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthResponse'
+
+  /health/ready:
+    get:
+      tags:
+        - health
+      summary: Readiness check
+      description: Detailed readiness check with dependency status
+      operationId: healthReady
+      responses:
+        '200':
+          description: Service is ready
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReadinessResponse'
+        '503':
+          description: Service not ready
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReadinessResponse'
+
+  /health/startup:
+    get:
+      tags:
+        - health
+      summary: Startup check
+      description: Check if service has completed initialization
+      operationId: healthStartup
+      responses:
+        '200':
+          description: Service startup complete
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StartupResponse'
+        '503':
+          description: Service still initializing
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StartupResponse'
+
+  /api/v1/auth/register:
+    post:
+      tags:
+        - auth
+      summary: Register new user
+      description: Create a new user account
+      operationId: authRegister
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterRequest'
+      responses:
+        '201':
+          description: User registered successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RegisterResponse'
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/v1/auth/login:
+    post:
+      tags:
+        - auth
+      summary: User login
+      description: Authenticate user and get access token
+      operationId: authLogin
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+      responses:
+        '200':
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginResponse'
+        '401':
+          description: Invalid credentials
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/v1/auth/logout:
+    post:
+      tags:
+        - auth
+      summary: User logout
+      description: Invalidate current session
+      operationId: authLogout
+      security:
+        - bearerAuth: []
+      responses:
+        '204':
+          description: Logout successful
+        '401':
+          description: Unauthorized
+
+  /api/v1/auth/refresh:
+    post:
+      tags:
+        - auth
+      summary: Refresh access token
+      description: Get new access token using refresh token
+      operationId: authRefresh
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RefreshRequest'
+      responses:
+        '200':
+          description: Token refreshed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RefreshResponse'
+
+  /api/v1/auth/verify:
+    post:
+      tags:
+        - auth
+      summary: Verify email/phone
+      description: Verify user email or phone number
+      operationId: authVerify
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VerifyRequest'
+      responses:
+        '200':
+          description: Verification successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VerifyResponse'
+
+  /api/v1/auth/forgot-password:
+    post:
+      tags:
+        - auth
+      summary: Request password reset
+      description: Send password reset link
+      operationId: authForgotPassword
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ForgotPasswordRequest'
+      responses:
+        '202':
+          description: Reset link sent
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageResponse'
+
+  /api/v1/auth/reset-password:
+    post:
+      tags:
+        - auth
+      summary: Reset password
+      description: Reset password using token
+      operationId: authResetPassword
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResetPasswordRequest'
+      responses:
+        '200':
+          description: Password reset successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageResponse'
+
+  /api/v1/auth/change-password:
+    post:
+      tags:
+        - auth
+      summary: Change password
+      description: Change current user password
+      operationId: authChangePassword
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChangePasswordRequest'
+      responses:
+        '200':
+          description: Password changed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageResponse'
+
+  /api/v1/auth/mfa/enable:
+    post:
+      tags:
+        - auth
+      summary: Enable MFA
+      description: Enable multi-factor authentication
+      operationId: authMfaEnable
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MfaEnableRequest'
+      responses:
+        '200':
+          description: MFA enabled
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MfaEnableResponse'
+
+  /api/v1/auth/mfa/verify:
+    post:
+      tags:
+        - auth
+      summary: Verify MFA code
+      description: Verify MFA authentication code
+      operationId: authMfaVerify
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MfaVerifyRequest'
+      responses:
+        '200':
+          description: MFA verified
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MfaVerifyResponse'
+
+  /api/v2/files/upload:
+    post:
+      tags:
+        - files
+      summary: Upload file
+      description: Upload a file with virus scanning and validation
+      operationId: filesUpload
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - file
+                - category
+              properties:
+                file:
+                  type: string
+                  format: binary
+                  description: File to upload
+                category:
+                  type: string
+                  enum: [medical_record, lab_result, prescription, imaging, document, photo]
+                metadata:
+                  type: object
+                  additionalProperties: true
+      responses:
+        '201':
+          description: File uploaded successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileUploadResponse'
+        '400':
+          description: Invalid file
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '413':
+          description: File too large
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/v2/files/download/{fileId}:
+    get:
+      tags:
+        - files
+      summary: Download file
+      description: Download a file with access control
+      operationId: filesDownload
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: fileId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: File content
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+            application/pdf:
+              schema:
+                type: string
+                format: binary
+            image/jpeg:
+              schema:
+                type: string
+                format: binary
+            image/png:
+              schema:
+                type: string
+                format: binary
+        '404':
+          description: File not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    HealthResponse:
+      type: object
+      required:
+        - status
+        - timestamp
+        - service
+        - version
+        - environment
+      properties:
+        status:
+          type: string
+          example: healthy
+        timestamp:
+          type: string
+          format: date-time
+        service:
+          type: string
+          example: haven-health-passport-api
+        version:
+          type: string
+          example: 2.0.0
+        environment:
+          type: string
+          example: production
+
+    ReadinessResponse:
+      type: object
+      required:
+        - status
+        - timestamp
+        - checks
+      properties:
+        status:
+          type: string
+          enum: [healthy, degraded, unhealthy]
+        timestamp:
+          type: string
+          format: date-time
+        checks:
+          type: object
+          properties:
+            database:
+              $ref: '#/components/schemas/HealthCheck'
+            redis:
+              $ref: '#/components/schemas/HealthCheck'
+            aws_services:
+              $ref: '#/components/schemas/HealthCheck'
+
+    StartupResponse:
+      type: object
+      required:
+        - initialized
+        - timestamp
+        - checks
+      properties:
+        initialized:
+          type: boolean
+        timestamp:
+          type: string
+          format: date-time
+        checks:
+          type: object
+          properties:
+            configuration:
+              type: boolean
+            database_migrations:
+              type: boolean
+            services_loaded:
+              type: boolean
+        errors:
+          type: array
+          items:
+            type: string
+
+    HealthCheck:
+      type: object
+      required:
+        - healthy
+        - latency_ms
+      properties:
+        healthy:
+          type: boolean
+        latency_ms:
+          type: number
+        error:
+          type: string
+
+    RegisterRequest:
+      type: object
+      required:
+        - email
+        - password
+        - patient_id
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+          minLength: 8
+        patient_id:
+          type: string
+          format: uuid
+        phone_number:
+          type: string
+        role:
+          type: string
+          default: patient
+
+    RegisterResponse:
+      type: object
+      required:
+        - user_id
+        - message
+      properties:
+        user_id:
+          type: string
+          format: uuid
+        message:
+          type: string
+        verification_required:
+          type: boolean
+
+    LoginRequest:
+      type: object
+      required:
+        - email
+        - password
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+        mfa_code:
+          type: string
+
+    LoginResponse:
+      type: object
+      required:
+        - access_token
+        - refresh_token
+        - token_type
+        - expires_in
+      properties:
+        access_token:
+          type: string
+        refresh_token:
+          type: string
+        token_type:
+          type: string
+          default: bearer
+        expires_in:
+          type: integer
+        user:
+          type: object
+          properties:
+            id:
+              type: string
+              format: uuid
+            email:
+              type: string
+            role:
+              type: string
+
+    RefreshRequest:
+      type: object
+      required:
+        - refresh_token
+      properties:
+        refresh_token:
+          type: string
+
+    RefreshResponse:
+      type: object
+      required:
+        - access_token
+        - token_type
+        - expires_in
+      properties:
+        access_token:
+          type: string
+        token_type:
+          type: string
+          default: bearer
+        expires_in:
+          type: integer
+
+    VerifyRequest:
+      type: object
+      required:
+        - type
+        - token
+      properties:
+        type:
+          type: string
+          enum: [email, phone]
+        token:
+          type: string
+
+    VerifyResponse:
+      type: object
+      required:
+        - verified
+        - message
+      properties:
+        verified:
+          type: boolean
+        message:
+          type: string
+
+    ForgotPasswordRequest:
+      type: object
+      required:
+        - email
+      properties:
+        email:
+          type: string
+          format: email
+
+    ResetPasswordRequest:
+      type: object
+      required:
+        - token
+        - password
+      properties:
+        token:
+          type: string
+        password:
+          type: string
+          minLength: 8
+
+    ChangePasswordRequest:
+      type: object
+      required:
+        - current_password
+        - new_password
+      properties:
+        current_password:
+          type: string
+        new_password:
+          type: string
+          minLength: 8
+
+    MfaEnableRequest:
+      type: object
+      required:
+        - method
+      properties:
+        method:
+          type: string
+          enum: [totp, sms]
+        phone_number:
+          type: string
+
+    MfaEnableResponse:
+      type: object
+      required:
+        - secret
+        - qr_code
+      properties:
+        secret:
+          type: string
+        qr_code:
+          type: string
+          description: Base64 encoded QR code image
+        backup_codes:
+          type: array
+          items:
+            type: string
+
+    MfaVerifyRequest:
+      type: object
+      required:
+        - code
+      properties:
+        code:
+          type: string
+        session_token:
+          type: string
+
+    MfaVerifyResponse:
+      type: object
+      required:
+        - verified
+      properties:
+        verified:
+          type: boolean
+        access_token:
+          type: string
+        refresh_token:
+          type: string
+
+    FileUploadResponse:
+      type: object
+      required:
+        - file_id
+        - filename
+        - size
+        - content_type
+      properties:
+        file_id:
+          type: string
+          format: uuid
+        filename:
+          type: string
+        size:
+          type: integer
+        content_type:
+          type: string
+        checksum:
+          type: string
+        scan_status:
+          type: string
+          enum: [clean, infected, pending]
+        metadata:
+          type: object
+
+    MessageResponse:
+      type: object
+      required:
+        - message
+      properties:
+        message:
+          type: string
+
+    ErrorResponse:
+      type: object
+      required:
+        - error
+        - message
+      properties:
+        error:
+          type: string
+        message:
+          type: string
+        details:
+          type: object

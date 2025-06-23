@@ -1,0 +1,601 @@
+/* Demo Styles for Haven Health Passport */
+
+:root {
+  --primary: #1976d2;
+  --primary-dark: #0d47a1;
+  --primary-light: #4791db;
+  --secondary: #f50057;
+  --success: #4caf50;
+  --warning: #ff9800;
+  --error: #f44336;
+  --background: #f5f5f5;
+  --paper: #ffffff;
+  --text-primary: #212121;
+  --text-secondary: #757575;
+  --border: #e0e0e0;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: var(--background);
+  color: var(--text-primary);
+}
+
+/* Demo Layout */
+.demo-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.demo-header {
+  background-color: var(--primary);
+  color: white;
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.demo-header .logo {
+  display: flex;
+  align-items: center;
+}
+
+.demo-header h1 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.demo-header .badge {
+  margin-left: 0.5rem;
+  background-color: var(--secondary);
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: bold;
+}
+
+.demo-body {
+  display: flex;
+  flex: 1;
+}
+
+.demo-nav {
+  width: 250px;
+  background-color: var(--paper);
+  border-right: 1px solid var(--border);
+  padding: 1rem 0;
+}
+
+.demo-nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.demo-nav li {
+  margin: 0;
+  padding: 0;
+}
+
+.demo-nav button {
+  display: block;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  text-align: left;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  color: var(--text-primary);
+  transition: background-color 0.2s;
+}
+
+.demo-nav button:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.demo-nav li.active button {
+  background-color: rgba(25, 118, 210, 0.1);
+  color: var(--primary);
+  border-left: 4px solid var(--primary);
+}
+
+.demo-content {
+  flex: 1;
+  padding: 1.5rem;
+  overflow: auto;
+}
+
+.demo-footer {
+  background-color: var(--paper);
+  border-top: 1px solid var(--border);
+  padding: 1rem;
+  text-align: center;
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+}
+
+/* Component Wrapper */
+.component-wrapper {
+  background-color: var(--paper);
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  margin-bottom: 2rem;
+}
+
+.component-header {
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid var(--border);
+  background-color: rgba(0, 0, 0, 0.02);
+}
+
+.component-header h3 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.25rem;
+  color: var(--primary);
+}
+
+.component-header p {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+}
+
+.component-content {
+  padding: 1.5rem;
+}
+
+/* Modal for Conflict Resolution */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-container {
+  background-color: var(--paper);
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  width: 90%;
+  max-width: 700px;
+  max-height: 90vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-header {
+  padding: 1rem 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--border);
+}
+
+.modal-header h2 {
+  margin: 0;
+  font-size: 1.25rem;
+  color: var(--text-primary);
+}
+
+.close-button {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: var(--text-secondary);
+}
+
+.modal-body {
+  padding: 1.5rem;
+  overflow-y: auto;
+}
+
+/* Patient Registration Styles */
+.patient-registration {
+  max-width: 800px;
+}
+
+.offline-notice {
+  background-color: #fff3cd;
+  border-left: 4px solid #ffc107;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  border-radius: 4px;
+}
+
+.form-section {
+  margin-bottom: 2rem;
+}
+
+.form-section h2 {
+  font-size: 1.25rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border);
+  color: var(--text-primary);
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+.form-group label span {
+  color: var(--error);
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 0.75rem;
+  font-size: 1rem;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background-color: white;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.2);
+}
+
+.form-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.btn-primary,
+.btn-secondary {
+  padding: 0.75rem 1.5rem;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  border: none;
+  transition: background-color 0.2s;
+}
+
+.btn-primary {
+  background-color: var(--primary);
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: var(--primary-dark);
+}
+
+.btn-secondary {
+  background-color: #f5f5f5;
+  color: var(--text-primary);
+}
+
+.btn-secondary:hover {
+  background-color: #e0e0e0;
+}
+
+/* TOTP Setup Styles */
+.totp-setup {
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.qr-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+
+.qr-code {
+  padding: 1rem;
+  background-color: white;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+.qr-code img {
+  display: block;
+}
+
+.secret-key {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.secret-key p {
+  margin-bottom: 0.5rem;
+  color: var(--text-secondary);
+}
+
+.secret-key-value {
+  padding: 0.75rem 1rem;
+  background-color: #f5f5f5;
+  border-radius: 4px;
+  font-family: monospace;
+  font-size: 1.25rem;
+  letter-spacing: 1px;
+  display: inline-block;
+}
+
+.verification {
+  margin-bottom: 1.5rem;
+}
+
+.verification label {
+  display: block;
+  margin-bottom: 0.75rem;
+  font-weight: 500;
+}
+
+.verification input {
+  width: 100%;
+  padding: 0.75rem;
+  font-size: 1.5rem;
+  text-align: center;
+  letter-spacing: 2px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+}
+
+.verify-button {
+  display: block;
+  width: 100%;
+  padding: 0.75rem;
+  background-color: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.verify-button:hover {
+  background-color: var(--primary-dark);
+}
+
+/* Backup Codes Styles */
+.backup-codes {
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.backup-codes-warning {
+  background-color: #fff3cd;
+  border-left: 4px solid #ffc107;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  border-radius: 4px;
+}
+
+.backup-codes-list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.backup-code {
+  padding: 0.75rem;
+  background-color: #f5f5f5;
+  border-radius: 4px;
+  font-family: monospace;
+  text-align: center;
+  letter-spacing: 1px;
+}
+
+.backup-codes-actions {
+  display: flex;
+  gap: 1rem;
+}
+
+.print-button,
+.download-button {
+  flex: 1;
+  padding: 0.75rem;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  border: none;
+  transition: background-color 0.2s;
+}
+
+.print-button {
+  background-color: var(--primary);
+  color: white;
+}
+
+.print-button:hover {
+  background-color: var(--primary-dark);
+}
+
+.download-button {
+  background-color: #f5f5f5;
+  color: var(--text-primary);
+}
+
+.download-button:hover {
+  background-color: #e0e0e0;
+}
+
+/* Conflict Resolution Dialog Styles */
+.conflict-resolution-dialog {
+  max-width: 100%;
+}
+
+.conflict-message {
+  background-color: #fff3cd;
+  border-left: 4px solid #ffc107;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  border-radius: 4px;
+}
+
+.conflict-item {
+  margin-bottom: 1.5rem;
+}
+
+.conflict-item h3 {
+  font-size: 1.125rem;
+  margin-bottom: 1rem;
+  color: var(--text-primary);
+}
+
+.conflict-versions {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.local-version,
+.server-version {
+  padding: 1rem;
+  border-radius: 4px;
+}
+
+.local-version {
+  background-color: #e3f2fd;
+  border: 1px solid #bbdefb;
+}
+
+.server-version {
+  background-color: #e8f5e9;
+  border: 1px solid #c8e6c9;
+}
+
+.local-version h4,
+.server-version h4 {
+  margin-top: 0;
+  margin-bottom: 0.75rem;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.local-version h4 {
+  color: #1565c0;
+}
+
+.server-version h4 {
+  color: #2e7d32;
+}
+
+.local-version ul,
+.server-version ul {
+  margin: 0;
+  padding-left: 1.5rem;
+}
+
+.resolution-options {
+  margin-bottom: 1rem;
+}
+
+.resolution-option {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.resolution-option input {
+  margin-right: 0.5rem;
+}
+
+.conflict-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.cancel-button,
+.resolve-button {
+  padding: 0.75rem 1.5rem;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  border: none;
+  transition: background-color 0.2s;
+}
+
+.cancel-button {
+  background-color: #f5f5f5;
+  color: var(--text-primary);
+}
+
+.cancel-button:hover {
+  background-color: #e0e0e0;
+}
+
+.resolve-button {
+  background-color: var(--primary);
+  color: white;
+}
+
+.resolve-button:hover {
+  background-color: var(--primary-dark);
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .demo-body {
+    flex-direction: column;
+  }
+  
+  .demo-nav {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+    padding: 0;
+  }
+  
+  .demo-nav ul {
+    display: flex;
+    overflow-x: auto;
+  }
+  
+  .demo-nav li {
+    flex-shrink: 0;
+  }
+  
+  .demo-nav button {
+    padding: 0.75rem 1rem;
+  }
+  
+  .demo-nav li.active button {
+    border-left: none;
+    border-bottom: 4px solid var(--primary);
+  }
+  
+  .conflict-versions {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .local-version {
+    margin-bottom: 1rem;
+  }
+}

@@ -1,0 +1,185 @@
+{
+  "medical_pronunciation_variants": {
+    "diabetes": {
+      "standard": ["dahy-uh-BEE-teez"],
+      "regional_variants": {
+        "US": ["dahy-uh-BEE-teez", "dahy-uh-BEE-tis"],
+        "UK": ["dahy-uh-BEE-teez"],
+        "Indian_English": ["dahy-uh-BEE-teez", "sugar"],
+        "African_English": ["dahy-uh-BEE-tis", "sugar disease"]
+      },
+      "common_mispronunciations": ["dee-uh-BEE-teez", "dahy-BEE-teez"],
+      "clinical_context": "Often referred to as 'sugar' colloquially"
+    },
+    "tuberculosis": {
+      "standard": ["too-ber-kyoo-LOH-sis"],
+      "regional_variants": {
+        "US": ["too-ber-kyoo-LOH-sis", "tee-bee"],
+        "UK": ["tyoo-ber-kyoo-LOH-sis"],
+        "African_English": ["TB", "tee-bee"],
+        "Asian_English": ["too-ber-kyoo-LOH-sis", "TB"]
+      },
+      "common_mispronunciations": ["too-ber-LOH-sis"],
+      "abbreviation": "TB"
+    },
+    "malaria": {
+      "standard": ["muh-LAIR-ee-uh"],
+      "regional_variants": {
+        "West_African": ["mah-LAH-ree-ah"],
+        "East_African": ["muh-LAIR-ee-uh"],
+        "South_Asian": ["muh-LAIR-ee-yah"]
+      }
+    },
+    "hypertension": {
+      "standard": ["hahy-per-TEN-shun"],
+      "colloquial": ["high blood pressure", "pressure", "BP"],
+      "regional_variants": {
+        "Caribbean": ["presh-uh", "high presh-uh"],
+        "African": ["high blood", "BP high"]
+      }
+    }
+  },
+  "vaccine": {
+    "standard": ["vak-seen"],
+    "regional_variants": {
+      "US": ["vak-seen"],
+      "UK": ["vak-seen"],
+      "Indian_English": ["wak-seen", "injection"],
+      "African_English": ["vak-seen", "jab"],
+      "Arabic_speakers": ["fak-seen", "ent-ee-had"],
+      "Spanish_speakers": ["bak-seen", "ba-koo-na"]
+    },
+    "common_mispronunciations": ["wak-seen", "vak-sin"],
+    "clinical_context": "Often called 'injection' or 'jab' colloquially"
+  },
+  "antibiotics": {
+    "standard": ["an-tee-bye-AH-tiks"],
+    "regional_variants": {
+      "US": ["an-tee-bye-AH-tiks", "an-tie-bye-AH-tiks"],
+      "UK": ["an-tee-bye-OH-tiks"],
+      "South_Asian": ["an-tee-bye-OH-tik", "medicine"],
+      "African_English": ["an-tee-bye-AH-tiks", "strong medicine"]
+    },
+    "common_mispronunciations": ["an-tee-BYE-oh-tiks"],
+    "clinical_context": "May be referred to as 'strong medicine' or just 'medicine'"
+  },
+  "diarrhea": {
+    "standard": ["die-uh-REE-uh"],
+    "regional_variants": {
+      "US": ["die-uh-REE-uh"],
+      "UK": ["die-uh-REE-uh"],
+      "African_English": ["running stomach", "loose motion"],
+      "South_Asian": ["loose motion", "upset stomach"],
+      "Spanish_influenced": ["dee-ah-REE-ah"]
+    },
+    "common_mispronunciations": ["die-REE-uh", "dye-uh-REE-uh"],
+    "clinical_context": "Commonly referred to as 'loose motion' or 'running stomach'"
+  },
+  "fever": {
+    "standard": ["FEE-ver"],
+    "regional_variants": {
+      "US": ["FEE-ver"],
+      "UK": ["FEE-vah"],
+      "African_English": ["FEE-ver", "temperature", "hot body"],
+      "South_Asian": ["FEE-ver", "temperature"],
+      "Arabic_speakers": ["FEE-fer", "hum-mah"]
+    },
+    "clinical_context": "Often called 'temperature' or 'hot body'"
+  },
+  "malnutrition": {
+    "standard": ["mal-noo-TRISH-un"],
+    "regional_variants": {
+      "US": ["mal-noo-TRISH-un"],
+      "UK": ["mal-nyoo-TRISH-un"],
+      "African_English": ["mal-noo-TRISH-un", "poor feeding"],
+      "French_influenced": ["mal-noo-tree-SYON"]
+    },
+    "common_mispronunciations": ["mal-NUT-rish-un"],
+    "clinical_context": "May be described as 'poor feeding' or 'not eating well'"
+  },
+  "oral_rehydration_salts": {
+    "standard": ["OR-ul ree-hi-DRAY-shun salts"],
+    "abbreviation": "ORS",
+    "regional_variants": {
+      "Common": ["O-R-S", "oh-ar-es"],
+      "African_English": ["O-R-S", "salt water", "drinking salts"],
+      "South_Asian": ["O-R-S", "jeevanjal"]
+    },
+    "clinical_context": "Universally known as ORS"
+  },
+  "antenatal": {
+    "standard": ["an-tee-NAY-tul"],
+    "regional_variants": {
+      "US": ["an-tee-NAY-tul"],
+      "UK": ["an-tee-NAY-tul"],
+      "African_English": ["an-tee-NAY-tal", "pregnancy care"],
+      "French_influenced": ["ahn-tay-nah-TAL"]
+    },
+    "common_mispronunciations": ["an-teh-NAY-tul", "an-tee-NAH-tul"],
+    "clinical_context": "Often called 'pregnancy check-up' or 'pregnancy care'"
+  },
+  "accent_specific_adjustments": {
+    "Arabic_speakers": {
+      "common_patterns": [
+        "P → B substitution (pressure → bressure)",
+        "V → F substitution (vaccine → faccine)",
+        "Difficulty with consonant clusters"
+      ],
+      "training_notes": "Train on P/B and V/F distinctions"
+    },
+    "Spanish_speakers": {
+      "common_patterns": [
+        "Initial S + consonant adds E (stress → estress)",
+        "B/V confusion",
+        "Silent H pronunciation"
+      ]
+    },
+    "French_speakers": {
+      "common_patterns": [
+        "H dropping",
+        "TH → Z or S substitution",
+        "Different stress patterns"
+      ]
+    },
+    "Swahili_speakers": {
+      "common_patterns": [
+        "L/R distinction challenges",
+        "Consonant cluster simplification",
+        "Different vowel sounds"
+      ],
+      "training_notes": "Focus on L/R sounds and consonant clusters"
+    },
+    "Farsi_speakers": {
+      "common_patterns": [
+        "W → V substitution",
+        "Different stress patterns",
+        "TH → T or S substitution"
+      ],
+      "training_notes": "Train on W/V distinction and TH sounds"
+    },
+    "Urdu_speakers": {
+      "common_patterns": [
+        "W → V confusion",
+        "Retroflex consonants",
+        "Aspiration differences"
+      ],
+      "training_notes": "Similar to Hindi speakers, focus on English consonants"
+    },
+    "Bengali_speakers": {
+      "common_patterns": [
+        "V → B substitution",
+        "S/SH confusion",
+        "Different vowel qualities"
+      ],
+      "training_notes": "Focus on V/B distinction and sibilants"
+    },
+    "Pashto_speakers": {
+      "common_patterns": [
+        "Retroflex influence",
+        "Different R sounds",
+        "Consonant cluster challenges"
+      ],
+      "training_notes": "Train on English R and consonant clusters"
+    }
+  }
+}

@@ -1,0 +1,376 @@
+# Copyright Haven Health Passport. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+################################################################################
+#
+#   Channel Configuration Policies
+#
+#   Defines the policies for channel creation, updates, and member management
+#   in the Haven Health Passport blockchain network.
+#
+################################################################################
+
+Channels:
+  ################################################################################
+  # Healthcare Channel - Main channel for health records
+  ################################################################################
+  healthcare-channel:
+    Description: "Primary channel for health record management"
+
+    # Channel Members
+    Members:
+      Organizations:
+        - Name: "OrdererOrg"
+          Role: "Orderer"
+        - Name: "HealthcareProvider1MSP"
+          Role: "Member"
+        - Name: "HealthcareProvider2MSP"
+          Role: "Member"
+        - Name: "UNHCROrgMSP"
+          Role: "Admin"
+        - Name: "RefugeeOrgMSP"
+          Role: "Member"
+
+    # Channel Policies
+    Policies:
+      # Readers - who can read/query the channel
+      Readers:
+        Type: "ImplicitMeta"
+        Rule: "ANY Readers"
+        SubPolicies:
+          HealthcareProvider1MSP: "OR('HealthcareProvider1MSP.member')"
+          HealthcareProvider2MSP: "OR('HealthcareProvider2MSP.member')"
+          UNHCROrgMSP: "OR('UNHCROrgMSP.member')"
+          RefugeeOrgMSP: "OR('RefugeeOrgMSP.member')"
+
+      # Writers - who can submit transactions
+      Writers:
+        Type: "ImplicitMeta"
+        Rule: "ANY Writers"
+        SubPolicies:
+          HealthcareProvider1MSP: "OR('HealthcareProvider1MSP.member')"
+          HealthcareProvider2MSP: "OR('HealthcareProvider2MSP.member')"
+          UNHCROrgMSP: "OR('UNHCROrgMSP.member')"
+          RefugeeOrgMSP: "OR('RefugeeOrgMSP.member')"
+
+      # Admins - who can modify channel configuration
+      Admins:
+        Type: "ImplicitMeta"
+        Rule: "MAJORITY Admins"
+        SubPolicies:
+          HealthcareProvider1MSP: "OR('HealthcareProvider1MSP.admin')"
+          HealthcareProvider2MSP: "OR('HealthcareProvider2MSP.admin')"
+          UNHCROrgMSP: "OR('UNHCROrgMSP.admin')"
+          RefugeeOrgMSP: "OR('RefugeeOrgMSP.admin')"
+
+      # Channel creation policy
+      ChannelCreation:
+        Type: "Signature"
+        Rule: "OutOf(2, 'OrdererOrg.admin', 'UNHCROrgMSP.admin', 'HealthcareProvider1MSP.admin')"
+
+      # Channel update policy
+      ChannelUpdate:
+        Type: "ImplicitMeta"
+        Rule: "MAJORITY Admins"
+
+    # Application Configuration
+    Application:
+      Capabilities:
+        - "V2_0"
+        - "V2_5"
+
+      ACLs:
+        # Lifecycle ACLs
+        _lifecycle/CheckCommitReadiness: "/Channel/Application/Writers"
+        _lifecycle/CommitChaincodeDefinition: "/Channel/Application/Writers"
+        _lifecycle/QueryChaincodeDefinition: "/Channel/Application/Readers"
+        _lifecycle/QueryChaincodeDefinitions: "/Channel/Application/Readers"
+
+        # Chaincode ACLs
+        lscc/ChaincodeExists: "/Channel/Application/Readers"
+        lscc/GetDeploymentSpec: "/Channel/Application/Readers"
+        lscc/GetChaincodeData: "/Channel/Application/Readers"
+        lscc/GetInstantiatedChaincodes: "/Channel/Application/Readers"
+
+        # Query ACLs
+        qscc/GetChainInfo: "/Channel/Application/Readers"
+        qscc/GetBlockByNumber: "/Channel/Application/Readers"
+        qscc/GetBlockByHash: "/Channel/Application/Readers"
+        qscc/GetTransactionByID: "/Channel/Application/Readers"
+        qscc/GetBlockByTxID: "/Channel/Application/Readers"
+
+        # Event ACLs
+        event/Block: "/Channel/Application/Readers"
+        event/FilteredBlock: "/Channel/Application/Readers"
+
+    # Orderer Configuration
+    Orderer:
+      OrdererType: "etcdraft"
+
+      Addresses:
+        - "orderer1.haven-health.org:7050"
+        - "orderer2.haven-health.org:7050"
+        - "orderer3.haven-health.org:7050"
+
+      BatchTimeout: "2s"
+      BatchSize:
+        MaxMessageCount: 500
+        AbsoluteMaxBytes: "10 MB"
+        PreferredMaxBytes: "512 KB"
+
+      ConsensusType: "etcdraft"
+      EtcdRaft:
+        Consenters:
+          - Host: "orderer1.haven-health.org"
+            Port: 7050
+            ClientTLSCert: "path/to/orderer1/tls/cert.pem"
+            ServerTLSCert: "path/to/orderer1/tls/cert.pem"
+          - Host: "orderer2.haven-health.org"
+            Port: 7050
+            ClientTLSCert: "path/to/orderer2/tls/cert.pem"
+            ServerTLSCert: "path/to/orderer2/tls/cert.pem"
+          - Host: "orderer3.haven-health.org"
+            Port: 7050
+            ClientTLSCert: "path/to/orderer3/tls/cert.pem"
+            ServerTLSCert: "path/to/orderer3/tls/cert.pem"
+
+        Options:
+          TickInterval: "500ms"
+          ElectionTick: 10
+          HeartbeatTick: 1
+          MaxInflightBlocks: 5
+          SnapshotIntervalSize: "20 MB"
+
+  ################################################################################
+  # Emergency Channel - For emergency medical situations
+  ################################################################################
+  emergency-channel:
+    Description: "High-priority channel for emergency medical access"
+
+    Members:
+      Organizations:
+        - Name: "OrdererOrg"
+          Role: "Orderer"
+        - Name: "HealthcareProvider1MSP"
+          Role: "Member"
+        - Name: "HealthcareProvider2MSP"
+          Role: "Member"
+        - Name: "UNHCROrgMSP"
+          Role: "Member"
+        - Name: "RefugeeOrgMSP"
+          Role: "Member"
+
+    Policies:
+      Readers:
+        Type: "ImplicitMeta"
+        Rule: "ANY Readers"
+
+      Writers:
+        Type: "ImplicitMeta"
+        Rule: "ANY Writers"
+
+      Admins:
+        Type: "Signature"
+        Rule: "OR('UNHCROrgMSP.admin', 'OrdererOrg.admin')"
+
+      EmergencyAccess:
+        Type: "Signature"
+        Rule: "OR('HealthcareProvider1MSP.member', 'HealthcareProvider2MSP.member', 'RefugeeOrgMSP.member')"
+        Conditions:
+          - "Valid emergency declaration"
+          - "Auto-expire after 72 hours"
+          - "Audit trail mandatory"
+
+    Application:
+      Capabilities:
+        - "V2_5"
+
+      # Streamlined ACLs for emergency access
+      ACLs:
+        emergency/AccessRecords: "/Channel/Application/EmergencyAccess"
+        emergency/OverrideConsent: "/Channel/Application/EmergencyAccess"
+        emergency/FastTrackTreatment: "/Channel/Application/Writers"
+
+    Orderer:
+      # Same orderer configuration but with faster batch settings
+      BatchTimeout: "500ms"  # Faster for emergencies
+      BatchSize:
+        MaxMessageCount: 100
+        AbsoluteMaxBytes: "2 MB"
+        PreferredMaxBytes: "512 KB"
+
+  ################################################################################
+  # Cross-Border Channel - For international data sharing
+  ################################################################################
+  crossborder-channel:
+    Description: "Channel for secure cross-border health data exchange"
+
+    Members:
+      Organizations:
+        - Name: "OrdererOrg"
+          Role: "Orderer"
+        - Name: "UNHCROrgMSP"
+          Role: "Admin"
+        - Name: "HealthcareProvider1MSP"
+          Role: "Member"
+        - Name: "HealthcareProvider2MSP"
+          Role: "Member"
+
+    Policies:
+      Readers:
+        Type: "Signature"
+        Rule: "AND('UNHCROrgMSP.member', OR('HealthcareProvider1MSP.member', 'HealthcareProvider2MSP.member'))"
+
+      Writers:
+        Type: "Signature"
+        Rule: "AND('UNHCROrgMSP.member', OR('HealthcareProvider1MSP.member', 'HealthcareProvider2MSP.member'))"
+
+      Admins:
+        Type: "Signature"
+        Rule: "AND('UNHCROrgMSP.admin', 'OrdererOrg.admin')"
+
+      DataTransfer:
+        Type: "Signature"
+        Rule: "OutOf(2, 'UNHCROrgMSP.admin', 'HealthcareProvider1MSP.admin', 'HealthcareProvider2MSP.admin')"
+        Requirements:
+          - "Legal clearance"
+          - "Patient consent"
+          - "Destination country approval"
+          - "Encryption verified"
+
+################################################################################
+# Channel Management Policies
+################################################################################
+
+ChannelManagement:
+  # Adding new organizations
+  AddOrganization:
+    Process:
+      - Step: "Submit proposal"
+        Requirements:
+          - "Organization credentials"
+          - "Technical capability proof"
+          - "Legal agreements signed"
+
+      - Step: "Technical review"
+        Duration: "7 days"
+        Reviewers:
+          - "Technical committee"
+          - "Security team"
+
+      - Step: "Voting"
+        Duration: "7 days"
+        ApprovalThreshold: "75%"
+
+      - Step: "Integration"
+        Tasks:
+          - "Generate crypto materials"
+          - "Update channel configuration"
+          - "Deploy peer nodes"
+          - "Test connectivity"
+
+    Policy:
+      Type: "Signature"
+      Rule: "OutOf(3, 'UNHCROrgMSP.admin', 'HealthcareProvider1MSP.admin', 'HealthcareProvider2MSP.admin', 'RefugeeOrgMSP.admin')"
+
+  # Removing organizations
+  RemoveOrganization:
+    Process:
+      - Step: "Notice period"
+        Duration: "30 days"
+
+      - Step: "Data migration"
+        Requirements:
+          - "Export all organization data"
+          - "Transfer active cases"
+          - "Revoke all permissions"
+
+      - Step: "Voting"
+        Duration: "14 days"
+        ApprovalThreshold: "80%"
+
+      - Step: "Removal execution"
+        Tasks:
+          - "Update channel config"
+          - "Remove from consensus"
+          - "Clean up resources"
+          - "Final audit"
+
+    Policy:
+      Type: "Signature"
+      Rule: "OutOf(4, 'OrdererOrg.admin', 'UNHCROrgMSP.admin', 'HealthcareProvider1MSP.admin', 'HealthcareProvider2MSP.admin', 'RefugeeOrgMSP.admin')"
+
+################################################################################
+# Channel Update Policies
+################################################################################
+
+ChannelUpdates:
+  # Configuration updates
+  ConfigurationUpdate:
+    AllowedUpdates:
+      BatchSize:
+        Approvers: ["OrdererOrg", "UNHCR"]
+        MinApprovals: 2
+
+      OrdererAddresses:
+        Approvers: ["OrdererOrg"]
+        MinApprovals: 1
+
+      ConsensusType:
+        Approvers: "ALL"
+        MinApprovals: "100%"
+
+      ACLs:
+        Approvers: ["UNHCR", "HealthcareProvider1", "HealthcareProvider2"]
+        MinApprovals: 2
+
+    RestrictedUpdates:
+      - "Channel name"
+      - "Genesis block"
+      - "Consortium name"
+
+    UpdateProcess:
+      - "Create update transaction"
+      - "Collect signatures"
+      - "Submit to orderer"
+      - "Wait for consensus"
+      - "Verify update applied"
+
+################################################################################
+# Consortium Configuration
+################################################################################
+
+Consortium:
+  Name: "HavenHealthConsortium"
+
+  Members:
+    - "HealthcareProvider1MSP"
+    - "HealthcareProvider2MSP"
+    - "UNHCROrgMSP"
+    - "RefugeeOrgMSP"
+
+  ChannelCreationPolicy:
+    Type: "ImplicitMeta"
+    Rule: "ANY Admins"
+
+  ChannelLimits:
+    MaxChannelsPerMember: 10
+    MaxTotalChannels: 50
+
+################################################################################
+# Metadata
+################################################################################
+
+Metadata:
+  Version: "1.0.0"
+  LastUpdated: "2024-01-20"
+  ReviewCycle: "Quarterly"
+  NextReview: "2024-04-20"
+
+  Approvals:
+    - Organization: "OrdererOrg"
+      Approver: "Network Admin"
+      Date: "2024-01-20"
+    - Organization: "UNHCROrgMSP"
+      Approver: "UNHCR Tech Lead"
+      Date: "2024-01-20"

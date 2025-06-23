@@ -1,0 +1,54 @@
+# FHIR Server Authentication Configuration
+# This file configures OAuth2/JWT authentication for HAPI FHIR
+
+hapi:
+  fhir:
+    # Authentication Configuration
+    auth:
+      enabled: ${FHIR_AUTH_ENABLED:false}
+
+    # OAuth2 Configuration
+    oauth2:
+      enabled: ${FHIR_AUTH_ENABLED:false}
+      issuer: ${FHIR_OAUTH2_ISSUER:https://auth.havenhealthpassport.org}
+      audience: ${FHIR_OAUTH2_AUDIENCE:https://fhir.havenhealthpassport.org}
+
+    # Security Interceptor
+    security:
+      # Token validation endpoint
+      token_endpoint: ${FHIR_TOKEN_ENDPOINT:http://localhost:8000/api/v1/auth/validate}
+
+      # Anonymous access
+      allow_anonymous_read: ${FHIR_ALLOW_ANONYMOUS_READ:false}
+
+      # Required scopes for different operations
+      required_scopes:
+        read:
+          - "patient/*.read"
+          - "user/*.read"
+          - "system/*.read"
+        write:
+          - "patient/*.write"
+          - "user/*.write"
+          - "system/*.write"
+        delete:
+          - "user/*.delete"
+          - "system/*.delete"
+
+      # Protected resources (require authentication)
+      protected_resources:
+        - Patient
+        - Observation
+        - MedicationRequest
+        - Condition
+        - Procedure
+        - DocumentReference
+        - AllergyIntolerance
+        - Immunization
+
+      # Public resources (no auth required if allow_anonymous_read is true)
+      public_resources:
+        - CapabilityStatement
+        - StructureDefinition
+        - ValueSet
+        - CodeSystem

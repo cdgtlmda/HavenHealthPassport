@@ -1,0 +1,91 @@
+# Alert rules for Haven Health Passport Orderer Nodes
+
+groups:
+  - name: orderer_alerts
+    interval: 30s
+    rules:
+      # Orderer Down Alert
+      - alert: OrdererNodeDown
+        expr: up{job="orderer-nodes"} == 0
+        for: 2m
+        labels:
+          severity: critical
+          component: orderer
+        annotations:
+          summary: "Orderer node {{ $labels.orderer }} is down"
+          description: "Orderer {{ $labels.orderer }} on port {{ $labels.port }} has been down for more than 2 minutes."
+
+      # High Memory Usage
+      - alert: OrdererHighMemoryUsage
+        expr: process_resident_memory_bytes{job="orderer-nodes"} > 2e+09
+        for: 5m
+        labels:
+          severity: warning
+          component: orderer
+        annotations:
+          summary: "High memory usage on {{ $labels.orderer }}"
+          description: "Orderer {{ $labels.orderer }} is using more than 2GB of memory."
+
+      # Raft Leader Changes
+      - alert: FrequentLeaderChanges
+        expr: increase(etcdraft_leader_changes_total[5m]) > 3
+        labels:
+          severity: warning
+          component: consensus
+        annotations:
+          summary: "Frequent Raft leader changes detected"
+          description: "More than 3 leader changes in the last 5 minutes, indicating potential network instability."
+
+      # Consensus Lag
+      - alert: ConsensusLag
+        expr: etcdraft_commit_lag_seconds > 5
+        for: 2m
+        labels:
+          severity: warning
+          component: consensus
+        annotations:
+          summary: "High consensus commit lag on {{ $labels.orderer }}"
+          description: "Orderer {{ $labels.orderer }} has commit lag greater than 5 seconds."
+
+      # Block Processing Rate
+      - alert: LowBlockProcessingRate
+        expr: rate(orderer_blocks_delivered_total[5m]) < 0.1
+        for: 10m
+        labels:
+          severity: warning
+          component: orderer
+        annotations:
+          summary: "Low block processing rate on {{ $labels.orderer }}"
+          description: "Orderer {{ $labels.orderer }} is processing fewer than 0.1 blocks per second."
+
+      # Certificate Expiry
+      - alert: CertificateExpiringSoon
+        expr: (orderer_certificate_expiry_timestamp - time()) < 86400 * 30
+        labels:
+          severity: warning
+          component: security
+        annotations:
+          summary: "Certificate expiring soon for {{ $labels.orderer }}"
+          description: "TLS certificate for {{ $labels.orderer }} will expire in less than 30 days."
+
+      # Disk Space
+      - alert: LowDiskSpace
+        expr: node_filesystem_avail_bytes{mountpoint="/var/hyperledger/production"} < 1e+09
+        for: 5m
+        labels:
+          severity: critical
+          component: infrastructure
+        annotations:
+          summary: "Low disk space on orderer node"
+          description: "Less than 1GB of disk space available on production volume."
+
+      # Raft Cluster Health
+      - alert: RaftClusterUnhealthy
+        expr: count(up{job="orderer-nodes"} == 1) < 3
+        for: 2m
+        labels:
+          severity: critical
+          component: consensus
+        annotations:
+          summary: "Raft cluster unhealthy - insufficient nodes"
+          description: "Fewer than 3 orderer nodes are running. Consensus may be at risk."

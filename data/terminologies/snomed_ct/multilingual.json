@@ -1,0 +1,100 @@
+{
+  "840539006": {
+    "fsn": "COVID-19",
+    "preferred_term": "Coronavirus disease 2019",
+    "translations": {
+      "ar": {"term": "كوفيد-19", "fsn": "مرض فيروس كورونا 2019", "synonyms": ["كورونا", "فيروس كورونا"]},
+      "es": {"term": "COVID-19", "fsn": "Enfermedad por coronavirus 2019", "synonyms": ["coronavirus"]},
+      "fr": {"term": "COVID-19", "fsn": "Maladie à coronavirus 2019", "synonyms": ["coronavirus"]},
+      "sw": {"term": "COVID-19", "fsn": "Ugonjwa wa virusi vya korona 2019", "synonyms": ["korona"]},
+      "fa": {"term": "کووید-19", "fsn": "بیماری کروناویروس 2019", "synonyms": ["کرونا"]},
+      "ps": {"term": "کوویډ-19", "fsn": "د کرونا ویروس ناروغي 2019", "synonyms": ["کرونا"]},
+      "ur": {"term": "کووڈ-19", "fsn": "کورونا وائرس کی بیماری 2019", "synonyms": ["کورونا"]},
+      "bn": {"term": "কোভিড-19", "fsn": "করোনাভাইরাস রোগ 2019", "synonyms": ["করোনা"]},
+      "so": {"term": "COVID-19", "fsn": "Cudurka fayraska korona 2019", "synonyms": ["korona"]},
+      "hi": {"term": "कोविड-19", "fsn": "कोरोनावायरस रोग 2019", "synonyms": ["कोरोना"]}
+    },
+    "context": "pandemic_disease",
+    "semantic_tag": "disorder"
+  },
+  "38341003": {
+    "fsn": "Hypertensive disorder, systemic arterial",
+    "preferred_term": "Hypertension",
+    "translations": {
+      "ar": {"term": "ارتفاع ضغط الدم", "fsn": "اضطراب ارتفاع ضغط الدم الشرياني", "synonyms": ["ضغط الدم المرتفع"]},
+      "es": {"term": "Hipertensión", "fsn": "Trastorno hipertensivo arterial sistémico", "synonyms": ["presión alta"]},
+      "fr": {"term": "Hypertension", "fsn": "Trouble hypertensif artériel systémique", "synonyms": ["tension élevée"]},
+      "sw": {"term": "Shinikizo la damu", "fsn": "Ugonjwa wa presha ya damu", "synonyms": ["presha"]},
+      "bn": {"term": "উচ্চ রক্তচাপ", "fsn": "সিস্টেমিক ধমনী উচ্চ রক্তচাপ", "synonyms": ["প্রেশার"]},
+      "fa": {"term": "فشار خون بالا", "fsn": "اختلال فشار خون شریانی سیستمیک", "synonyms": ["فشار"]},
+      "ur": {"term": "ہائی بلڈ پریشر", "fsn": "نظامی شریانی ہائی بلڈ پریشر", "synonyms": ["بی پی"]},
+      "hi": {"term": "उच्च रक्तचाप", "fsn": "प्रणालीगत धमनी उच्च रक्तचाप", "synonyms": ["हाई बीपी"]}
+    },
+    "context": "cardiovascular_disorder",
+    "semantic_tag": "disorder"
+  },
+  "73211009": {
+    "fsn": "Diabetes mellitus",
+    "preferred_term": "Diabetes mellitus",
+    "translations": {
+      "ar": {"term": "السكري", "fsn": "داء السكري", "synonyms": ["مرض السكر", "البول السكري"]},
+      "es": {"term": "Diabetes", "fsn": "Diabetes mellitus", "synonyms": ["azúcar en la sangre"]},
+      "fr": {"term": "Diabète", "fsn": "Diabète sucré", "synonyms": ["diabète mellitus"]},
+      "sw": {"term": "Kisukari", "fsn": "Ugonjwa wa kisukari", "synonyms": ["sukari"]},
+      "bn": {"term": "ডায়াবেটিস", "fsn": "ডায়াবেটিস মেলিটাস", "synonyms": ["বহুমূত্র", "মধুমেহ"]},
+      "fa": {"term": "دیابت", "fsn": "دیابت ملیتوس", "synonyms": ["قند خون", "بیماری قند"]},
+      "ur": {"term": "ذیابیطس", "fsn": "ذیابیطس ملیطس", "synonyms": ["شوگر", "بول میں شکر"]},
+      "hi": {"term": "मधुमेह", "fsn": "मधुमेह मेलिटस", "synonyms": ["शुगर", "डायबिटीज"]}
+    },
+    "context": "endocrine_disorder",
+    "semantic_tag": "disorder"
+  },
+  "195967001": {
+    "fsn": "Asthma",
+    "preferred_term": "Asthma",
+    "translations": {
+      "ar": {"term": "الربو", "fsn": "الربو القصبي", "synonyms": ["ضيق التنفس", "أزمة"]},
+      "es": {"term": "Asma", "fsn": "Asma bronquial", "synonyms": ["asma bronquial"]},
+      "fr": {"term": "Asthme", "fsn": "Asthme bronchique", "synonyms": ["crise d'asthme"]},
+      "sw": {"term": "Pumu", "fsn": "Ugonjwa wa pumu", "synonyms": ["kifua kikuu"]},
+      "bn": {"term": "হাঁপানি", "fsn": "ব্রঙ্কিয়াল অ্যাজমা", "synonyms": ["শ্বাসকষ্ট"]},
+      "fa": {"term": "آسم", "fsn": "آسم برونشیال", "synonyms": ["تنگی نفس"]},
+      "ur": {"term": "دمہ", "fsn": "دمہ قصبی", "synonyms": ["سانس کی تکلیف"]},
+      "hi": {"term": "दमा", "fsn": "श्वसनी दमा", "synonyms": ["अस्थमा", "सांस की बीमारी"]}
+    },
+    "context": "respiratory_disorder",
+    "semantic_tag": "disorder"
+  },
+  "56265001": {
+    "fsn": "Heart disease",
+    "preferred_term": "Heart disease",
+    "translations": {
+      "ar": {"term": "مرض القلب", "fsn": "أمراض القلب", "synonyms": ["قلبية", "أمراض قلبية"]},
+      "es": {"term": "Enfermedad cardíaca", "fsn": "Enfermedad del corazón", "synonyms": ["cardiopatía"]},
+      "fr": {"term": "Maladie cardiaque", "fsn": "Maladie du cœur", "synonyms": ["cardiopathie"]},
+      "sw": {"term": "Ugonjwa wa moyo", "fsn": "Magonjwa ya moyo", "synonyms": ["moyo"]},
+      "bn": {"term": "হৃদরোগ", "fsn": "হার্টের রোগ", "synonyms": ["হার্টের সমস্যা"]},
+      "fa": {"term": "بیماری قلبی", "fsn": "بیماری‌های قلب", "synonyms": ["قلبی", "ناراحتی قلب"]},
+      "ur": {"term": "دل کی بیماری", "fsn": "امراض قلب", "synonyms": ["دل کا مرض"]},
+      "hi": {"term": "हृदय रोग", "fsn": "दिल की बीमारी", "synonyms": ["हार्ट की बीमारी"]}
+    },
+    "context": "cardiovascular_disorder",
+    "semantic_tag": "disorder"
+  },
+  "40733004": {
+    "fsn": "Infectious disease",
+    "preferred_term": "Infectious disease",
+    "translations": {
+      "ar": {"term": "مرض معدي", "fsn": "الأمراض المعدية", "synonyms": ["عدوى", "مرض ساري"]},
+      "es": {"term": "Enfermedad infecciosa", "fsn": "Enfermedad infectocontagiosa", "synonyms": ["infección"]},
+      "fr": {"term": "Maladie infectieuse", "fsn": "Maladie transmissible", "synonyms": ["infection"]},
+      "sw": {"term": "Ugonjwa wa kuambukiza", "fsn": "Magonjwa ya kuambukiza", "synonyms": ["maambukizi"]},
+      "bn": {"term": "সংক্রামক রোগ", "fsn": "ছোঁয়াচে রোগ", "synonyms": ["সংক্রমণ"]},
+      "fa": {"term": "بیماری عفونی", "fsn": "بیماری‌های واگیردار", "synonyms": ["عفونت"]},
+      "ur": {"term": "متعدی بیماری", "fsn": "چھوت کی بیماری", "synonyms": ["انفیکشن"]},
+      "hi": {"term": "संक्रामक रोग", "fsn": "छूत की बीमारी", "synonyms": ["संक्रमण"]}
+    },
+    "context": "infectious_disorder",
+    "semantic_tag": "disorder"
+  }
+}

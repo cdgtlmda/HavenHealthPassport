@@ -1,0 +1,51 @@
+{
+  "common": {
+    "appName": "پاسپورت سلامت هیون",
+    "loading": "در حال بارگذاری...",
+    "error": "خطا",
+    "success": "موفقیت",
+    "cancel": "لغو",
+    "save": "ذخیره",
+    "delete": "حذف",
+    "edit": "ویرایش",
+    "close": "بستن",
+    "confirm": "تأیید",
+    "back": "بازگشت",
+    "next": "بعدی",
+    "previous": "قبلی",
+    "done": "انجام شد",
+    "skip": "رد کردن",
+    "yes": "بله",
+    "no": "خیر",
+    "ok": "تأیید",
+    "search": "جستجو",
+    "filter": "فیلتر",
+    "sort": "مرتب‌سازی",
+    "refresh": "بروزرسانی",
+    "retry": "تلاش مجدد",
+    "submit": "ارسال",
+    "continue": "ادامه"
+  },
+  "auth": {
+    "login": {
+      "title": "خوش آمدید",
+      "subtitle": "برای دسترسی به سوابق سلامت خود وارد شوید",
+      "email": "ایمیل",
+      "emailPlaceholder": "ایمیل خود را وارد کنید",
+      "password": "رمز عبور",
+      "passwordPlaceholder": "رمز عبور خود را وارد کنید",
+      "forgotPassword": "رمز عبور را فراموش کرده‌اید؟",
+      "signIn": "ورود",
+      "noAccount": "حساب کاربری ندارید؟",
+      "signUp": "ثبت نام",
+      "invalidCredentials": "ایمیل یا رمز عبور نادرست است"
+    },
+    "register": {
+      "title": "ایجاد حساب کاربری",
+      "firstName": "نام",
+      "lastName": "نام خانوادگی",
+      "dateOfBirth": "تاریخ تولد",
+      "email": "آدرس ایمیل"
+    }
+  }
+}

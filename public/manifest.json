@@ -1,0 +1,146 @@
+{
+  "name": "Haven Health Passport",
+  "short_name": "Haven Health",
+  "description": "Secure, portable health records for displaced populations",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "theme_color": "#1e40af",
+  "background_color": "#ffffff",
+  "scope": "/",
+  "icons": [
+    {
+      "src": "/icons/icon-72x72.png",
+      "sizes": "72x72",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/icons/icon-96x96.png",
+      "sizes": "96x96",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/icons/icon-128x128.png",
+      "sizes": "128x128",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/icons/icon-144x144.png",
+      "sizes": "144x144",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/icons/icon-152x152.png",
+      "sizes": "152x152",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/icons/icon-384x384.png",
+      "sizes": "384x384",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable any"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/screenshots/dashboard.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "label": "Dashboard view"
+    },
+    {
+      "src": "/screenshots/health-records.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "label": "Health records management"
+    },
+    {
+      "src": "/screenshots/offline-sync.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "label": "Offline synchronization"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "View Health Records",
+      "short_name": "Records",
+      "description": "View your health records",
+      "url": "/records",
+      "icons": [
+        {
+          "src": "/icons/records-96x96.png",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "Emergency Info",
+      "short_name": "Emergency",
+      "description": "View emergency medical information",
+      "url": "/emergency",
+      "icons": [
+        {
+          "src": "/icons/emergency-96x96.png",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "Sync Data",
+      "short_name": "Sync",
+      "description": "Synchronize offline data",
+      "url": "/sync",
+      "icons": [
+        {
+          "src": "/icons/sync-96x96.png",
+          "sizes": "96x96"
+        }
+      ]
+    }
+  ],
+  "categories": ["medical", "health", "productivity"],
+  "prefer_related_applications": false,
+  "related_applications": [
+    {
+      "platform": "play",
+      "url": "https://play.google.com/store/apps/details?id=org.haven.healthpassport",
+      "id": "org.haven.healthpassport"
+    },
+    {
+      "platform": "itunes",
+      "url": "https://apps.apple.com/app/haven-health-passport/id123456789"
+    }
+  ],
+  "lang": "en-US",
+  "dir": "ltr",
+  "scope_extensions": [
+    {
+      "origin": "*.havenhealthpassport.org"
+    }
+  ],
+  "display_override": ["standalone", "minimal-ui", "browser"],
+  "edge_side_panel": {
+    "preferred_width": 400
+  },
+  "launch_handler": {
+    "client_mode": ["navigate-existing", "auto"]
+  }
+}

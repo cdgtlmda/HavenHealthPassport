@@ -1,0 +1,293 @@
+name: "haven-health-network"
+version: "1.0.0"
+description: "Connection profile for Haven Health Passport blockchain network"
+
+# Client configuration
+client:
+  organization: HealthcareProvider1MSP
+
+  # Logging configuration
+  logging:
+    level: info
+
+  # Crypto store configuration
+  cryptoconfig:
+    path: /tmp/crypto-store
+
+  # SDK credential store
+  credentialStore:
+    path: /tmp/credential-store
+    cryptoStore:
+      path: /tmp/crypto-store
+
+  # BCCSP configuration
+  BCCSP:
+    security:
+      enabled: true
+      default:
+        provider: "SW"
+      hashAlgorithm: "SHA2"
+      softVerify: true
+      level: 256
+
+  # TLS configuration
+  tlsCerts:
+    systemCertPool: true
+    client:
+      cert:
+        path: ""
+      key:
+        path: ""
+
+# Channel configuration
+channels:
+  healthcare-channel:
+    orderers:
+      - orderer1.haven-health.org
+      - orderer2.haven-health.org
+      - orderer3.haven-health.org
+
+    peers:
+      peer0.healthcare1.haven-health.org:
+        endorsingPeer: true
+        chaincodeQuery: true
+        ledgerQuery: true
+        eventSource: true
+
+      peer1.healthcare1.haven-health.org:
+        endorsingPeer: true
+        chaincodeQuery: true
+        ledgerQuery: true
+        eventSource: false
+
+      peer0.healthcare2.haven-health.org:
+        endorsingPeer: true
+        chaincodeQuery: true
+        ledgerQuery: true
+        eventSource: true
+
+      peer0.unhcr.haven-health.org:
+        endorsingPeer: false
+        chaincodeQuery: true
+        ledgerQuery: true
+        eventSource: true
+
+      peer0.refugee.haven-health.org:
+        endorsingPeer: true
+        chaincodeQuery: true
+        ledgerQuery: true
+        eventSource: true
+
+    # Channel policies
+    policies:
+      queryChannelConfig:
+        minResponses: 1
+        maxTargets: 1
+        retryOpts:
+          attempts: 5
+          initialBackoff: 500ms
+          maxBackoff: 5s
+          backoffFactor: 2.0
+
+      discovery:
+        maxTargets: 2
+        retryOpts:
+          attempts: 4
+          initialBackoff: 500ms
+          maxBackoff: 5s
+          backoffFactor: 2.0
+
+      eventService:
+        resolverStrategy: PreferOrg
+        balancer: RoundRobin
+        blockHeightLagThreshold: 5
+        reconnectBlockHeightLagThreshold: 10
+        peerMonitorPeriod: 5s
+
+# Organization configuration
+organizations:
+  HealthcareProvider1MSP:
+    mspid: HealthcareProvider1MSP
+    cryptopath: peerOrganizations/healthcare1.haven-health.org/msp
+
+    peers:
+      - peer0.healthcare1.haven-health.org
+      - peer1.healthcare1.haven-health.org
+
+    certificateAuthorities:
+      - ca.healthcare1.haven-health.org
+
+    adminPrivateKeyPem: |
+      # REPLACE WITH YOUR ACTUAL ADMIN PRIVATE KEY
+      # This should be loaded from a secure key management system
+      # Never commit real private keys to version control
+
+    signedCertPem: |
+      # REPLACE WITH YOUR ACTUAL SIGNED CERTIFICATE
+      # This should be loaded from a secure certificate store
+      # Never commit real certificates to version control
+
+  HealthcareProvider2MSP:
+    mspid: HealthcareProvider2MSP
+    cryptopath: peerOrganizations/healthcare2.haven-health.org/msp
+
+    peers:
+      - peer0.healthcare2.haven-health.org
+      - peer1.healthcare2.haven-health.org
+
+    certificateAuthorities:
+      - ca.healthcare2.haven-health.org
+
+  UNHCROrgMSP:
+    mspid: UNHCROrgMSP
+    cryptopath: peerOrganizations/unhcr.haven-health.org/msp
+
+    peers:
+      - peer0.unhcr.haven-health.org
+
+    certificateAuthorities:
+      - ca.unhcr.haven-health.org
+
+  RefugeeOrgMSP:
+    mspid: RefugeeOrgMSP
+    cryptopath: peerOrganizations/refugee.haven-health.org/msp
+
+    peers:
+      - peer0.refugee.haven-health.org
+
+    certificateAuthorities:
+      - ca.refugee.haven-health.org
+
+# Orderer configuration
+orderers:
+  orderer1.haven-health.org:
+    url: grpcs://orderer1.haven-health.org:7050
+    tlsCACerts:
+      path: orderers/haven-health.org/msp/tlscacerts/tlsca.haven-health-cert.pem
+    grpcOptions:
+      ssl-target-name-override: orderer1.haven-health.org
+      grpc-max-send-message-length: 15728640
+      grpc.keepalive_time_ms: 360000
+      grpc.keepalive_timeout_ms: 180000
+
+  orderer2.haven-health.org:
+    url: grpcs://orderer2.haven-health.org:7050
+    tlsCACerts:
+      path: orderers/haven-health.org/msp/tlscacerts/tlsca.haven-health-cert.pem
+    grpcOptions:
+      ssl-target-name-override: orderer2.haven-health.org
+      grpc-max-send-message-length: 15728640
+      grpc.keepalive_time_ms: 360000
+      grpc.keepalive_timeout_ms: 180000
+
+  orderer3.haven-health.org:
+    url: grpcs://orderer3.haven-health.org:7050
+    tlsCACerts:
+      path: orderers/haven-health.org/msp/tlscacerts/tlsca.haven-health-cert.pem
+    grpcOptions:
+      ssl-target-name-override: orderer3.haven-health.org
+      grpc-max-send-message-length: 15728640
+      grpc.keepalive_time_ms: 360000
+      grpc.keepalive_timeout_ms: 180000
+
+# Peer configuration
+peers:
+  peer0.healthcare1.haven-health.org:
+    url: grpcs://peer0.healthcare1.haven-health.org:7051
+    tlsCACerts:
+      path: peers/peer0.healthcare1.haven-health.org/msp/tlscacerts/tlsca.healthcare1.haven-health-cert.pem
+    grpcOptions:
+      ssl-target-name-override: peer0.healthcare1.haven-health.org
+      grpc-max-send-message-length: 15728640
+      grpc.keepalive_time_ms: 360000
+      grpc.keepalive_timeout_ms: 180000
+      grpc.http2.min_time_between_pings_ms: 60000
+      grpc.keepalive_permit_without_calls: 1
+
+  peer1.healthcare1.haven-health.org:
+    url: grpcs://peer1.healthcare1.haven-health.org:7051
+    tlsCACerts:
+      path: peers/peer1.healthcare1.haven-health.org/msp/tlscacerts/tlsca.healthcare1.haven-health-cert.pem
+    grpcOptions:
+      ssl-target-name-override: peer1.healthcare1.haven-health.org
+      grpc-max-send-message-length: 15728640
+      grpc.keepalive_time_ms: 360000
+      grpc.keepalive_timeout_ms: 180000
+      grpc.http2.min_time_between_pings_ms: 60000
+      grpc.keepalive_permit_without_calls: 1
+
+  peer0.healthcare2.haven-health.org:
+    url: grpcs://peer0.healthcare2.haven-health.org:7051
+    tlsCACerts:
+      path: peers/peer0.healthcare2.haven-health.org/msp/tlscacerts/tlsca.healthcare2.haven-health-cert.pem
+    grpcOptions:
+      ssl-target-name-override: peer0.healthcare2.haven-health.org
+      grpc-max-send-message-length: 15728640
+      grpc.keepalive_time_ms: 360000
+      grpc.keepalive_timeout_ms: 180000
+
+  peer0.unhcr.haven-health.org:
+    url: grpcs://peer0.unhcr.haven-health.org:7051
+    tlsCACerts:
+      path: peers/peer0.unhcr.haven-health.org/msp/tlscacerts/tlsca.unhcr.haven-health-cert.pem
+    grpcOptions:
+      ssl-target-name-override: peer0.unhcr.haven-health.org
+      grpc-max-send-message-length: 15728640
+      grpc.keepalive_time_ms: 360000
+      grpc.keepalive_timeout_ms: 180000
+
+  peer0.refugee.haven-health.org:
+    url: grpcs://peer0.refugee.haven-health.org:7051
+    tlsCACerts:
+      path: peers/peer0.refugee.haven-health.org/msp/tlscacerts/tlsca.refugee.haven-health-cert.pem
+    grpcOptions:
+      ssl-target-name-override: peer0.refugee.haven-health.org
+      grpc-max-send-message-length: 15728640
+      grpc.keepalive_time_ms: 360000
+      grpc.keepalive_timeout_ms: 180000
+
+# Certificate Authorities
+certificateAuthorities:
+  ca.healthcare1.haven-health.org:
+    url: https://ca.healthcare1.haven-health.org:7054
+    httpOptions:
+      verify: false
+    tlsCACerts:
+      path: cas/healthcare1.haven-health.org/msp/tlscacerts/tlsca.healthcare1.haven-health-cert.pem
+    registrar:
+      - enrollId: admin
+        enrollSecret: REPLACE_WITH_SECURE_PASSWORD
+    caName: ca-healthcare1
+
+  ca.healthcare2.haven-health.org:
+    url: https://ca.healthcare2.haven-health.org:7055
+    httpOptions:
+      verify: false
+    tlsCACerts:
+      path: cas/healthcare2.haven-health.org/msp/tlscacerts/tlsca.healthcare2.haven-health-cert.pem
+    registrar:
+      - enrollId: admin
+        enrollSecret: REPLACE_WITH_SECURE_PASSWORD
+    caName: ca-healthcare2
+
+  ca.unhcr.haven-health.org:
+    url: https://ca.unhcr.haven-health.org:7056
+    httpOptions:
+      verify: false
+    tlsCACerts:
+      path: cas/unhcr.haven-health.org/msp/tlscacerts/tlsca.unhcr.haven-health-cert.pem
+    registrar:
+      - enrollId: admin
+        enrollSecret: REPLACE_WITH_SECURE_PASSWORD
+    caName: ca-unhcr
+
+  ca.refugee.haven-health.org:
+    url: https://ca.refugee.haven-health.org:7057
+    httpOptions:
+      verify: false
+    tlsCACerts:
+      path: cas/refugee.haven-health.org/msp/tlscacerts/tlsca.refugee.haven-health-cert.pem
+    registrar:
+      - enrollId: admin
+        enrollSecret: REPLACE_WITH_SECURE_PASSWORD
+    caName: ca-refugee

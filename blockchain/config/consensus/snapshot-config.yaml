@@ -1,0 +1,240 @@
+# Snapshot Configuration for Raft Consensus
+# Haven Health Passport - Ordering Service Snapshot Settings
+#
+# Snapshots are used to:
+# 1. Reduce storage requirements by compacting the Raft log
+# 2. Speed up recovery of crashed nodes
+# 3. Accelerate new node synchronization
+
+snapshot:
+  # Snapshot trigger configuration
+  triggers:
+    # Size-based trigger - create snapshot when log reaches this size
+    sizeInterval:
+      enabled: true
+      threshold: 20971520  # 20 MB in bytes
+      # Minimum size before considering snapshot (prevents too frequent snapshots)
+      minimumSize: 10485760  # 10 MB in bytes
+
+    # Block count trigger - create snapshot after N blocks
+    blockInterval:
+      enabled: true
+      threshold: 10000  # Create snapshot every 10,000 blocks
+      # Minimum blocks before considering snapshot
+      minimumBlocks: 1000
+
+    # Time-based trigger - create snapshot after time elapsed
+    timeInterval:
+      enabled: true
+      interval: "24h"  # Daily snapshots
+      # Minimum time between snapshots
+      minimumInterval: "1h"
+
+    # Transaction count trigger - create snapshot after N transactions
+    transactionInterval:
+      enabled: true
+      threshold: 100000  # Create snapshot every 100,000 transactions
+      minimumTransactions: 10000
+
+  # Snapshot creation settings
+  creation:
+    # Compression settings
+    compression:
+      enabled: true
+      algorithm: "zstd"  # Options: gzip, zstd, lz4
+      level: 3  # 1-9 for gzip, 1-22 for zstd
+
+    # Parallel processing
+    parallel:
+      enabled: true
+      workers: 4  # Number of parallel workers
+      chunkSize: 4194304  # 4 MB chunks
+
+    # Resource limits during snapshot creation
+    resourceLimits:
+      # Maximum CPU usage percentage
+      maxCPUPercent: 50
+      # Maximum memory usage
+      maxMemoryMB: 2048
+      # I/O priority (nice value)
+      ioPriority: 7  # 0-7, where 7 is lowest priority
+
+    # Verification
+    verification:
+      # Verify snapshot integrity after creation
+      enabled: true
+      # Checksum algorithm
+      checksumAlgorithm: "sha256"
+      # Verify immediately after creation
+      immediate: true
+
+  # Snapshot storage settings
+  storage:
+    # Primary storage location
+    primary:
+      type: "aws-ebs"  # Options: local, aws-ebs, aws-s3
+      path: "/var/hyperledger/production/orderer/snapshots"
+
+      # EBS-specific settings
+      ebs:
+        volumeType: "gp3"
+        iops: 3000
+        throughput: 125  # MB/s
+        encryption: true
+        kmsKeyId: "alias/haven-health-blockchain"
+
+    # Backup storage location
+    backup:
+      enabled: true
+      type: "aws-s3"
+
+      # S3-specific settings
+      s3:
+        bucket: "haven-health-blockchain-snapshots"
+        region: "us-east-1"
+        prefix: "orderer-snapshots/"
+        storageClass: "STANDARD_IA"  # Infrequent access for cost optimization
+
+        # Encryption
+        encryption:
+          type: "aws:kms"
+          kmsKeyId: "alias/haven-health-blockchain-backup"
+
+        # Lifecycle policy
+        lifecycle:
+          # Move to Glacier after 30 days
+          glacierTransitionDays: 30
+          # Delete after 365 days
+          expirationDays: 365
+
+    # Retention policy
+    retention:
+      # Number of snapshots to keep locally
+      localSnapshots: 10
+      # Number of snapshots to keep in backup
+      backupSnapshots: 30
+      # Always keep snapshots from the last N days
+      minimumAgeDays: 7
+
+      # Cleanup schedule
+      cleanup:
+        enabled: true
+        schedule: "0 2 * * *"  # Daily at 2 AM
+        # Delete oldest first when limit reached
+        strategy: "oldest-first"
+
+  # Snapshot transfer settings (for new nodes)
+  transfer:
+    # Maximum concurrent transfers
+    maxConcurrent: 3
+
+    # Transfer rate limiting
+    rateLimit:
+      enabled: true
+      # Maximum bandwidth per transfer (MB/s)
+      maxBandwidthMBps: 50
+      # Burst allowance
+      burstMBps: 100
+      burstDurationSeconds: 10
+
+    # Transfer verification
+    verification:
+      # Verify checksum during transfer
+      checksumVerification: true
+      # Resume interrupted transfers
+      resumable: true
+      # Maximum retry attempts
+      maxRetries: 5
+      # Retry backoff
+      retryBackoff: "exponential"
+
+  # Recovery settings
+  recovery:
+    # Automatic recovery from snapshot
+    automatic: true
+
+    # Recovery verification
+    verification:
+      # Verify snapshot before recovery
+      preRecoveryCheck: true
+      # Verify state after recovery
+      postRecoveryCheck: true
+      # Maximum time for recovery
+      timeout: "30m"
+
+    # Recovery source preference
+    sourcePreference:
+      - "local"
+      - "aws-ebs"
+      - "aws-s3"
+
+    # Parallel recovery
+    parallel:
+      enabled: true
+      workers: 4
+
+  # Monitoring and alerting
+  monitoring:
+    # CloudWatch metrics
+    metrics:
+      namespace: "HavenHealth/Blockchain/Snapshots"
+      enabled: true
+
+      # Metrics to track
+      tracked:
+        - name: "SnapshotCreationTime"
+          unit: "Seconds"
+        - name: "SnapshotSize"
+          unit: "Bytes"
+        - name: "SnapshotCount"
+          unit: "Count"
+        - name: "SnapshotAge"
+          unit: "Hours"
+        - name: "RecoveryTime"
+          unit: "Seconds"
+
+    # Alerts
+    alerts:
+      - name: "SnapshotCreationFailed"
+        condition: "SnapshotCreationFailures > 0"
+        severity: "CRITICAL"
+
+      - name: "SnapshotBackupFailed"
+        condition: "SnapshotBackupFailures > 0"
+        severity: "WARNING"
+
+      - name: "SnapshotAgeTooOld"
+        condition: "OldestSnapshotAge > 48h"
+        severity: "WARNING"
+
+      - name: "SnapshotStorageFull"
+        condition: "SnapshotStorageUsed > 90%"
+        severity: "WARNING"
+
+  # Advanced settings
+  advanced:
+    # Incremental snapshots
+    incremental:
+      enabled: false  # Experimental feature
+      # Base snapshot interval
+      baseInterval: 7  # Every 7th snapshot is a full snapshot
+
+    # Snapshot scheduling optimization
+    optimization:
+      # Avoid snapshots during peak hours
+      avoidPeakHours: true
+      peakHours:
+        - start: "09:00"
+          end: "11:00"
+          timezone: "UTC"
+        - start: "14:00"
+          end: "16:00"
+          timezone: "UTC"
+
+      # Coordinate snapshots across nodes
+      coordination:
+        enabled: true
+        # Stagger snapshots by this duration
+        staggerDuration: "5m"
+        # Use leader to coordinate
+        leaderCoordinated: true

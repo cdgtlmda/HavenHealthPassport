@@ -1,0 +1,162 @@
+# Haven Health Passport - Channel Configuration
+# This file contains the definitions for channels and genesis block
+
+---
+Organizations:
+    - &OrdererOrg
+        Name: OrdererOrg
+        ID: OrdererMSP
+        MSPDir: ../crypto-config/ordererOrganizations/havenhealthpassport.com/msp
+        Policies:
+            Readers:
+                Type: Signature
+                Rule: "OR('OrdererMSP.member')"
+            Writers:
+                Type: Signature
+                Rule: "OR('OrdererMSP.member')"
+            Admins:
+                Type: Signature
+                Rule: "OR('OrdererMSP.admin')"
+        OrdererEndpoints:
+            - orderer.havenhealthpassport.com:7050
+            - orderer2.havenhealthpassport.com:7050
+            - orderer3.havenhealthpassport.com:7050
+
+    - &HavenHealthFoundation
+        Name: HavenHealthFoundationMSP
+        ID: HavenHealthFoundationMSP
+        MSPDir: ../crypto-config/peerOrganizations/havenhealthfoundation.com/msp
+        Policies:
+            Readers:
+                Type: Signature
+                Rule: "OR('HavenHealthFoundationMSP.admin', 'HavenHealthFoundationMSP.peer', 'HavenHealthFoundationMSP.client')"
+            Writers:
+                Type: Signature
+                Rule: "OR('HavenHealthFoundationMSP.admin', 'HavenHealthFoundationMSP.client')"
+            Admins:
+                Type: Signature
+                Rule: "OR('HavenHealthFoundationMSP.admin')"
+            Endorsement:
+                Type: Signature
+                Rule: "OR('HavenHealthFoundationMSP.peer')"
+        AnchorPeers:
+            - Host: peer0.havenhealthfoundation.com
+              Port: 7051
+
+Capabilities:
+    Channel: &ChannelCapabilities
+        V2_0: true
+    Orderer: &OrdererCapabilities
+        V2_0: true
+
+    Application: &ApplicationCapabilities
+        V2_0: true
+
+Application: &ApplicationDefaults
+    Organizations:
+    Policies:
+        Readers:
+            Type: ImplicitMeta
+            Rule: "ANY Readers"
+        Writers:
+            Type: ImplicitMeta
+            Rule: "ANY Writers"
+        Admins:
+            Type: ImplicitMeta
+            Rule: "MAJORITY Admins"
+        LifecycleEndorsement:
+            Type: ImplicitMeta
+            Rule: "MAJORITY Endorsement"
+        Endorsement:
+            Type: ImplicitMeta
+            Rule: "MAJORITY Endorsement"
+    Capabilities:
+        <<: *ApplicationCapabilities
+
+Orderer: &OrdererDefaults
+    OrdererType: raft
+    Addresses:
+        - orderer.havenhealthpassport.com:7050
+        - orderer2.havenhealthpassport.com:7050
+        - orderer3.havenhealthpassport.com:7050
+    BatchTimeout: 2s
+    BatchSize:
+        MaxMessageCount: 10
+        AbsoluteMaxBytes: 99 MB
+        PreferredMaxBytes: 512 KB
+    Kafka:
+        Brokers:
+            - 127.0.0.1:9092
+    EtcdRaft:
+        Consenters:
+        - Host: orderer.havenhealthpassport.com
+          Port: 7050
+          ClientTLSCert: ../crypto-config/ordererOrganizations/havenhealthpassport.com/orderers/orderer.havenhealthpassport.com/tls/server.crt
+          ServerTLSCert: ../crypto-config/ordererOrganizations/havenhealthpassport.com/orderers/orderer.havenhealthpassport.com/tls/server.crt        - Host: orderer2.havenhealthpassport.com
+          Port: 7050
+          ClientTLSCert: ../crypto-config/ordererOrganizations/havenhealthpassport.com/orderers/orderer2.havenhealthpassport.com/tls/server.crt
+          ServerTLSCert: ../crypto-config/ordererOrganizations/havenhealthpassport.com/orderers/orderer2.havenhealthpassport.com/tls/server.crt
+        - Host: orderer3.havenhealthpassport.com
+          Port: 7050
+          ClientTLSCert: ../crypto-config/ordererOrganizations/havenhealthpassport.com/orderers/orderer3.havenhealthpassport.com/tls/server.crt
+          ServerTLSCert: ../crypto-config/ordererOrganizations/havenhealthpassport.com/orderers/orderer3.havenhealthpassport.com/tls/server.crt
+    Organizations:
+    Policies:
+        Readers:
+            Type: ImplicitMeta
+            Rule: "ANY Readers"
+        Writers:
+            Type: ImplicitMeta
+            Rule: "ANY Writers"
+        Admins:
+            Type: ImplicitMeta
+            Rule: "MAJORITY Admins"
+        BlockValidation:
+            Type: ImplicitMeta
+            Rule: "ANY Writers"
+    Capabilities:
+        <<: *OrdererCapabilities
+
+Channel: &ChannelDefaults
+    Policies:
+        Readers:
+            Type: ImplicitMeta
+            Rule: "ANY Readers"
+        Writers:
+            Type: ImplicitMeta
+            Rule: "ANY Writers"
+        Admins:
+            Type: ImplicitMeta
+            Rule: "MAJORITY Admins"
+    Capabilities:
+        <<: *ChannelCapabilities
+
+Profiles:
+    HavenHealthGenesis:
+        <<: *ChannelDefaults
+        Orderer:
+            <<: *OrdererDefaults
+            Organizations:
+                - *OrdererOrg
+            Capabilities:                <<: *OrdererCapabilities
+        Application:
+            <<: *ApplicationDefaults
+            Organizations:
+                - *OrdererOrg
+                - *HavenHealthFoundation
+            Capabilities:
+                <<: *ApplicationCapabilities
+        Consortiums:
+            HavenHealthConsortium:
+                Organizations:
+                    - *HavenHealthFoundation
+
+    HavenHealthChannel:
+        Consortium: HavenHealthConsortium
+        <<: *ChannelDefaults
+        Application:
+            <<: *ApplicationDefaults
+            Organizations:
+                - *HavenHealthFoundation
+            Capabilities:
+                <<: *ApplicationCapabilities

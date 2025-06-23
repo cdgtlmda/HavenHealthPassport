@@ -1,0 +1,192 @@
+# Copyright Haven Health Passport. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+################################################################################
+#
+#   Orderer Configuration
+#
+#   This configuration file is for Raft-based ordering service
+#
+################################################################################
+General:
+    # Listen address and port for orderer
+    ListenAddress: 0.0.0.0
+    ListenPort: 7050
+
+    # TLS Configuration
+    TLS:
+        Enabled: true
+        PrivateKey: tls/server.key
+        Certificate: tls/server.crt
+        RootCAs:
+          - tls/ca.crt
+        ClientAuthRequired: false
+        ClientRootCAs:
+
+    # Keepalive settings for orderer server
+    Keepalive:
+        ServerMinInterval: 60s
+        ServerInterval: 7200s
+        ServerTimeout: 20s
+
+    # Cluster configuration for Raft
+    Cluster:
+        # SendBufferSize controls the buffer size for outgoing messages to other cluster members
+        SendBufferSize: 10
+
+        # ClientCertificate and ClientPrivateKey govern the TLS client credentials
+        # for the orderer to connect to other cluster members
+        ClientCertificate: tls/server.crt
+        ClientPrivateKey: tls/server.key
+
+        # ListenPort defines the port for intra-cluster communication
+        ListenPort: 7050
+        ListenAddress: 0.0.0.0
+
+        # ServerCertificate and ServerPrivateKey govern the TLS server credentials
+        # for the orderer to accept connections from other cluster members
+        ServerCertificate: tls/server.crt
+        ServerPrivateKey: tls/server.key
+    # Bootstrap method to use for bringing up the orderer
+    BootstrapMethod: none
+
+    # Bootstrap file for orderer initialization
+    BootstrapFile:
+
+    # LocalMSPDir is where to find the crypto material for the orderer
+    LocalMSPDir: msp
+
+    # LocalMSPID is the identity of the local MSP
+    LocalMSPID: OrdererMSP
+
+    # BCCSP configures the blockchain crypto service providers
+    BCCSP:
+        Default: SW
+        SW:
+            Hash: SHA2
+            Security: 256
+            FileKeyStore:
+                KeyStore:
+
+    # Authentication contains configuration for client authentication
+    Authentication:
+        TimeWindow: 15m
+
+################################################################################
+#
+#   SECTION: File Ledger
+#
+#   This section applies to the configuration of the file ledger
+#
+################################################################################
+FileLedger:
+    # Location specifies where the file ledger is stored
+    Location: /var/hyperledger/production/orderer
+
+################################################################################
+#
+#   SECTION: Kafka (Not used for Raft)
+#
+################################################################################
+Kafka:
+    # Kafka is not used with Raft consensus
+    Retry:
+        ShortInterval: 5s
+        ShortTotal: 10m
+        LongInterval: 5m
+        LongTotal: 12h
+################################################################################
+#
+#   SECTION: Consensus
+#
+#   This section configures the Raft consensus implementation
+#
+################################################################################
+Consensus:
+    # WALDir specifies the location for Write Ahead Logs for etcd/raft
+    WALDir: /var/hyperledger/production/orderer/etcdraft/wal
+
+    # SnapDir specifies the location for snapshots for etcd/raft
+    SnapDir: /var/hyperledger/production/orderer/etcdraft/snapshot
+
+################################################################################
+#
+#   SECTION: Operations
+#
+#   This section configures the operations server for monitoring
+#
+################################################################################
+Operations:
+    # ListenAddress specifies the host and port for the operations server
+    ListenAddress: 0.0.0.0:9443
+
+    # TLS configuration for the operations endpoint
+    TLS:
+        Enabled: true
+        Certificate: tls/server.crt
+        PrivateKey: tls/server.key
+        ClientAuthRequired: false
+        ClientRootCAs: []
+
+################################################################################
+#
+#   SECTION: Metrics
+#
+#   This section configures metrics collection
+#
+################################################################################
+Metrics:
+    # Provider specifies the metrics provider (prometheus)
+    Provider: prometheus
+
+    # Prometheus configuration
+    Prometheus:
+        HandlerPath: /metrics
+        ListenAddress: 0.0.0.0:8125
+################################################################################
+#
+#   SECTION: Admin
+#
+#   This section configures the admin server endpoint
+#
+################################################################################
+Admin:
+    # ListenAddress specifies the host and port for the admin server
+    ListenAddress: 0.0.0.0:7053
+
+    # TLS configuration for the admin endpoint
+    TLS:
+        Enabled: true
+        Certificate: tls/server.crt
+        PrivateKey: tls/server.key
+        RootCAs: [tls/ca.crt]
+        ClientAuthRequired: true
+        ClientRootCAs: [tls/ca.crt]
+
+################################################################################
+#
+#   SECTION: Channel Participation
+#
+#   This section configures channel participation API
+#
+################################################################################
+ChannelParticipation:
+    # Enabled enables the channel participation API
+    Enabled: true
+
+    # MaxRequestBodySize controls the maximum size of the request body
+    MaxRequestBodySize: 1 MB
+
+################################################################################
+#
+#   SECTION: Debug
+#
+#   This section contains configuration for debugging and development
+#
+################################################################################
+Debug:
+    # BroadcastTraceDir specifies the location for trace files
+    BroadcastTraceDir:
+
+    # DeliverTraceDir specifies the location for deliver trace files
+    DeliverTraceDir:

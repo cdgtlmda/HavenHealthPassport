@@ -1,0 +1,199 @@
+{
+  "emergency_terms": {
+    "emergency": {
+      "category": "regulatory",
+      "priority": "critical",
+      "translations": {
+        "es": ["emergencia", "urgencia"],
+        "fr": ["urgence", "cas d'urgence"],
+        "ar": ["طوارئ", "حالة طارئة"],
+        "zh": ["紧急", "急诊", "急救"],
+        "hi": ["आपातकाल", "आपात स्थिति"],
+        "fa": ["اورژانس", "فوریت"],
+        "so": ["xaalad degdeg ah", "gurmad degdeg ah"],
+        "am": ["አስቸኳይ", "ህክምና አስቸኳይ"],
+        "sw": ["dharura", "hali ya hatari"],
+        "ur": ["ہنگامی", "ایمرجنسی"]
+      }
+    },
+    "urgent": {
+      "category": "regulatory",
+      "priority": "critical",
+      "translations": {
+        "es": ["urgente"],
+        "fr": ["urgent"],
+        "ar": ["عاجل"],
+        "zh": ["紧急", "急需"],
+        "hi": ["तत्काल"],
+        "fa": ["فوری"],
+        "so": ["degdeg"],
+        "am": ["አጣዳፊ"],
+        "sw": ["ya haraka"],
+        "ur": ["فوری"]
+      }
+    },
+    "critical": {
+      "category": "regulatory",
+      "priority": "critical",
+      "translations": {
+        "es": ["crítico", "grave"],
+        "fr": ["critique", "grave"],
+        "ar": ["حرج", "خطير"],
+        "zh": ["危急", "严重"],
+        "hi": ["गंभीर", "नाज़ुक"],
+        "fa": ["بحرانی", "وخیم"],
+        "so": ["halis", "khatar"],
+        "am": ["አሳሳቢ", "ከባድ"],
+        "sw": ["hatari", "mbaya"],
+        "ur": ["نازک", "سنگین"]
+      }
+    },
+    "help": {
+      "category": "regulatory",
+      "priority": "critical",
+      "translations": {
+        "es": ["ayuda", "socorro"],
+        "fr": ["aide", "secours"],
+        "ar": ["مساعدة", "نجدة"],
+        "zh": ["帮助", "救助"],
+        "hi": ["मदद", "सहायता"],
+        "fa": ["کمک", "یاری"],
+        "so": ["caawimo", "kaalmo"],
+        "am": ["እርዳታ", "ድጋፍ"],
+        "sw": ["msaada", "usaidizi"],
+        "ur": ["مدد", "امداد"]
+      }
+    },
+    "danger": {
+      "category": "regulatory",
+      "priority": "critical",
+      "translations": {
+        "es": ["peligro"],
+        "fr": ["danger"],
+        "ar": ["خطر"],
+        "zh": ["危险"],
+        "hi": ["खतरा"],
+        "fa": ["خطر"],
+        "so": ["khatar"],
+        "am": ["አደጋ"],
+        "sw": ["hatari"],
+        "ur": ["خطرہ"]
+      }
+    },
+    "ambulance": {
+      "category": "medical_device",
+      "priority": "critical",
+      "preserve_exact": true,
+      "translations": {
+        "es": ["ambulancia"],
+        "fr": ["ambulance"],
+        "ar": ["سيارة إسعاف", "إسعاف"],
+        "zh": ["救护车", "急救车"],
+        "hi": ["एम्बुलेंस", "रोगी वाहन"],
+        "fa": ["آمبولانس"],
+        "so": ["ambalaas", "gaari caafimaad"],
+        "am": ["አምቡላንስ"],
+        "sw": ["ambulensi", "gari la wagonjwa"],
+        "ur": ["ایمبولینس", "امداد گاڑی"]
+      }
+    }
+  },
+  "pain_descriptors": {
+    "pain": {
+      "category": "symptom",
+      "priority": "high",
+      "translations": {
+        "es": ["dolor"],
+        "fr": ["douleur"],
+        "ar": ["ألم", "وجع"],
+        "zh": ["疼痛", "痛", "疼"],
+        "hi": ["दर्द", "पीड़ा"],
+        "fa": ["درد"],
+        "so": ["xanuun"],
+        "am": ["ህመም"],
+        "sw": ["maumivu", "uchungu"],
+        "ur": ["درد", "تکلیف"]
+      }
+    },
+    "severe": {
+      "category": "symptom",
+      "priority": "high",
+      "translations": {
+        "es": ["severo", "intenso", "grave"],
+        "fr": ["sévère", "intense", "grave"],
+        "ar": ["شديد", "حاد"],
+        "zh": ["严重", "剧烈", "重度"],
+        "hi": ["गंभीर", "तीव्र"],
+        "fa": ["شدید", "سخت"],
+        "so": ["daran", "aad u xun"],
+        "am": ["ከባድ", "ብርቱ"],
+        "sw": ["kali", "mbaya sana"],
+        "ur": ["شدید", "سخت"]
+      }
+    },
+    "mild": {
+      "category": "symptom",
+      "priority": "medium",
+      "translations": {
+        "es": ["leve", "ligero"],
+        "fr": ["léger", "modéré"],
+        "ar": ["خفيف", "بسيط"],
+        "zh": ["轻微", "轻度"],
+        "hi": ["हल्का", "मामूली"],
+        "fa": ["خفیف", "ملایم"],
+        "so": ["fudud", "yar"],
+        "am": ["ቀላል", "ትንሽ"],
+        "sw": ["nyepesi", "kidogo"],
+        "ur": ["ہلکا", "معمولی"]
+      }
+    },
+    "sharp": {
+      "category": "symptom",
+      "priority": "medium",
+      "translations": {
+        "es": ["agudo", "punzante"],
+        "fr": ["aigu", "vif"],
+        "ar": ["حاد", "طاعن"],
+        "zh": ["锐痛", "刺痛"],
+        "hi": ["तीखा", "चुभने वाला"],
+        "fa": ["تیز", "سوزنی"],
+        "so": ["fiiqan", "mudan"],
+        "am": ["ሹል", "የሚወጋ"],
+        "sw": ["mkali", "uchungu mkali"],
+        "ur": ["تیز", "چبھنے والا"]
+      }
+    },
+    "burning": {
+      "category": "symptom",
+      "priority": "medium",
+      "translations": {
+        "es": ["ardiente", "quemante"],
+        "fr": ["brûlant"],
+        "ar": ["حارق", "محرق"],
+        "zh": ["灼痛", "烧灼感"],
+        "hi": ["जलन", "दाह"],
+        "fa": ["سوزش", "احساس سوختن"],
+        "so": ["gubanaya", "kulul"],
+        "am": ["የሚያቃጥል", "እሳታማ"],
+        "sw": ["inayochoma", "moto"],
+        "ur": ["جلن", "سوزش"]
+      }
+    },
+    "throbbing": {
+      "category": "symptom",
+      "priority": "medium",
+      "translations": {
+        "es": ["pulsátil", "latente"],
+        "fr": ["lancinant", "pulsatile"],
+        "ar": ["نابض", "خافق"],
+        "zh": ["跳痛", "搏动性疼痛"],
+        "hi": ["धड़कता हुआ"],
+        "fa": ["ضربان‌دار", "تپنده"],
+        "so": ["garaacaya", "wadne"],
+        "am": ["የሚመታ", "የልብ ምት"],
+        "sw": ["inadunda", "mapigo"],
+        "ur": ["دھڑکتا ہوا", "تھرتھراتا"]
+      }
+    }
+  }
+}

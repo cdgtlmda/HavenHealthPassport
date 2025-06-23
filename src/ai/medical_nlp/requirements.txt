@@ -1,0 +1,54 @@
+# Medical NLP Libraries
+
+# Core NLP Libraries
+spacy>=3.7.0
+transformers>=4.36.0
+torch>=2.0.0
+scikit-learn>=1.3.0
+
+# Medical-specific NLP
+scispacy>=0.5.3  # Scientific/medical text processing
+medspacy>=1.1.2  # Clinical NLP with spaCy
+negspacy>=1.0.3  # Negation detection
+quickumls>=1.4.0  # UMLS concept extraction
+
+# BioBERT and SciBERT
+pytorch-pretrained-bert>=0.6.2
+biobert-pytorch>=1.0.0
+
+# Medical Knowledge Bases
+umls-api>=0.1.0  # UMLS API client
+pymedtermino>=0.3.3  # Medical terminologies (ICD, SNOMED, etc.)
+
+# Clinical NLP
+clinical-sectionizer>=0.1.1  # Clinical document section detection
+medcat>=1.7.0  # Medical Concept Annotation Tool
+
+# Additional Medical NLP Tools
+en-core-sci-sm @ https://s3-us-west-2.amazonaws.com/ai2-s2-scispacy/releases/v0.5.3/en_core_sci_sm-0.5.3.tar.gz
+en-core-sci-md @ https://s3-us-west-2.amazonaws.com/ai2-s2-scispacy/releases/v0.5.3/en_core_sci_md-0.5.3.tar.gz
+en-ner-bc5cdr-md @ https://s3-us-west-2.amazonaws.com/ai2-s2-scispacy/releases/v0.5.3/en_ner_bc5cdr_md-0.5.3.tar.gz
+
+# Data Processing
+pandas>=2.0.0
+numpy>=1.24.0
+nltk>=3.8.0
+
+# API and Web
+requests>=2.31.0
+aiohttp>=3.9.0
+
+# Utilities
+python-dotenv>=1.0.0
+tqdm>=4.66.0
+pyyaml>=6.0
+
+# Optional for ICD-10/SNOMED CT fuzzy matching
+fuzzywuzzy>=0.18.0
+python-Levenshtein>=0.21.0  # Speed up fuzzy matching
+
+# Optional for SNOMED CT graph operations
+networkx>=3.0  # Graph algorithms for concept relationships
+
+# Optional for RxNorm dose unit conversion
+pint>=0.20  # Physical unit conversion library

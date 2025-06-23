@@ -1,0 +1,4 @@
+Haven Health Passport - Snapshot Configuration Verification
+=========================================================
+
+Testing Configuration file exists... [0;32mPASSED[0m

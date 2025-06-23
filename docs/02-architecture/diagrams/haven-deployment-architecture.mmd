@@ -1,0 +1,244 @@
+graph TB
+    subgraph "Global Multi-Region Deployment"
+        subgraph "Primary Region - US East (N. Virginia)"
+            subgraph "Availability Zone 1a"
+                ECS1A[ECS Fargate<br/>App Services]
+                RDS1A[RDS Primary<br/>PostgreSQL]
+                EKS1A[EKS Cluster<br/>ML Workloads]
+                SM1A[SageMaker<br/>Endpoints]
+                BC1A[Blockchain<br/>Peer Nodes]
+            end
+            
+            subgraph "Availability Zone 1b"
+                ECS1B[ECS Fargate<br/>App Services]
+                RDS1B[RDS Standby<br/>PostgreSQL]
+                EKS1B[EKS Cluster<br/>ML Workloads]
+                SM1B[SageMaker<br/>Endpoints]
+                BC1B[Blockchain<br/>Peer Nodes]
+            end
+            
+            subgraph "Regional Services"
+                ALB1[Application<br/>Load Balancer]
+                API1[API Gateway<br/>+ AppSync]
+                BED1[Bedrock<br/>Provisioned]
+                HL1[HealthLake<br/>Primary]
+                OS1[OpenSearch<br/>Serverless]
+            end
+        end
+        
+        subgraph "Secondary Region - EU West (Ireland)"
+            subgraph "Availability Zone 2a"
+                ECS2A[ECS Fargate<br/>App Services]
+                RDS2A[RDS Read Replica<br/>PostgreSQL]
+                EKS2A[EKS Cluster<br/>ML Workloads]
+                SM2A[SageMaker<br/>Endpoints]
+                BC2A[Blockchain<br/>Peer Nodes]
+            end
+            
+            subgraph "Availability Zone 2b"
+                ECS2B[ECS Fargate<br/>App Services]
+                RDS2B[RDS Read Replica<br/>PostgreSQL]
+                EKS2B[EKS Cluster<br/>ML Workloads]
+                SM2B[SageMaker<br/>Endpoints]
+                BC2B[Blockchain<br/>Peer Nodes]
+            end
+            
+            subgraph "Regional Services EU"
+                ALB2[Application<br/>Load Balancer]
+                API2[API Gateway<br/>+ AppSync]
+                BED2[Bedrock<br/>On-Demand]
+                HL2[HealthLake<br/>Replica]
+                OS2[OpenSearch<br/>Serverless]
+            end
+        end
+
+        subgraph "Edge Locations - Global"
+            CF[CloudFront CDN<br/>150+ Locations]
+            LAM[Lambda@Edge<br/>AI Processing]
+            WAF[AWS WAF<br/>Security Rules]
+            SHIELD[AWS Shield<br/>DDoS Protection]
+        end
+    end
+
+    subgraph "AI/ML Infrastructure"
+        subgraph "Training Infrastructure"
+            SMTRAIN[SageMaker<br/>Training Jobs]
+            SMPIPE[SageMaker<br/>Pipelines]
+            SMREG[Model Registry<br/>Versioning]
+            ECR[ECR<br/>Container Registry]
+        end
+        
+        subgraph "Inference Infrastructure"
+            SMINF1[Multi-Model<br/>Endpoints]
+            SMINF2[Real-time<br/>Endpoints]
+            SMINF3[Batch Transform<br/>Jobs]
+            SMEDGE[Edge Manager<br/>IoT Devices]
+        end
+        
+        subgraph "GenAI Services"
+            BEDROCK[Bedrock Models<br/>Claude, Titan, SDXL]
+            COMPMED[Comprehend Medical<br/>Medical NLP]
+            TRANSMED[Transcribe Medical<br/>Voice Processing]
+            TEXTRACT[Textract<br/>Document Processing]
+        end
+    end
+
+    subgraph "Data Layer - Multi-Region"
+        subgraph "Primary Data Stores"
+            S3GLOBAL[S3 Global<br/>Cross-Region Replication]
+            DDBGLOBAL[DynamoDB<br/>Global Tables]
+            QLDB[Amazon QLDB<br/>Immutable Ledger]
+            NEPTUNE[Neptune Global<br/>Graph Database]
+        end
+        
+        subgraph "Caching Layer"
+            REDIS1[ElastiCache Redis<br/>US-East]
+            REDIS2[ElastiCache Redis<br/>EU-West]
+            DAXCACHE[DAX Cache<br/>DynamoDB Accelerator]
+        end
+        
+        subgraph "Analytics"
+            KINESIS[Kinesis Data Streams<br/>Real-time Analytics]
+            GLUE[AWS Glue<br/>ETL Service]
+            ATHENA[Athena<br/>Serverless Query]
+            QS[QuickSight<br/>BI + ML Insights]
+        end
+    end
+
+    subgraph "Security & Compliance"
+        subgraph "Identity & Access"
+            COGNITO[Cognito<br/>User Pools]
+            IAM[IAM Roles<br/>+ Policies]
+            SSO[AWS SSO<br/>Enterprise]
+            SECRETS[Secrets Manager<br/>Credentials]
+        end
+        
+        subgraph "Network Security"
+            VPC1[VPC US-East<br/>10.0.0.0/16]
+            VPC2[VPC EU-West<br/>10.1.0.0/16]
+            TGW[Transit Gateway<br/>Inter-Region]
+            PRIVLINK[PrivateLink<br/>Endpoints]
+        end
+        
+        subgraph "Monitoring & Compliance"
+            CLOUDTRAIL[CloudTrail<br/>Audit Logs]
+            GUARDDUTY[GuardDuty<br/>Threat Detection]
+            MACIE[Macie<br/>Data Classification]
+            CONFIG[AWS Config<br/>Compliance Rules]
+        end
+    end
+
+    subgraph "DevOps & Automation"
+        subgraph "CI/CD Pipeline"
+            CODECOMMIT[CodeCommit<br/>Source Control]
+            CODEBUILD[CodeBuild<br/>Build Service]
+            CODEPIPELINE[CodePipeline<br/>Orchestration]
+            CODEDEPLOY[CodeDeploy<br/>Deployment]
+        end
+        
+        subgraph "Infrastructure as Code"
+            CDK[AWS CDK<br/>TypeScript]
+            CFN[CloudFormation<br/>Stacks]
+            SYSTEMS[Systems Manager<br/>Automation]
+            TERRAFORM[Terraform<br/>Multi-Cloud]
+        end
+        
+        subgraph "Observability"
+            XRAY[X-Ray<br/>Distributed Tracing]
+            CW[CloudWatch<br/>Logs & Metrics]
+            PROMETHEUS[Amazon Managed<br/>Prometheus]
+            GRAFANA[Amazon Managed<br/>Grafana]
+        end
+    end
+
+    %% Global Routing
+    R53[Route 53<br/>Global DNS] --> CF
+    CF --> WAF
+    WAF --> SHIELD
+    
+    %% Traffic Distribution
+    CF --> ALB1
+    CF --> ALB2
+    
+    %% Regional Connections
+    ALB1 --> ECS1A
+    ALB1 --> ECS1B
+    ALB2 --> ECS2A
+    ALB2 --> ECS2B
+    
+    API1 --> BED1
+    API2 --> BED2
+    
+    %% AI/ML Connections
+    ECS1A --> SMINF1
+    ECS1B --> SMINF2
+    ECS2A --> SMINF1
+    ECS2B --> SMINF2
+    
+    SMPIPE --> SMTRAIN
+    SMTRAIN --> SMREG
+    SMREG --> SMINF1
+    SMREG --> SMINF2
+    
+    %% Data Flow
+    ECS1A --> HL1
+    ECS1B --> HL1
+    ECS2A --> HL2
+    ECS2B --> HL2
+    
+    HL1 -.-> HL2
+    OS1 -.-> OS2
+    
+    %% Blockchain Network
+    BC1A <--> BC1B
+    BC2A <--> BC2B
+    BC1A <-.-> BC2A
+    BC1B <-.-> BC2B
+    
+    %% Cross-Region Data Sync
+    RDS1A --> RDS1B
+    RDS1A -.-> RDS2A
+    RDS1A -.-> RDS2B
+    
+    S3GLOBAL --> GLUE
+    GLUE --> ATHENA
+    ATHENA --> QS
+    
+    %% Security Flow
+    COGNITO --> API1
+    COGNITO --> API2
+    IAM --> ECS1A
+    IAM --> ECS1B
+    IAM --> ECS2A
+    IAM --> ECS2B
+    
+    VPC1 <--> TGW
+    VPC2 <--> TGW
+    
+    %% Monitoring
+    ECS1A --> CW
+    ECS1B --> CW
+    ECS2A --> CW
+    ECS2B --> CW
+    CW --> PROMETHEUS
+    PROMETHEUS --> GRAFANA
+
+    %% Style definitions
+    classDef primary fill:#e3f2fd,stroke:#0d47a1,stroke-width:2px;
+    classDef secondary fill:#e8f5e9,stroke:#1b5e20,stroke-width:2px;
+    classDef edge fill:#fff3e0,stroke:#e65100,stroke-width:2px;
+    classDef ai fill:#f3e5f5,stroke:#4a148c,stroke-width:2px;
+    classDef data fill:#e0f2f1,stroke:#004d40,stroke-width:2px;
+    classDef security fill:#ffebee,stroke:#b71c1c,stroke-width:2px;
+    classDef devops fill:#fce4ec,stroke:#880e4f,stroke-width:2px;
+    classDef global fill:#e1f5fe,stroke:#01579b,stroke-width:2px;
+
+    %% Apply styles
+    class ECS1A,ECS1B,RDS1A,RDS1B,EKS1A,EKS1B,SM1A,SM1B,BC1A,BC1B,ALB1,API1,BED1,HL1,OS1 primary;
+    class ECS2A,ECS2B,RDS2A,RDS2B,EKS2A,EKS2B,SM2A,SM2B,BC2A,BC2B,ALB2,API2,BED2,HL2,OS2 secondary;
+    class CF,LAM,WAF,SHIELD edge;
+    class SMTRAIN,SMPIPE,SMREG,ECR,SMINF1,SMINF2,SMINF3,SMEDGE,BEDROCK,COMPMED,TRANSMED,TEXTRACT ai;
+    class S3GLOBAL,DDBGLOBAL,QLDB,NEPTUNE,REDIS1,REDIS2,DAXCACHE,KINESIS,GLUE,ATHENA,QS data;
+    class COGNITO,IAM,SSO,SECRETS,VPC1,VPC2,TGW,PRIVLINK,CLOUDTRAIL,GUARDDUTY,MACIE,CONFIG security;
+    class CODECOMMIT,CODEBUILD,CODEPIPELINE,CODEDEPLOY,CDK,CFN,SYSTEMS,TERRAFORM,XRAY,CW,PROMETHEUS,GRAFANA devops;
+    class R53 global;

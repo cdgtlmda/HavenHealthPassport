@@ -1,0 +1,49 @@
+# Generated Election Parameters Configuration
+# Haven Health Passport - Blockchain Consensus
+# Generated: 2025-05-31
+
+electionParameters:
+  metadata:
+    name: "haven-health-election-params"
+    description: "Raft election parameters for Haven Health Passport ordering service"
+    version: "1.0.0"
+    lastUpdated: "2025-05-31T00:00:00Z"
+
+  timing:
+    election:
+      baseTimeout: 5000        # 5 seconds base timeout
+      randomRange: 2500        # 0-2.5 seconds random addition
+      minTimeout: 3000         # 3 seconds minimum
+      maxTimeout: 10000        # 10 seconds maximum
+
+    heartbeat:
+      interval: 500            # 500ms between heartbeats
+      timeoutMultiplier: 10    # Timeout at 10x interval (5s)
+
+    requestVote:
+      timeout: 3000            # 3 seconds for vote response
+      maxRetries: 2            # Retry vote request twice
+
+  leaderElection:
+    preVote:
+      enabled: true
+      timeout: 2000
+
+    priorityElection:
+      enabled: true
+      priorities:
+        "orderer0.havenhealthpassport.com": 100
+        "orderer1.havenhealthpassport.com": 80
+        "orderer2.havenhealthpassport.com": 60
+        "orderer3.havenhealthpassport.com": 60
+        "orderer4.havenhealthpassport.com": 40
+      priorityDelay: 1000
+
+    checkQuorum:
+      enabled: true
+      interval: 2500
+
+    leaderLease:
+      enabled: true
+      duration: 10000
+      renewalThreshold: 0.75

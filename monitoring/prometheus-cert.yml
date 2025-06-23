@@ -1,0 +1,42 @@
+# Prometheus Configuration for Certification Testing
+
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+  external_labels:
+    environment: 'certification'
+    purpose: 'healthcare-standards-testing'
+
+scrape_configs:
+  # FHIR Server Metrics
+  - job_name: 'fhir-server'
+    static_configs:
+      - targets: ['fhir-server:8080']
+    metrics_path: '/metrics'
+    scrape_interval: 10s
+
+  # PostgreSQL Exporter
+  - job_name: 'postgres'
+    static_configs:
+      - targets: ['postgres-cert:9187']
+
+  # HL7 Engine Metrics
+  - job_name: 'hl7-engine'
+    static_configs:
+      - targets: ['hl7-engine:9090']
+    metrics_path: '/metrics'
+
+  # Terminology Service Metrics
+  - job_name: 'terminology-service'
+    static_configs:
+      - targets: ['terminology-service:8090']
+    metrics_path: '/metrics'
+
+# Alerting rules for certification testing
+rule_files:
+  - 'certification-alerts.yml'
+
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets: []  # No alertmanager for test environment

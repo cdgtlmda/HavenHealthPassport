@@ -1,0 +1,93 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'Haven Health Passport - Peer Node Configuration'
+
+Parameters:
+  NetworkId:
+    Type: String
+    Description: The ID of the blockchain network
+
+  MemberId:
+    Type: String
+    Description: The ID of the member that owns this peer node
+
+  InstanceType:
+    Type: String
+    Default: bc.m5.large
+    AllowedValues:
+      - bc.t3.small
+      - bc.t3.medium
+      - bc.t3.large
+      - bc.m5.large
+      - bc.m5.xlarge
+      - bc.m5.2xlarge
+      - bc.m5.4xlarge
+    Description: Instance type for the peer node
+
+  AvailabilityZone:
+    Type: AWS::EC2::AvailabilityZone::Name
+    Description: Availability zone for the peer node
+
+  EnableLogging:
+    Type: String
+    Default: 'true'
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Description: Enable CloudWatch logging for the peer node
+
+Resources:
+  # Create the peer node
+  PeerNode:
+    Type: AWS::ManagedBlockchain::Node
+    Properties:
+      NetworkId: !Ref NetworkId
+      MemberId: !Ref MemberId
+      NodeConfiguration:
+        InstanceType: !Ref InstanceType
+        AvailabilityZone: !Ref AvailabilityZone
+        LogPublishingConfiguration:
+          Fabric:
+            ChaincodeLog:
+              Enabled: !Ref EnableLogging
+              Level: INFO
+            PeerLog:
+              Enabled: !Ref EnableLogging
+              Level: INFO
+
+  # CloudWatch Log Groups for peer logs
+  PeerLogGroup:
+    Type: AWS::Logs::LogGroup
+    Condition: LoggingEnabled
+    Properties:
+      LogGroupName: !Sub '/aws/managedblockchain/${NetworkId}/${MemberId}/peer-${PeerNode}'
+      RetentionInDays: 30
+
+  # CloudWatch Log Groups for chaincode logs
+  ChaincodeLogGroup:
+    Type: AWS::Logs::LogGroup
+    Condition: LoggingEnabled
+    Properties:
+      LogGroupName: !Sub '/aws/managedblockchain/${NetworkId}/${MemberId}/chaincode-${PeerNode}'
+      RetentionInDays: 30
+
+Conditions:
+  LoggingEnabled: !Equals [!Ref EnableLogging, 'true']
+
+Outputs:
+  PeerNodeId:
+    Description: The ID of the peer node
+    Value: !GetAtt PeerNode.NodeId
+    Export:
+      Name: !Sub '${AWS::StackName}-PeerNodeId'
+
+  PeerEndpoint:
+    Description: The endpoint of the peer node
+    Value: !GetAtt PeerNode.Endpoint
+    Export:
+      Name: !Sub '${AWS::StackName}-PeerEndpoint'
+
+  PeerEventEndpoint:
+    Description: The event endpoint of the peer node
+    Value: !GetAtt PeerNode.EventEndpoint
+    Export:
+      Name: !Sub '${AWS::StackName}-PeerEventEndpoint'

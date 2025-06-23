@@ -1,0 +1,458 @@
+# Copyright Haven Health Passport. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+################################################################################
+#
+#   Network Performance Optimization Configuration
+#
+#   Settings and configurations for optimizing blockchain network performance
+#
+################################################################################
+
+# Network Optimization Settings
+NetworkOptimization:
+  Version: "1.0"
+  LastUpdated: "2024-01-20"
+
+  # Block Configuration
+  BlockConfiguration:
+    # Block Size Optimization
+    BlockSize:
+      MaxMessageCount: 500          # Maximum messages per block
+      AbsoluteMaxBytes: "10 MB"     # Absolute maximum block size
+      PreferredMaxBytes: "2 MB"     # Preferred maximum block size
+
+      # Dynamic adjustment based on network load
+      DynamicAdjustment:
+        Enabled: true
+        MinMessageCount: 10
+        MaxMessageCount: 1000
+        LoadThresholds:
+          Low:
+            Threshold: "< 20%"
+            MessageCount: 100
+            PreferredBytes: "512 KB"
+          Medium:
+            Threshold: "20-60%"
+            MessageCount: 500
+            PreferredBytes: "2 MB"
+          High:
+            Threshold: "> 60%"
+            MessageCount: 1000
+            PreferredBytes: "5 MB"
+
+    # Batch Timeout Optimization
+    BatchTimeout:
+      Default: "2s"
+
+      # Adaptive timeout based on transaction patterns
+      AdaptiveTimeout:
+        Enabled: true
+        MinTimeout: "200ms"
+        MaxTimeout: "5s"
+        Patterns:
+          RealTime:         # For emergency access
+            Condition: "emergency_channel"
+            Timeout: "200ms"
+          HighThroughput:   # For batch operations
+            Condition: "batch_size > 100"
+            Timeout: "5s"
+          Normal:           # Regular operations
+            Condition: "default"
+            Timeout: "2s"
+
+  # State Database Optimization
+  StateDatabase:
+    # CouchDB Optimization
+    CouchDB:
+      # Connection pooling
+      ConnectionPool:
+        MaxConnections: 100
+        MinConnections: 10
+        ConnectionTimeout: "30s"
+        IdleTimeout: "120s"
+        MaxIdleConnections: 50
+
+      # Query optimization
+      QueryOptimization:
+        MaxResultsLimit: 1000
+        UseViews: true
+        CacheWarming: true
+
+        # Index configuration
+        Indexes:
+          AutoIndex: true
+          IndexBuildStrategy: "background"
+
+          # Predefined indexes
+          PredefinedIndexes:
+            - Name: "patient_records_index"
+              Fields: ["patientId", "recordType", "createdAt"]
+              PartialFilter: '{"status": "active"}'
+
+            - Name: "provider_records_index"
+              Fields: ["providerId", "status", "updatedAt"]
+
+            - Name: "verification_status_index"
+              Fields: ["recordId", "verificationStatus"]
+
+            - Name: "access_grants_index"
+              Fields: ["granteeId", "resourceId", "expiresAt"]
+
+            - Name: "emergency_access_index"
+              Fields: ["recordType", "patientId", "emergency"]
+              PartialFilter: '{"emergency": true}'
+
+      # Caching configuration
+      Caching:
+        Enabled: true
+        CacheSize: "2GB"
+        TTL: "300s"
+
+        # Cache strategies
+        Strategies:
+          ReadCache:
+            Enabled: true
+            HitRatio: "Monitor"
+            Preload: ["frequently_accessed"]
+
+          QueryCache:
+            Enabled: true
+            MaxQueries: 1000
+            QueryTTL: "60s"
+
+    # State pruning
+    StatePruning:
+      Enabled: true
+      RetentionPolicy:
+        ActiveRecords: "Forever"
+        HistoricalData: "7 years"
+        DeletedRecords: "1 year"
+
+      PruningSchedule:
+        Frequency: "Weekly"
+        Time: "02:00 UTC Sunday"
+        BatchSize: 1000
+
+  # Peer Optimization
+  PeerOptimization:
+    # Peer count configuration
+    PeerCount:
+      RecommendedPerOrg: 3
+      MinimumPerOrg: 2
+      MaximumPerOrg: 10
+
+      # Load balancing
+      LoadBalancing:
+        Strategy: "RoundRobin"
+        HealthCheck:
+          Enabled: true
+          Interval: "30s"
+          Timeout: "5s"
+          UnhealthyThreshold: 3
+
+    # Gossip protocol optimization
+    GossipOptimization:
+      # Message batching
+      MessageBatching:
+        MaxBatchSize: 10
+        BatchTimeout: "100ms"
+        MaxPropagationBurstSize: 10
+        MaxPropagationBurstLatency: "10ms"
+
+      # Connection management
+      ConnectionManagement:
+        DialTimeout: "3s"
+        ConnTimeout: "2s"
+        RecvBuffSize: 20
+        SendBuffSize: 200
+
+        # Peer selection
+        PeerSelection:
+          AliveTimeInterval: "5s"
+          AliveExpirationTimeout: "25s"
+          ReconnectInterval: "25s"
+          MaxConnectionAttempts: 120
+
+      # Anti-entropy optimization
+      AntiEntropy:
+        Interval: "10s"
+        BatchSize: 10
+        MaxDigestsPerRequest: 5
+        RequestStateInfoInterval: "4s"
+
+  # Connection Pooling
+  ConnectionPooling:
+    # gRPC connection pools
+    GRPCPools:
+      Peer:
+        MinConnections: 2
+        MaxConnections: 10
+        IdleTimeout: "300s"
+        ConnectionLifetime: "3600s"
+        HealthCheckInterval: "60s"
+
+      Orderer:
+        MinConnections: 1
+        MaxConnections: 5
+        IdleTimeout: "300s"
+        ConnectionLifetime: "3600s"
+        HealthCheckInterval: "60s"
+
+    # Keep-alive settings
+    KeepAlive:
+      ClientInterval: "60s"
+      ClientTimeout: "20s"
+      ServerInterval: "7200s"
+      ServerTimeout: "20s"
+      ServerMinInterval: "60s"
+      PermitWithoutStream: true
+
+  # TLS Optimization
+  TLSOptimization:
+    # Session resumption
+    SessionResumption:
+      Enabled: true
+      SessionCacheSize: 1000
+      SessionTimeout: "86400s"
+
+    # Cipher suites (ordered by performance)
+    CipherSuites:
+      - "TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256"
+      - "TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384"
+      - "TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256"
+      - "TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384"
+
+    # Certificate caching
+    CertificateCache:
+      Enabled: true
+      CacheSize: 500
+      TTL: "3600s"
+
+  # Transaction Processing
+  TransactionOptimization:
+    # Endorsement optimization
+    EndorsementOptimization:
+      ParallelEndorsement: true
+      MaxParallelEndorsers: 5
+      EndorsementTimeout: "10s"
+
+      # Smart routing
+      SmartRouting:
+        Enabled: true
+        PreferLocalPeers: true
+        LoadBalanceEndorsers: true
+        AvoidSlowPeers: true
+        SlowPeerThreshold: "5s"
+
+    # Validation optimization
+    ValidationOptimization:
+      ParallelValidation: true
+      ValidationPoolSize: 4
+      MaxValidationDuration: "1s"
+
+      # Batch validation
+      BatchValidation:
+        Enabled: true
+        BatchSize: 50
+        MaxBatchWaitTime: "100ms"
+
+  # Resource Management
+  ResourceManagement:
+    # CPU allocation
+    CPU:
+      PeerCPURequest: "500m"
+      PeerCPULimit: "2000m"
+      OrdererCPURequest: "250m"
+      OrdererCPULimit: "1000m"
+      ChaincodeExecutorCPU: "500m"
+
+    # Memory allocation
+    Memory:
+      PeerMemoryRequest: "512Mi"
+      PeerMemoryLimit: "2Gi"
+      OrdererMemoryRequest: "256Mi"
+      OrdererMemoryLimit: "1Gi"
+      ChaincodeExecutorMemory: "512Mi"
+
+    # Storage optimization
+    Storage:
+      BlockStorageSize: "100Gi"
+      StateDBSize: "50Gi"
+
+      # Storage performance
+      StorageClass: "fast-ssd"
+      IOPS: 10000
+      Throughput: "250 MiB/s"
+
+################################################################################
+# Query Optimization
+################################################################################
+
+QueryOptimization:
+  # Rich query optimization
+  RichQueries:
+    # Query planning
+    QueryPlanning:
+      UseQueryPlanner: true
+      CostBasedOptimization: true
+      StatisticsCollection: true
+      StatisticsUpdateInterval: "24h"
+
+    # Query execution
+    QueryExecution:
+      MaxParallelQueries: 10
+      QueryTimeout: "30s"
+      MaxResultSetSize: "10MB"
+
+      # Result streaming
+      StreamingResults:
+        Enabled: true
+        ChunkSize: "1MB"
+        CompressionEnabled: true
+
+  # Pagination optimization
+  Pagination:
+    DefaultPageSize: 100
+    MaxPageSize: 1000
+
+    # Cursor management
+    CursorManagement:
+      CursorCaching: true
+      CursorTimeout: "300s"
+      MaxCursorsPerClient: 10
+
+  # Query caching
+  QueryCaching:
+    # Cache configuration
+    CacheConfig:
+      CacheSize: "1GB"
+      MaxEntries: 10000
+
+      # Cache invalidation
+      InvalidationStrategy: "TTL"
+      DefaultTTL: "300s"
+
+      # Cache key patterns
+      CacheablePatterns:
+        - "^/health/records/[^/]+$"
+        - "^/verifications/status/[^/]+$"
+        - "^/access/check/.*$"
+
+    # Cache warmup
+    CacheWarmup:
+      Enabled: true
+      WarmupQueries:
+        - "Active patient records"
+        - "Recent verifications"
+        - "Valid access grants"
+      WarmupSchedule: "0 6 * * *"  # 6 AM daily
+
+  # Index optimization
+  IndexOptimization:
+    # Automatic index creation
+    AutoIndexing:
+      Enabled: true
+      AnalyzeQueryPatterns: true
+      CreateIndexThreshold: 100  # queries/hour
+
+      # Index maintenance
+      IndexMaintenance:
+        RebuildSchedule: "0 2 * * 0"  # 2 AM Sunday
+        AnalyzeSchedule: "0 3 * * *"  # 3 AM daily
+        VacuumSchedule: "0 4 * * *"   # 4 AM daily
+
+################################################################################
+# Monitoring and Metrics
+################################################################################
+
+PerformanceMonitoring:
+  # Metrics collection
+  MetricsCollection:
+    Enabled: true
+    MetricsProvider: "prometheus"
+    ScrapeInterval: "15s"
+    RetentionPeriod: "30d"
+
+    # Key metrics
+    KeyMetrics:
+      - "transaction_throughput"
+      - "block_processing_time"
+      - "endorsement_latency"
+      - "validation_duration"
+      - "state_db_read_latency"
+      - "state_db_write_latency"
+      - "gossip_message_rate"
+      - "peer_connection_count"
+
+  # Performance alerts
+  PerformanceAlerts:
+    AlertingEnabled: true
+
+    Thresholds:
+      TransactionLatency:
+        Warning: "5s"
+        Critical: "10s"
+
+      BlockProcessingTime:
+        Warning: "2s"
+        Critical: "5s"
+
+      QueryResponseTime:
+        Warning: "1s"
+        Critical: "3s"
+
+      CPUUsage:
+        Warning: "70%"
+        Critical: "90%"
+
+      MemoryUsage:
+        Warning: "80%"
+        Critical: "95%"
+
+  # Performance logging
+  PerformanceLogging:
+    SlowTransactionLog:
+      Enabled: true
+      Threshold: "3s"
+      IncludeDetails: true
+
+    SlowQueryLog:
+      Enabled: true
+      Threshold: "1s"
+      IncludeQueryPlan: true
+
+################################################################################
+# Auto-scaling Configuration
+################################################################################
+
+AutoScaling:
+  # Peer auto-scaling
+  PeerAutoScaling:
+    Enabled: true
+    MinPeers: 2
+    MaxPeers: 10
+
+    # Scaling metrics
+    Metrics:
+      - Type: "CPU"
+        Target: "60%"
+      - Type: "Memory"
+        Target: "70%"
+      - Type: "TransactionRate"
+        Target: "1000 tps"
+
+    # Scaling policies
+    ScaleUpPolicy:
+      Threshold: "80%"
+      Duration: "5m"
+      Increment: 1
+      Cooldown: "5m"
+
+    ScaleDownPolicy:
+      Threshold: "20%"
+      Duration: "15m"
+      Decrement: 1
+      Cooldown: "10m"
+
+# End of Network Optimization Configuration

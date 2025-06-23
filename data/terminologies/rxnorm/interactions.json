@@ -1,0 +1,22 @@
+[
+  {
+    "drug1_rxcui": "1191",
+    "drug1_name": "Aspirin",
+    "drug2_rxcui": "5640",
+    "drug2_name": "Ibuprofen",
+    "severity": "moderate",
+    "description": "Increased risk of bleeding when NSAIDs are given with antiplatelet agents",
+    "mechanism": "Both drugs inhibit platelet function",
+    "management": "Monitor for signs of bleeding. Consider using acetaminophen instead."
+  },
+  {
+    "drug1_rxcui": "6809",
+    "drug1_name": "Metformin",
+    "drug2_rxcui": "35636",
+    "drug2_name": "Simvastatin",
+    "severity": "low",
+    "description": "Potential for increased metformin levels",
+    "mechanism": "Simvastatin may inhibit metformin elimination",
+    "management": "Monitor blood glucose levels"
+  }
+]

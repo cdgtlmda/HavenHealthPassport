@@ -1,0 +1,29 @@
+{
+  "198440": {
+    "has_ingredient": [
+      "1191"
+    ],
+    "has_dose_form": [
+      "Oral Tablet"
+    ],
+    "has_strength": [
+      "81 mg"
+    ]
+  },
+  "314077": {
+    "has_ingredient": [
+      "5640"
+    ],
+    "has_dose_form": [
+      "Oral Tablet"
+    ],
+    "has_strength": [
+      "200 mg"
+    ]
+  },
+  "215697": {
+    "has_ingredient": [
+      "161"
+    ]
+  }
+}

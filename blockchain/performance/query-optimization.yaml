@@ -1,0 +1,424 @@
+# Copyright Haven Health Passport. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+################################################################################
+#
+#   Query Optimization Configuration
+#
+#   Specific configurations for optimizing blockchain queries
+#
+################################################################################
+
+# Query Optimization Settings
+QueryOptimizationConfig:
+  Version: "1.0"
+  LastUpdated: "2024-01-20"
+
+################################################################################
+# CouchDB Index Definitions
+################################################################################
+
+CouchDBIndexes:
+  # Patient-centric indexes
+  PatientIndexes:
+    - IndexName: "patient-records-by-type-date"
+      DesignDoc: "_design/patient"
+      ViewName: "by-type-date"
+      Fields:
+        - "patientId"
+        - "recordType"
+        - "createdAt"
+      PartialFilter:
+        Selector:
+          status: "active"
+          objectType: "healthRecord"
+      Options:
+        Sort: ["createdAt:desc"]
+
+    - IndexName: "patient-emergency-records"
+      DesignDoc: "_design/patient"
+      ViewName: "emergency"
+      Fields:
+        - "patientId"
+        - "emergency"
+        - "createdAt"
+      PartialFilter:
+        Selector:
+          emergency: true
+          objectType: "healthRecord"
+
+  # Provider-centric indexes
+  ProviderIndexes:
+    - IndexName: "provider-patient-records"
+      DesignDoc: "_design/provider"
+      ViewName: "patient-records"
+      Fields:
+        - "providerId"
+        - "patientId"
+        - "updatedAt"
+      PartialFilter:
+        Selector:
+          status: "active"
+          objectType: "healthRecord"
+
+    - IndexName: "provider-pending-verifications"
+      DesignDoc: "_design/provider"
+      ViewName: "pending-verifications"
+      Fields:
+        - "providerId"
+        - "verificationStatus"
+        - "requestedAt"
+      PartialFilter:
+        Selector:
+          verificationStatus: "pending"
+          objectType: "verificationRequest"
+
+  # Access control indexes
+  AccessIndexes:
+    - IndexName: "active-access-grants"
+      DesignDoc: "_design/access"
+      ViewName: "active-grants"
+      Fields:
+        - "granteeId"
+        - "resourceId"
+        - "status"
+        - "expiresAt"
+      PartialFilter:
+        Selector:
+          status: "active"
+          objectType: "accessGrant"
+
+    - IndexName: "resource-access-grants"
+      DesignDoc: "_design/access"
+      ViewName: "by-resource"
+      Fields:
+        - "resourceId"
+        - "granteeId"
+        - "permissions"
+      PartialFilter:
+        Selector:
+          status: "active"
+          objectType: "accessGrant"
+
+  # Verification indexes
+  VerificationIndexes:
+    - IndexName: "verification-by-status"
+      DesignDoc: "_design/verification"
+      ViewName: "by-status"
+      Fields:
+        - "verificationStatus"
+        - "recordId"
+        - "verifiedAt"
+      PartialFilter:
+        Selector:
+          objectType: "verificationStatus"
+
+    - IndexName: "verification-requests-queue"
+      DesignDoc: "_design/verification"
+      ViewName: "request-queue"
+      Fields:
+        - "verifierId"
+        - "status"
+        - "requestedAt"
+      PartialFilter:
+        Selector:
+          status: "pending"
+          objectType: "verificationRequest"
+      Options:
+        Sort: ["requestedAt:asc"]
+
+################################################################################
+# Query Patterns and Optimization
+################################################################################
+
+QueryPatterns:
+  # Common query patterns with optimization hints
+  CommonQueries:
+    GetPatientRecords:
+      Pattern: "patient_records_by_patient_id"
+      Optimization:
+        UseIndex: "patient-records-by-type-date"
+        Pagination: true
+        DefaultLimit: 50
+        CacheStrategy: "5min"
+
+    GetProviderPatients:
+      Pattern: "patients_by_provider"
+      Optimization:
+        UseIndex: "provider-patient-records"
+        Pagination: true
+        DefaultLimit: 100
+        CacheStrategy: "10min"
+
+    CheckAccessGrant:
+      Pattern: "access_grant_check"
+      Optimization:
+        UseIndex: "active-access-grants"
+        CacheStrategy: "1min"
+        FastPath: true
+
+    GetPendingVerifications:
+      Pattern: "pending_verifications"
+      Optimization:
+        UseIndex: "verification-requests-queue"
+        Pagination: true
+        DefaultLimit: 20
+        RealTimeUpdates: true
+
+  # Complex query optimization
+  ComplexQueries:
+    CrossPatientSearch:
+      Description: "Search across multiple patients"
+      Optimization:
+        Strategy: "MapReduce"
+        Parallelism: 4
+        TimeoutMs: 5000
+
+    HistoricalDataAnalysis:
+      Description: "Analyze historical records"
+      Optimization:
+        Strategy: "Batch"
+        ChunkSize: 1000
+        UseSecondaryIndex: true
+        OffPeakExecution: true
+
+################################################################################
+# Pagination Configuration
+################################################################################
+
+PaginationConfig:
+  # Default pagination settings
+  Defaults:
+    PageSize: 100
+    MaxPageSize: 1000
+    BookmarkTimeout: "5m"
+
+  # Entity-specific pagination
+  EntityPagination:
+    HealthRecords:
+      DefaultPageSize: 50
+      MaxPageSize: 200
+      SortFields: ["createdAt", "recordType"]
+
+    AccessGrants:
+      DefaultPageSize: 100
+      MaxPageSize: 500
+      SortFields: ["grantedAt", "expiresAt"]
+
+    Verifications:
+      DefaultPageSize: 25
+      MaxPageSize: 100
+      SortFields: ["requestedAt", "status"]
+
+  # Bookmark management
+  BookmarkManagement:
+    Storage: "in-memory"
+    MaxBookmarks: 10000
+    CleanupInterval: "1h"
+    CompressionEnabled: true
+
+################################################################################
+# Caching Strategy
+################################################################################
+
+CachingStrategy:
+  # Query result caching
+  ResultCaching:
+    Enabled: true
+    CacheProvider: "redis"
+
+    # Cache configurations by query type
+    QueryCaches:
+      StaticData:
+        Description: "Rarely changing data"
+        TTL: "1h"
+        MaxEntries: 5000
+        Examples:
+          - "Organization profiles"
+          - "Policy definitions"
+          - "Chaincode metadata"
+
+      UserSpecificData:
+        Description: "User-specific queries"
+        TTL: "5m"
+        MaxEntries: 10000
+        KeyPattern: "{userId}:{queryType}:{params}"
+        Examples:
+          - "Patient's own records"
+          - "Provider's patient list"
+          - "Active access grants"
+
+      FrequentlyAccessedData:
+        Description: "Hot data paths"
+        TTL: "1m"
+        MaxEntries: 1000
+        PreloadEnabled: true
+        Examples:
+          - "Emergency access records"
+          - "Recent verifications"
+          - "Active sessions"
+
+  # Cache invalidation
+  CacheInvalidation:
+    Strategy: "event-driven"
+
+    InvalidationRules:
+      - Event: "RECORD_CREATED"
+        InvalidatePatterns:
+          - "patient:{patientId}:*"
+          - "provider:{providerId}:*"
+
+      - Event: "RECORD_UPDATED"
+        InvalidatePatterns:
+          - "record:{recordId}:*"
+          - "patient:{patientId}:*"
+
+      - Event: "ACCESS_GRANTED"
+        InvalidatePatterns:
+          - "access:{granteeId}:*"
+          - "resource:{resourceId}:*"
+
+      - Event: "VERIFICATION_COMPLETED"
+        InvalidatePatterns:
+          - "verification:{recordId}:*"
+          - "pending:verifications:*"
+
+################################################################################
+# Query Routing
+################################################################################
+
+QueryRouting:
+  # Load balancing for queries
+  LoadBalancing:
+    Strategy: "least-connections"
+    HealthCheckInterval: "30s"
+
+    # Peer selection for queries
+    PeerSelection:
+      PreferLocalPeers: true
+      MaxPeersPerQuery: 3
+      TimeoutPerPeer: "5s"
+
+      # Peer scoring
+      PeerScoring:
+        Factors:
+          - Factor: "response_time"
+            Weight: 0.4
+          - Factor: "success_rate"
+            Weight: 0.3
+          - Factor: "data_freshness"
+            Weight: 0.2
+          - Factor: "network_distance"
+            Weight: 0.1
+
+  # Query routing rules
+  RoutingRules:
+    EmergencyQueries:
+      Pattern: "/emergency/*"
+      RouteToChannels: ["emergency-channel"]
+      Priority: "HIGH"
+      BypassCache: true
+
+    AnalyticsQueries:
+      Pattern: "/analytics/*"
+      RouteToChannels: ["healthcare-channel"]
+      Priority: "LOW"
+      AllowStaleData: true
+      MaxStaleness: "1h"
+
+    StandardQueries:
+      Pattern: "/*"
+      RouteToChannels: ["healthcare-channel"]
+      Priority: "NORMAL"
+      UseCache: true
+
+################################################################################
+# Performance Monitoring
+################################################################################
+
+QueryPerformanceMonitoring:
+  # Query metrics
+  Metrics:
+    CollectMetrics: true
+    MetricTypes:
+      - "query_count"
+      - "query_latency"
+      - "cache_hit_rate"
+      - "index_usage"
+      - "result_set_size"
+
+    # Slow query logging
+    SlowQueryLog:
+      Enabled: true
+      ThresholdMs: 1000
+      LogDetails:
+        - "query_string"
+        - "execution_time"
+        - "rows_examined"
+        - "index_used"
+        - "cache_hit"
+
+  # Query analysis
+  QueryAnalysis:
+    Enabled: true
+    AnalysisInterval: "1h"
+
+    # Automatic optimization recommendations
+    AutoOptimization:
+      SuggestIndexes: true
+      SuggestCaching: true
+      SuggestQueryRewrite: true
+
+      # Thresholds for recommendations
+      Thresholds:
+        MissingIndexThreshold: 100  # queries/hour
+        CacheMissThreshold: 0.8      # 80% miss rate
+        SlowQueryThreshold: 2000     # 2 seconds
+
+################################################################################
+# Advanced Optimizations
+################################################################################
+
+AdvancedOptimizations:
+  # Query parallelization
+  Parallelization:
+    Enabled: true
+    MaxParallelQueries: 10
+
+    # Parallelizable query patterns
+    ParallelPatterns:
+      - Pattern: "multi_patient_lookup"
+        SplitBy: "patientId"
+        MaxSplits: 5
+
+      - Pattern: "bulk_verification_check"
+        SplitBy: "recordId"
+        MaxSplits: 10
+
+  # Query result compression
+  Compression:
+    Enabled: true
+    Algorithm: "gzip"
+    CompressionLevel: 6
+    MinSizeBytes: 1024  # Only compress results > 1KB
+
+  # Predictive caching
+  PredictiveCaching:
+    Enabled: true
+    MLModel: "query_predictor_v1"
+
+    # Prediction strategies
+    Strategies:
+      UserBehavior:
+        Description: "Predict based on user patterns"
+        LookbackWindow: "7d"
+        ConfidenceThreshold: 0.7
+
+      TimeBasedPatterns:
+        Description: "Predict based on time patterns"
+        Patterns:
+          - "Morning shift change (6-8 AM)"
+          - "Evening reports (5-7 PM)"
+          - "Weekend emergencies"
+
+# End of Query Optimization Configuration

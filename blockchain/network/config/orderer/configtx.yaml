@@ -1,0 +1,312 @@
+# Copyright Haven Health Passport. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+################################################################################
+#
+#   SECTION: Orderer
+#
+#   This section defines the ordering service properties.
+#
+################################################################################
+Orderer: &OrdererDefaults
+
+    # OrdererType defines the type of orderer implementation
+    OrdererType: etcdraft
+
+    # EtcdRaft defines configuration which must be set when the "etcdraft"
+    # orderertype is chosen.
+    EtcdRaft:
+        # Consenters defines the set of nodes that participate in the Raft cluster
+        Consenters:
+            - Host: orderer1.havenhealthpassport.org
+              Port: 7050
+              ClientTLSCert: crypto-config/ordererOrganizations/havenhealthpassport.org/orderers/orderer1.havenhealthpassport.org/tls/server.crt
+              ServerTLSCert: crypto-config/ordererOrganizations/havenhealthpassport.org/orderers/orderer1.havenhealthpassport.org/tls/server.crt
+
+            - Host: orderer2.havenhealthpassport.org
+              Port: 8050
+              ClientTLSCert: crypto-config/ordererOrganizations/havenhealthpassport.org/orderers/orderer2.havenhealthpassport.org/tls/server.crt
+              ServerTLSCert: crypto-config/ordererOrganizations/havenhealthpassport.org/orderers/orderer2.havenhealthpassport.org/tls/server.crt
+
+            - Host: orderer3.havenhealthpassport.org
+              Port: 9050
+              ClientTLSCert: crypto-config/ordererOrganizations/havenhealthpassport.org/orderers/orderer3.havenhealthpassport.org/tls/server.crt
+              ServerTLSCert: crypto-config/ordererOrganizations/havenhealthpassport.org/orderers/orderer3.havenhealthpassport.org/tls/server.crt
+
+            - Host: orderer4.havenhealthpassport.org
+              Port: 10050
+              ClientTLSCert: crypto-config/ordererOrganizations/havenhealthpassport.org/orderers/orderer4.havenhealthpassport.org/tls/server.crt
+              ServerTLSCert: crypto-config/ordererOrganizations/havenhealthpassport.org/orderers/orderer4.havenhealthpassport.org/tls/server.crt
+
+            - Host: orderer5.havenhealthpassport.org
+              Port: 11050
+              ClientTLSCert: crypto-config/ordererOrganizations/havenhealthpassport.org/orderers/orderer5.havenhealthpassport.org/tls/server.crt
+              ServerTLSCert: crypto-config/ordererOrganizations/havenhealthpassport.org/orderers/orderer5.havenhealthpassport.org/tls/server.crt
+        # Options defines additional etcdraft options
+        Options:
+            # TickInterval is the time interval between two Node.Tick invocations.
+            TickInterval: 500ms
+
+            # ElectionTick is the number of Node.Tick invocations that must pass
+            # between elections.
+            ElectionTick: 10
+
+            # HeartbeatTick is the number of Node.Tick invocations that must pass
+            # between heartbeats.
+            HeartbeatTick: 1
+
+            # MaxInflightBlocks limits the maximum number of in-flight blocks to
+            # prevent excessive memory consumption.
+            MaxInflightBlocks: 5
+
+            # SnapshotIntervalSize determines the number of bytes between snapshots.
+            SnapshotIntervalSize: 100 MB
+
+    # Addresses used to be the list of orderer addresses that clients and peers
+    # could connect to. However, this is now deprecated and only kept for
+    # backward compatibility.
+    Addresses:
+        - orderer1.havenhealthpassport.org:7050
+        - orderer2.havenhealthpassport.org:8050
+        - orderer3.havenhealthpassport.org:9050
+        - orderer4.havenhealthpassport.org:10050
+        - orderer5.havenhealthpassport.org:11050
+
+    # BatchTimeout is the maximum time to wait for a batch to fill up before
+    # processing a batch containing fewer than the preferred number of messages.
+    BatchTimeout: 2s
+
+    # BatchSize controls the number of messages batched into a block
+    BatchSize:
+        # MaxMessageCount is the maximum number of messages to batch
+        MaxMessageCount: 500
+
+        # AbsoluteMaxBytes is the absolute maximum number of bytes for a batch
+        AbsoluteMaxBytes: 10 MB
+
+        # PreferredMaxBytes is the preferred maximum number of bytes for a batch
+        PreferredMaxBytes: 2 MB
+
+    # MaxChannels is the maximum number of channels to allow on the ordering network
+    MaxChannels: 1000
+
+    # Organizations lists the organizations which are defined as participants in
+    # the ordering service
+    Organizations:
+    # Policies defines the set of policies at this level of the config tree
+    Policies:
+        Readers:
+            Type: ImplicitMeta
+            Rule: "ANY Readers"
+        Writers:
+            Type: ImplicitMeta
+            Rule: "ANY Writers"
+        Admins:
+            Type: ImplicitMeta
+            Rule: "MAJORITY Admins"
+        # BlockValidation specifies what signatures must be included in the block
+        # from the orderer for the peer to validate it.
+        BlockValidation:
+            Type: ImplicitMeta
+            Rule: "ANY Writers"
+
+    # Capabilities specifies the features that must be supported by orderers
+    Capabilities:
+        V2_0: true
+
+################################################################################
+#
+#   SECTION: Channel
+#
+#   This section defines the channel configuration
+#
+################################################################################
+Channel: &ChannelDefaults
+    # Policies defines the set of policies at this level of the config tree
+    Policies:
+        Readers:
+            Type: ImplicitMeta
+            Rule: "ANY Readers"
+        Writers:
+            Type: ImplicitMeta
+            Rule: "ANY Writers"
+        Admins:
+            Type: ImplicitMeta
+            Rule: "MAJORITY Admins"
+
+    # Capabilities defines the features supported by channels
+    Capabilities:
+        V2_0: true
+################################################################################
+#
+#   SECTION: Profiles
+#
+#   Different configuration profiles for genesis block generation
+#
+################################################################################
+Profiles:
+    # RaftOrdererGenesis creates a genesis block for Raft ordering
+    RaftOrdererGenesis:
+        <<: *ChannelDefaults
+        Orderer:
+            <<: *OrdererDefaults
+            Organizations:
+                - *OrdererOrg
+        Consortiums:
+            HealthcareConsortium:
+                Organizations:
+                    - *HealthcareProvider1
+                    - *HealthcareProvider2
+                    - *RefugeeOrg
+                    - *UNHCROrg
+
+    # HealthcareChannel creates a channel for healthcare data sharing
+    HealthcareChannel:
+        Consortium: HealthcareConsortium
+        <<: *ChannelDefaults
+        Application:
+            <<: *ApplicationDefaults
+            Organizations:
+                - *HealthcareProvider1
+                - *HealthcareProvider2
+                - *RefugeeOrg
+                - *UNHCROrg
+            Capabilities:
+                V2_0: true
+################################################################################
+#
+#   SECTION: Organizations
+#
+#   This section defines the different organizational entities
+#
+################################################################################
+Organizations:
+    - &OrdererOrg
+        Name: OrdererOrg
+        ID: OrdererMSP
+        MSPDir: crypto-config/ordererOrganizations/havenhealthpassport.org/msp
+
+        Policies:
+            Readers:
+                Type: Signature
+                Rule: "OR('OrdererMSP.member')"
+            Writers:
+                Type: Signature
+                Rule: "OR('OrdererMSP.member')"
+            Admins:
+                Type: Signature
+                Rule: "OR('OrdererMSP.admin')"
+
+        OrdererEndpoints:
+            - orderer1.havenhealthpassport.org:7050
+            - orderer2.havenhealthpassport.org:8050
+            - orderer3.havenhealthpassport.org:9050
+            - orderer4.havenhealthpassport.org:10050
+            - orderer5.havenhealthpassport.org:11050
+    - &HealthcareProvider1
+        Name: HealthcareProvider1MSP
+        ID: HealthcareProvider1MSP
+        MSPDir: crypto-config/peerOrganizations/healthcare1.havenhealthpassport.org/msp
+
+        Policies:
+            Readers:
+                Type: Signature
+                Rule: "OR('HealthcareProvider1MSP.admin', 'HealthcareProvider1MSP.peer', 'HealthcareProvider1MSP.client')"
+            Writers:
+                Type: Signature
+                Rule: "OR('HealthcareProvider1MSP.admin', 'HealthcareProvider1MSP.client')"
+            Admins:
+                Type: Signature
+                Rule: "OR('HealthcareProvider1MSP.admin')"
+
+        AnchorPeers:
+            - Host: peer0.healthcare1.havenhealthpassport.org
+              Port: 7051
+
+    - &HealthcareProvider2
+        Name: HealthcareProvider2MSP
+        ID: HealthcareProvider2MSP
+        MSPDir: crypto-config/peerOrganizations/healthcare2.havenhealthpassport.org/msp
+
+        Policies:
+            Readers:
+                Type: Signature
+                Rule: "OR('HealthcareProvider2MSP.admin', 'HealthcareProvider2MSP.peer', 'HealthcareProvider2MSP.client')"
+            Writers:
+                Type: Signature
+                Rule: "OR('HealthcareProvider2MSP.admin', 'HealthcareProvider2MSP.client')"
+            Admins:
+                Type: Signature
+                Rule: "OR('HealthcareProvider2MSP.admin')"
+
+        AnchorPeers:
+            - Host: peer0.healthcare2.havenhealthpassport.org
+              Port: 8051
+    - &RefugeeOrg
+        Name: RefugeeOrgMSP
+        ID: RefugeeOrgMSP
+        MSPDir: crypto-config/peerOrganizations/refugee.havenhealthpassport.org/msp
+
+        Policies:
+            Readers:
+                Type: Signature
+                Rule: "OR('RefugeeOrgMSP.admin', 'RefugeeOrgMSP.peer', 'RefugeeOrgMSP.client')"
+            Writers:
+                Type: Signature
+                Rule: "OR('RefugeeOrgMSP.admin', 'RefugeeOrgMSP.client')"
+            Admins:
+                Type: Signature
+                Rule: "OR('RefugeeOrgMSP.admin')"
+
+        AnchorPeers:
+            - Host: peer0.refugee.havenhealthpassport.org
+              Port: 9051
+
+    - &UNHCROrg
+        Name: UNHCROrgMSP
+        ID: UNHCROrgMSP
+        MSPDir: crypto-config/peerOrganizations/unhcr.havenhealthpassport.org/msp
+
+        Policies:
+            Readers:
+                Type: Signature
+                Rule: "OR('UNHCROrgMSP.admin', 'UNHCROrgMSP.peer', 'UNHCROrgMSP.client')"
+            Writers:
+                Type: Signature
+                Rule: "OR('UNHCROrgMSP.admin', 'UNHCROrgMSP.client')"
+            Admins:
+                Type: Signature
+                Rule: "OR('UNHCROrgMSP.admin')"
+
+        AnchorPeers:
+            - Host: peer0.unhcr.havenhealthpassport.org
+              Port: 10051
+################################################################################
+#
+#   SECTION: Application
+#
+#   This section defines the application-level configuration
+#
+################################################################################
+Application: &ApplicationDefaults
+    Organizations:
+
+    Policies:
+        Readers:
+            Type: ImplicitMeta
+            Rule: "ANY Readers"
+        Writers:
+            Type: ImplicitMeta
+            Rule: "ANY Writers"
+        Admins:
+            Type: ImplicitMeta
+            Rule: "MAJORITY Admins"
+        LifecycleEndorsement:
+            Type: ImplicitMeta
+            Rule: "MAJORITY Endorsement"
+        Endorsement:
+            Type: ImplicitMeta
+            Rule: "MAJORITY Endorsement"
+
+    Capabilities:
+        V2_0: true

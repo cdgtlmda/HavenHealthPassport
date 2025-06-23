@@ -1,0 +1,24 @@
+# Audio Processing Requirements for Haven Health Passport
+
+# Core audio processing library
+librosa>=0.10.0  # For audio feature extraction, pitch detection, and spectral analysis
+
+# Audio file manipulation
+pydub>=0.25.1      # For audio segmentation, format conversion, and manipulation
+ffmpeg-python>=0.2.0  # Python bindings for FFmpeg (required by pydub for some formats)
+
+# AWS SDK for S3 uploads
+boto3>=1.28.0      # Already in main requirements, but listed for clarity
+
+# Supporting libraries (usually installed with librosa)
+soundfile>=0.12.0  # For audio file I/O
+audioread>=3.0.0   # For reading various audio formats
+numba>=0.57.0      # For JIT compilation of audio processing
+
+# Optional but recommended for better performance
+resampy>=0.4.0     # For high-quality audio resampling
+
+# Note: FFmpeg or libav must be installed on the system for pydub to work with many formats
+# On Ubuntu/Debian: sudo apt-get install ffmpeg
+# On macOS: brew install ffmpeg
+# On Windows: Download from https://ffmpeg.org/download.html

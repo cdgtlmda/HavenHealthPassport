@@ -1,0 +1,178 @@
+graph TB
+    subgraph "Patient Registration with AWS AI"
+        A1[Patient Input] --> A2[Amplify UI]
+        A2 --> A3[AppSync GraphQL]
+        A3 --> A4[Cognito User Pool]
+        A4 --> A5[Rekognition Face ID]
+        A5 --> A6[Fraud Detector]
+        A6 --> A7[HealthLake FHIR]
+        A7 --> A8[Managed Blockchain]
+        A8 --> A9[Patient QR Code]
+    end
+
+    subgraph "Document Processing Pipeline"
+        B1[Document Upload] --> B2{Document Type}
+        B2 -->|Image| B3[Textract Medical]
+        B2 -->|PDF| B4[Textract]
+        B2 -->|Voice| B5[Transcribe Medical]
+        
+        B3 --> B6[Comprehend Medical]
+        B4 --> B6
+        B5 --> B6
+        
+        B6 --> B7[Entity Extraction<br/>ICD-10, RxNorm, SNOMED]
+        B7 --> B8[Bedrock Claude 3<br/>Medical Summary]
+        B8 --> B9[FHIR Conversion]
+        B9 --> B10[HealthLake Storage]
+        
+        B10 --> B11[S3 Raw Storage]
+        B10 --> B12[OpenSearch Indexing]
+        B10 --> B13[Blockchain Hash]
+    end
+
+    subgraph "AI Translation Flow"
+        C1[Source Text] --> C2[Comprehend<br/>Language Detection]
+        C2 --> C3[DynamoDB<br/>Cache Check]
+        C3 -->|Hit| C4[Return Cached]
+        C3 -->|Miss| C5[Comprehend Medical<br/>Entity Extraction]
+        
+        C5 --> C6[OpenSearch<br/>RAG Context]
+        C6 --> C7[Bedrock Claude 3<br/>Medical Translation]
+        C7 --> C8[Translate API<br/>Terminology Check]
+        C8 --> C9[Bedrock Guardrails<br/>Quality Check]
+        C9 --> C10[Back Translation<br/>Verification]
+        C10 --> C11[Cache Result]
+        C11 --> C4
+    end
+
+    subgraph "Verification & Access Control"
+        D1[Access Request] --> D2[API Gateway + WAF]
+        D2 --> D3[Lambda Authorizer]
+        D3 --> D4[Fraud Detector<br/>Risk Score]
+        
+        D4 -->|Low Risk| D5[Standard Auth<br/>Cognito MFA]
+        D4 -->|Medium Risk| D6[Enhanced Auth<br/>Rekognition + Voice ID]
+        D4 -->|High Risk| D7[Manual Review<br/>Ground Truth]
+        
+        D5 --> D8[Blockchain Verify]
+        D6 --> D8
+        D7 --> D8
+        
+        D8 --> D9[Grant Access]
+        D9 --> D10[CloudTrail Audit]
+        D10 --> D11[Neptune Graph<br/>Access Pattern]
+    end
+
+    subgraph "Cross-Border Verification"
+        E1[QR Code Scan] --> E2[API Gateway]
+        E2 --> E3[Step Functions<br/>Orchestration]
+        
+        E3 --> E4[Managed Blockchain<br/>Multi-Party Consensus]
+        E3 --> E5[Comprehend Medical<br/>Requirements Check]
+        E3 --> E6[Bedrock Translation<br/>Local Language]
+        
+        E4 --> E7[Origin Validation]
+        E4 --> E8[Destination Rules]
+        E4 --> E9[Transit Clearance]
+        
+        E7 --> E10[Consensus Result]
+        E8 --> E10
+        E9 --> E10
+        E5 --> E10
+        E6 --> E10
+        
+        E10 --> E11[HealthLake Query<br/>Authorized Records]
+        E11 --> E12[QuickSight<br/>Analytics Log]
+        E11 --> E13[Border Display]
+    end
+
+    subgraph "Real-time Voice Processing"
+        F1[Voice Input] --> F2[Kinesis Audio]
+        F2 --> F3[Transcribe Medical<br/>Streaming]
+        F3 --> F4[Comprehend<br/>Sentiment]
+        F4 --> F5[Bedrock<br/>Context Analysis]
+        F5 --> F6[SageMaker<br/>Urgency Detection]
+        F6 --> F7[Lambda<br/>Response Logic]
+        F7 --> F8[Polly<br/>Voice Response]
+        F8 --> F9[Kinesis Audio Out]
+    end
+
+    subgraph "ML Pipeline & Analytics"
+        G1[Event Stream] --> G2[Kinesis Data Streams]
+        G2 --> G3[Kinesis Analytics<br/>Real-time]
+        G2 --> G4[Firehose<br/>S3 Data Lake]
+        
+        G3 --> G5[SageMaker<br/>Anomaly Detection]
+        G4 --> G6[Glue ETL]
+        G6 --> G7[Athena<br/>SQL Analytics]
+        G7 --> G8[SageMaker<br/>Training Pipeline]
+        
+        G8 --> G9[Model Registry]
+        G9 --> G10[A/B Testing]
+        G10 --> G11[Production Deploy]
+        
+        G5 --> G12[SNS Alerts]
+        G7 --> G13[QuickSight ML<br/>Dashboards]
+    end
+
+    subgraph "Emergency Access Flow"
+        H1[Emergency Request] --> H2[Priority Queue<br/>SQS FIFO]
+        H2 --> H3[Lambda<br/>Emergency Handler]
+        H3 --> H4[Step Functions<br/>Emergency Workflow]
+        
+        H4 --> H5[Provider Verification<br/>Rekognition + Credentials]
+        H4 --> H6[AI Record Filter<br/>SageMaker Model]
+        H4 --> H7[Real-time Translation<br/>Bedrock + Translate]
+        
+        H5 --> H8[Time-Limited Access<br/>24 hours]
+        H6 --> H8
+        H7 --> H8
+        
+        H8 --> H9[Blockchain Log]
+        H8 --> H10[Multi-Channel Alert<br/>SNS + Pinpoint]
+        H9 --> H11[Audit Trail]
+    end
+
+    %% Service Integration Flows
+    A9 -.->|Registration Complete| B1
+    B13 -.->|Document Verified| C1
+    C4 -.->|Translation Ready| D1
+    D11 -.->|Access Patterns| E3
+    E13 -.->|Border Data| G1
+    F9 -.->|Voice Data| G1
+    G12 -.->|Alerts| H2
+    H11 -.->|Emergency Logs| G2
+
+    %% AWS Service Labels
+    subgraph "AWS Services Used"
+        AWS1[Amplify + AppSync]
+        AWS2[Cognito + IAM]
+        AWS3[Textract + Comprehend]
+        AWS4[Bedrock + SageMaker]
+        AWS5[HealthLake + OpenSearch]
+        AWS6[Managed Blockchain]
+        AWS7[Kinesis + Analytics]
+        AWS8[Step Functions + Lambda]
+    end
+
+    %% Style definitions
+    classDef patient fill:#e3f2fd,stroke:#0d47a1,stroke-width:2px;
+    classDef document fill:#f3e5f5,stroke:#4a148c,stroke-width:2px;
+    classDef translation fill:#e8f5e9,stroke:#1b5e20,stroke-width:2px;
+    classDef verification fill:#fff3e0,stroke:#e65100,stroke-width:2px;
+    classDef border fill:#e0f2f1,stroke:#004d40,stroke-width:2px;
+    classDef voice fill:#e1f5fe,stroke:#01579b,stroke-width:2px;
+    classDef analytics fill:#fce4ec,stroke:#880e4f,stroke-width:2px;
+    classDef emergency fill:#ffebee,stroke:#b71c1c,stroke-width:2px;
+    classDef aws fill:#fff8e1,stroke:#f57f17,stroke-width:2px;
+
+    %% Apply styles
+    class A1,A2,A3,A4,A5,A6,A7,A8,A9 patient;
+    class B1,B2,B3,B4,B5,B6,B7,B8,B9,B10,B11,B12,B13 document;
+    class C1,C2,C3,C4,C5,C6,C7,C8,C9,C10,C11 translation;
+    class D1,D2,D3,D4,D5,D6,D7,D8,D9,D10,D11 verification;
+    class E1,E2,E3,E4,E5,E6,E7,E8,E9,E10,E11,E12,E13 border;
+    class F1,F2,F3,F4,F5,F6,F7,F8,F9 voice;
+    class G1,G2,G3,G4,G5,G6,G7,G8,G9,G10,G11,G12,G13 analytics;
+    class H1,H2,H3,H4,H5,H6,H7,H8,H9,H10,H11 emergency;
+    class AWS1,AWS2,AWS3,AWS4,AWS5,AWS6,AWS7,AWS8 aws;

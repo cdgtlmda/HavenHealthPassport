@@ -1,0 +1,107 @@
+# FHIR Server Transaction Configuration
+# This file configures transaction isolation and management for HAPI FHIR
+
+# Spring Transaction Management
+spring:
+  transaction:
+    # Default transaction timeout (in seconds)
+    default-timeout: 30
+    # Rollback on commit failure
+    rollback-on-commit-failure: true
+
+# JPA Transaction Configuration
+  jpa:
+    # Database platform
+    database-platform: org.hibernate.dialect.PostgreSQL94Dialect
+    # Open EntityManager in View pattern (disabled for better performance)
+    open-in-view: false
+    properties:
+      # Hibernate transaction settings
+      hibernate:
+        # Transaction coordinator
+        transaction:
+          # Use JDBC transaction coordinator
+          coordinator_class: jdbc
+          # Enable transaction rollback in case of timeout
+          jta:
+            platform: org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform
+        # Connection handling
+        connection:
+          # Release mode for connections
+          release_mode: after_transaction
+          # Handling mode for connections
+          handling_mode: DELAYED_ACQUISITION_AND_RELEASE_AFTER_TRANSACTION
+        # JDBC settings
+        jdbc:
+          # Wrap result sets to enable streaming
+          wrap_result_sets: false
+          # Time zone for JDBC operations
+          time_zone: UTC
+          # LOB handling
+          lob:
+            non_contextual_creation: true
+
+# HAPI FHIR Transaction Settings
+hapi:
+  fhir:
+    # Transaction Processing
+    transaction_write_batch_size: 100
+    bundle_batch_pool_size: 10
+    bundle_batch_max_pool_size: 20
+
+    # Resource Versioning and Conflicts
+    default_versioning: VERSIONED
+    prevent_conflicts: true
+
+    # Transaction Bundle Processing
+    transaction:
+      # Process entries in parallel where possible
+      parallel_bundle_processing: false
+      # Validate references within transaction
+      validate_references: true
+      # Auto-create placeholders for missing references
+      auto_create_placeholder_references: false
+
+    # Database Transaction Settings
+    database:
+      # Maximum transaction retry attempts
+      transaction_retry_attempts: 3
+      # Delay between retry attempts (ms)
+      transaction_retry_delay: 100
+      # Transaction isolation level for reads
+      # Levels: READ_UNCOMMITTED(1), READ_COMMITTED(2), REPEATABLE_READ(4), SERIALIZABLE(8)
+      read_isolation_level: 2
+      # Transaction isolation level for writes
+      write_isolation_level: 2
+
+    # Optimistic Locking
+    optimistic_lock:
+      # Enable optimistic locking
+      enabled: true
+      # Retry on version conflict
+      retry_on_version_conflict: true
+      # Maximum retry attempts
+      max_retries: 3
+
+    # Batch Job Transaction Settings
+    batch:
+      # Transaction timeout for batch jobs (seconds)
+      job_transaction_timeout: 300
+      # Chunk size for batch processing
+      chunk_size: 100
+      # Skip policy for failed items
+      skip_policy: LIMITED
+      # Maximum items to skip
+      skip_limit: 10
+
+# Logging for Transaction Debugging
+logging:
+  level:
+    org.springframework.transaction: INFO
+    org.hibernate.transaction: INFO
+    org.hibernate.SQL: WARN
+    com.zaxxer.hikari: INFO
+
+    # Enable transaction tracing in debug mode
+    org.springframework.orm.jpa.JpaTransactionManager: ${TRANSACTION_DEBUG_LEVEL:INFO}
+    org.springframework.transaction.interceptor: ${TRANSACTION_DEBUG_LEVEL:INFO}

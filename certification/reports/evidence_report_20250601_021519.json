@@ -1,0 +1,314 @@
+{
+  "report_metadata": {
+    "generated_at": "2025-06-01T02:15:19.769287",
+    "package_id": "97773032-3540-4efb-9da8-18af3f39d931",
+    "package_name": "Test Package for Reporting",
+    "version": "1.0.0"
+  },
+  "compliance_summary": {
+    "generated_at": "2025-06-01T02:15:19.769289",
+    "package_id": "97773032-3540-4efb-9da8-18af3f39d931",
+    "package_name": "Test Package for Reporting",
+    "overall_compliance": 25.0,
+    "standards": {
+      "hipaa": {
+        "compliance_percentage": 50.0,
+        "total_requirements": 2,
+        "satisfied_requirements": 1,
+        "critical_gaps": 1
+      },
+      "gdpr": {
+        "compliance_percentage": 0.0,
+        "total_requirements": 2,
+        "satisfied_requirements": 0,
+        "critical_gaps": 1
+      },
+      "hl7_fhir": {
+        "compliance_percentage": 0.0,
+        "total_requirements": 1,
+        "satisfied_requirements": 0,
+        "critical_gaps": 1
+      }
+    },
+    "evidence_metrics": {
+      "total_evidence": 5,
+      "evidence_by_type": {
+        "test_result": 1,
+        "audit_log": 1,
+        "security_assessment": 1,
+        "compliance_report": 1,
+        "interoperability_test": 1
+      },
+      "evidence_age": {
+        "newest": 0,
+        "oldest": 0,
+        "average_age_days": 0.0
+      },
+      "evidence_sources": {
+        "TestSystem": 5
+      }
+    },
+    "requirement_metrics": {
+      "total_requirements": 5,
+      "mandatory_requirements": 4,
+      "optional_requirements": 1,
+      "satisfaction_rate": {
+        "overall": 20.0,
+        "mandatory": 25.0,
+        "optional": 0.0
+      }
+    },
+    "timeline": {
+      "events": [
+        {
+          "date": "2025-06-01T02:15:19.769025",
+          "type": "evidence_created",
+          "title": "Unit Test Results",
+          "evidence_type": "test_result"
+        },
+        {
+          "date": "2025-06-01T02:15:19.769037",
+          "type": "evidence_created",
+          "title": "Access Audit Log",
+          "evidence_type": "audit_log"
+        },
+        {
+          "date": "2025-06-01T02:15:19.769045",
+          "type": "evidence_created",
+          "title": "Security Scan",
+          "evidence_type": "security_assessment"
+        },
+        {
+          "date": "2025-06-01T02:15:19.769051",
+          "type": "evidence_created",
+          "title": "GDPR Assessment",
+          "evidence_type": "compliance_report"
+        },
+        {
+          "date": "2025-06-01T02:15:19.769057",
+          "type": "evidence_created",
+          "title": "FHIR Validation",
+          "evidence_type": "interoperability_test"
+        }
+      ],
+      "periods": [
+        {
+          "start": "2025-06-01T02:15:19.769025",
+          "end": "2025-06-08T02:15:19.769025",
+          "evidence_count": 5,
+          "types": [
+            "security_assessment",
+            "interoperability_test",
+            "compliance_report",
+            "test_result",
+            "audit_log"
+          ]
+        }
+      ],
+      "statistics": {}
+    },
+    "risk_assessment": {
+      "risk_level": "high",
+      "risk_factors": [
+        {
+          "factor": "unsatisfied_mandatory_requirements",
+          "count": 3,
+          "severity": "high"
+        }
+      ],
+      "mitigation_required": [
+        "Complete evidence collection for mandatory requirements"
+      ]
+    }
+  },
+  "evidence_details": [
+    {
+      "id": "8454c453-158a-4a8d-9bd9-2ed49ae8e2ba",
+      "type": "test_result",
+      "title": "Unit Test Results",
+      "description": "Automated test results",
+      "content": {
+        "status": "passed",
+        "details": "Sample test_result content",
+        "timestamp": "2025-06-01T02:15:19.768998"
+      },
+      "file_path": null,
+      "file_hash": "4eb8be1cddb59dcc156202c702ead1d9a95131cfa5e1c091aac11de56efc8739",
+      "created_at": "2025-06-01T02:15:19.769025",
+      "created_by": "TestSystem",
+      "tags": [
+        "test_result",
+        "test",
+        "automated"
+      ],
+      "metadata": {}
+    },
+    {
+      "id": "c02429d3-ceaf-4bdc-bde4-2683a52c4953",
+      "type": "audit_log",
+      "title": "Access Audit Log",
+      "description": "HIPAA access audit trail",
+      "content": {
+        "status": "passed",
+        "details": "Sample audit_log content",
+        "timestamp": "2025-06-01T02:15:19.769030"
+      },
+      "file_path": null,
+      "file_hash": "b5d37b161e3b102d7a4b8037b7ed0a768c544b8dd6333dd7be781bb0e45e6f89",
+      "created_at": "2025-06-01T02:15:19.769037",
+      "created_by": "TestSystem",
+      "tags": [
+        "audit_log",
+        "test",
+        "automated"
+      ],
+      "metadata": {}
+    },
+    {
+      "id": "72aaaf91-f32a-4aa4-a5d9-610a7f62050f",
+      "type": "security_assessment",
+      "title": "Security Scan",
+      "description": "Vulnerability assessment",
+      "content": {
+        "status": "passed",
+        "details": "Sample security_assessment content",
+        "timestamp": "2025-06-01T02:15:19.769040"
+      },
+      "file_path": null,
+      "file_hash": "eb6170d1353aba7678e962e2f7645859ec560289456741e8d5b3f3412b3ae9d1",
+      "created_at": "2025-06-01T02:15:19.769045",
+      "created_by": "TestSystem",
+      "tags": [
+        "security_assessment",
+        "test",
+        "automated"
+      ],
+      "metadata": {}
+    },
+    {
+      "id": "ba85da23-dd35-43b5-bc3a-93d14d6a1e07",
+      "type": "compliance_report",
+      "title": "GDPR Assessment",
+      "description": "GDPR compliance check",
+      "content": {
+        "status": "passed",
+        "details": "Sample compliance_report content",
+        "timestamp": "2025-06-01T02:15:19.769047"
+      },
+      "file_path": null,
+      "file_hash": "80d5fc88e9bddbf96eabd969d932ec9cc5adbdbb567a8adcf7bf738838a704e5",
+      "created_at": "2025-06-01T02:15:19.769051",
+      "created_by": "TestSystem",
+      "tags": [
+        "compliance_report",
+        "test",
+        "automated"
+      ],
+      "metadata": {}
+    },
+    {
+      "id": "dd452a97-5e7d-486a-a763-2c1517ae3ca9",
+      "type": "interoperability_test",
+      "title": "FHIR Validation",
+      "description": "FHIR conformance test",
+      "content": {
+        "status": "passed",
+        "details": "Sample interoperability_test content",
+        "timestamp": "2025-06-01T02:15:19.769053"
+      },
+      "file_path": null,
+      "file_hash": "41293ba81ea3a7d6532797e37025e3e0f1dc46670bfc209a49801ce0440afe09",
+      "created_at": "2025-06-01T02:15:19.769057",
+      "created_by": "TestSystem",
+      "tags": [
+        "interoperability_test",
+        "test",
+        "automated"
+      ],
+      "metadata": {}
+    }
+  ],
+  "requirements_details": [
+    {
+      "id": "615f68cd-4e3e-457c-a6d9-3be4a4501f06",
+      "standard": "hipaa",
+      "requirement_id": "HIPAA-1",
+      "title": "Access Control",
+      "description": "Test requirement for Access Control",
+      "evidence_types": [
+        "test_result",
+        "compliance_report"
+      ],
+      "mandatory": true,
+      "satisfied": true,
+      "evidence_items": [
+        "8454c453-158a-4a8d-9bd9-2ed49ae8e2ba"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "26967ae5-7a74-46c6-abaf-adb4c46a8bc0",
+      "standard": "hipaa",
+      "requirement_id": "HIPAA-2",
+      "title": "Audit Logging",
+      "description": "Test requirement for Audit Logging",
+      "evidence_types": [
+        "test_result",
+        "compliance_report"
+      ],
+      "mandatory": true,
+      "satisfied": false,
+      "evidence_items": [
+        "c02429d3-ceaf-4bdc-bde4-2683a52c4953"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "d42deff4-72bb-4d3a-b4bc-9487f70deb75",
+      "standard": "gdpr",
+      "requirement_id": "GDPR-1",
+      "title": "Data Protection",
+      "description": "Test requirement for Data Protection",
+      "evidence_types": [
+        "test_result",
+        "compliance_report"
+      ],
+      "mandatory": true,
+      "satisfied": false,
+      "evidence_items": [
+        "72aaaf91-f32a-4aa4-a5d9-610a7f62050f"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "f50c103d-74fe-4fd1-80d0-1f45f162563c",
+      "standard": "gdpr",
+      "requirement_id": "GDPR-2",
+      "title": "Right to Access",
+      "description": "Test requirement for Right to Access",
+      "evidence_types": [
+        "test_result",
+        "compliance_report"
+      ],
+      "mandatory": false,
+      "satisfied": false,
+      "evidence_items": [],
+      "notes": ""
+    },
+    {
+      "id": "11b9cf5f-67c6-422e-8bc6-7df1fd58f009",
+      "standard": "hl7_fhir",
+      "requirement_id": "FHIR-1",
+      "title": "Resource Validation",
+      "description": "Test requirement for Resource Validation",
+      "evidence_types": [
+        "test_result",
+        "compliance_report"
+      ],
+      "mandatory": true,
+      "satisfied": false,
+      "evidence_items": [],
+      "notes": ""
+    }
+  ]
+}

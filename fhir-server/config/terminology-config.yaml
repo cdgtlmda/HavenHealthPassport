@@ -1,0 +1,143 @@
+# FHIR Terminology Service Configuration
+# This configures the terminology validation and expansion services
+
+hapi:
+  fhir:
+    # Terminology Service Settings
+    terminology:
+      # Enable terminology service
+      enabled: true
+
+      # GraphQL support for terminology
+      graphql:
+        enabled: true
+
+      # Deferred loading of large code systems
+      deferred_indexing_for_codesystems_of_size: 1000
+
+      # Terminology validation settings
+      validation:
+        # Validate codes against terminology server
+        enabled: true
+        # Cache validation results
+        cache_validation_results: true
+        # Cache TTL in seconds
+        cache_ttl: 3600
+
+      # Code system settings
+      code_systems:
+        # LOINC configuration
+        loinc:
+          enabled: true
+          file_path: /app/terminology/loinc/Loinc.csv
+          hierarchy_file: /app/terminology/loinc/MULTI-AXIAL_HIERARCHY.CSV
+
+        # SNOMED CT configuration
+        snomed:
+          enabled: true
+          edition: INTERNATIONAL
+          version: 20230731
+          files:
+            - /app/terminology/snomed/SnomedCT_InternationalRF2_Full.zip
+
+        # ICD-10 configuration
+        icd10:
+          enabled: true
+          version: 2024
+          files:
+            cm: /app/terminology/icd10/icd10cm_tabular_2024.xml
+            pcs: /app/terminology/icd10/icd10pcs_tabular_2024.xml
+
+        # RxNorm configuration
+        rxnorm:
+          enabled: true
+          files:
+            concepts: /app/terminology/rxnorm/RXNCONSO.RRF
+            relationships: /app/terminology/rxnorm/RXNREL.RRF
+            attributes: /app/terminology/rxnorm/RXNSAT.RRF
+
+      # ValueSet expansion settings
+      expansion:
+        # Maximum number of codes in expanded ValueSet
+        max_expansion_size: 10000
+        # Enable expansion caching
+        cache_expansions: true
+        # Pre-expand common ValueSets
+        pre_expand_valuesets: true
+        # Parallel expansion threads
+        expansion_thread_count: 4
+
+      # Concept map translation
+      concept_maps:
+        # Enable concept map translation
+        enabled: true
+        # Translation cache settings
+        cache_translations: true
+        cache_ttl: 7200
+
+      # External terminology server (optional)
+      external_server:
+        enabled: false
+        url: ${TERMINOLOGY_SERVER_URL:}
+        timeout_seconds: 30
+        retry_attempts: 3
+
+      # Terminology loader settings
+      loader:
+        # Batch size for loading
+        batch_size: 1000
+        # Use parallel loading
+        parallel_loading: true
+        # Number of loader threads
+        thread_count: 4
+        # Memory limit for loading (MB)
+        memory_limit: 2048
+
+      # Terminology indexing
+      indexing:
+        # Enable Lucene indexing for terminology
+        enabled: true
+        # Index directory
+        directory: /app/data/terminology-index
+        # Rebuild index on startup
+        rebuild_on_startup: false
+
+      # Built-in terminology
+      builtin:
+        # Load FHIR core terminology
+        load_core_terminology: true
+        # Load example ValueSets
+        load_examples: false
+        # Load national extensions
+        load_extensions:
+          - US_CORE
+          - UK_CORE
+
+    # Related validation settings
+    validation:
+      # Validate terminology bindings
+      validate_bindings: true
+      # Binding strength enforcement
+      enforce_binding_strength:
+        required: true
+        extensible: true
+        preferred: false
+        example: false
+      # Unknown code system behavior
+      unknown_codesystem_policy: WARNING
+
+    # Terminology-related search parameters
+    search:
+      # Enable terminology-aware searching
+      terminology_aware_search: true
+      # Normalize search terms
+      normalize_terminology: true
+      # Include hierarchy in searches
+      include_hierarchy: true
+
+# Logging for terminology operations
+logging:
+  level:
+    ca.uhn.fhir.context.support: INFO
+    ca.uhn.fhir.jpa.term: INFO
+    org.hl7.fhir.common.hapi.validation: INFO

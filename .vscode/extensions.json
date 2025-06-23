@@ -1,0 +1,50 @@
+{
+  "recommendations": [
+    // Python
+    "ms-python.python",
+    "ms-python.vscode-pylance",
+    "ms-python.black-formatter",
+    "ms-python.flake8",
+    "ms-python.mypy-type-checker",
+    
+    // AWS
+    "amazonwebservices.aws-toolkit-vscode",
+    
+    // Docker
+    "ms-azuretools.vscode-docker",
+    
+    // Git
+    "eamodio.gitlens",
+    
+    // Code Quality
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
+    
+    // API Development
+    "42crunch.vscode-openapi",
+    "arjun.swagger-viewer",
+    "humao.rest-client",
+    
+    // React Native
+    "msjsdiag.vscode-react-native",
+    
+    // GraphQL
+    "graphql.vscode-graphql",
+    "graphql.vscode-graphql-syntax",
+    
+    // Blockchain
+    "juanblanco.solidity",
+    "azblockchain.azure-blockchain",
+    
+    // Healthcare
+    "yannick-beot-sp.vscode-fhir-tools",
+    
+    // Utilities
+    "streetsidesoftware.code-spell-checker",
+    "wayou.vscode-todo-highlight",
+    "gruntfuggly.todo-tree",
+    "redhat.vscode-yaml",
+    "tamasfe.even-better-toml",
+    "dotenv.dotenv-vscode"
+  ]
+}

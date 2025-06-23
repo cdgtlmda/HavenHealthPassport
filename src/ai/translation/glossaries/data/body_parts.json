@@ -1,0 +1,196 @@
+{
+  "body_parts": {
+    "head": {
+      "category": "anatomy",
+      "priority": "high",
+      "translations": {
+        "es": ["cabeza"],
+        "fr": ["tête"],
+        "ar": ["رأس", "الرأس"],
+        "zh": ["头", "头部"],
+        "hi": ["सिर", "मस्तक"],
+        "fa": ["سر"],
+        "so": ["madax"],
+        "am": ["ራስ", "ጭንቅላት"],
+        "sw": ["kichwa"],
+        "ur": ["سر"]
+      }
+    },
+    "heart": {
+      "category": "anatomy",
+      "priority": "critical",
+      "translations": {
+        "es": ["corazón"],
+        "fr": ["cœur"],
+        "ar": ["قلب", "القلب"],
+        "zh": ["心脏", "心"],
+        "hi": ["हृदय", "दिल"],
+        "fa": ["قلب", "دل"],
+        "so": ["wadne"],
+        "am": ["ልብ"],
+        "sw": ["moyo"],
+        "ur": ["دل"]
+      }
+    },
+    "lungs": {
+      "category": "anatomy",
+      "priority": "critical",
+      "translations": {
+        "es": ["pulmones"],
+        "fr": ["poumons"],
+        "ar": ["رئتان", "الرئتين"],
+        "zh": ["肺", "肺部"],
+        "hi": ["फेफड़े"],
+        "fa": ["ریه‌ها", "شش‌ها"],
+        "so": ["sambab"],
+        "am": ["ሳምባ"],
+        "sw": ["mapafu"],
+        "ur": ["پھیپھڑے"]
+      }
+    },
+    "brain": {
+      "category": "anatomy",
+      "priority": "critical",
+      "translations": {
+        "es": ["cerebro"],
+        "fr": ["cerveau"],
+        "ar": ["دماغ", "مخ"],
+        "zh": ["大脑", "脑"],
+        "hi": ["मस्तिष्क", "दिमाग"],
+        "fa": ["مغز"],
+        "so": ["maskax"],
+        "am": ["አንጎል"],
+        "sw": ["ubongo"],
+        "ur": ["دماغ"]
+      }
+    },
+    "stomach": {
+      "category": "anatomy",
+      "priority": "high",
+      "translations": {
+        "es": ["estómago"],
+        "fr": ["estomac"],
+        "ar": ["معدة", "بطن"],
+        "zh": ["胃", "肚子"],
+        "hi": ["पेट"],
+        "fa": ["معده", "شکم"],
+        "so": ["calool"],
+        "am": ["ሆድ"],
+        "sw": ["tumbo"],
+        "ur": ["معدہ", "پیٹ"]
+      }
+    },
+    "liver": {
+      "category": "anatomy",
+      "priority": "high",
+      "translations": {
+        "es": ["hígado"],
+        "fr": ["foie"],
+        "ar": ["كبد"],
+        "zh": ["肝脏", "肝"],
+        "hi": ["यकृत", "जिगर"],
+        "fa": ["کبد", "جگر"],
+        "so": ["beer"],
+        "am": ["ጉበት"],
+        "sw": ["ini"],
+        "ur": ["جگر"]
+      }
+    },
+    "kidney": {
+      "category": "anatomy",
+      "priority": "high",
+      "translations": {
+        "es": ["riñón"],
+        "fr": ["rein"],
+        "ar": ["كلية", "كلى"],
+        "zh": ["肾脏", "肾"],
+        "hi": ["गुर्दा"],
+        "fa": ["کلیه"],
+        "so": ["kelli"],
+        "am": ["ኩላሊት"],
+        "sw": ["figo"],
+        "ur": ["گردہ"]
+      }
+    },
+    "blood": {
+      "category": "anatomy",
+      "priority": "high",
+      "translations": {
+        "es": ["sangre"],
+        "fr": ["sang"],
+        "ar": ["دم"],
+        "zh": ["血液", "血"],
+        "hi": ["रक्त", "खून"],
+        "fa": ["خون"],
+        "so": ["dhiig"],
+        "am": ["ደም"],
+        "sw": ["damu"],
+        "ur": ["خون"]
+      }
+    },
+    "bone": {
+      "category": "anatomy",
+      "priority": "medium",
+      "translations": {
+        "es": ["hueso"],
+        "fr": ["os"],
+        "ar": ["عظم", "عظام"],
+        "zh": ["骨头", "骨"],
+        "hi": ["हड्डी"],
+        "fa": ["استخوان"],
+        "so": ["laf"],
+        "am": ["አጥንት"],
+        "sw": ["mfupa"],
+        "ur": ["ہڈی"]
+      }
+    },
+    "skin": {
+      "category": "anatomy",
+      "priority": "medium",
+      "translations": {
+        "es": ["piel"],
+        "fr": ["peau"],
+        "ar": ["جلد", "بشرة"],
+        "zh": ["皮肤"],
+        "hi": ["त्वचा", "चमड़ी"],
+        "fa": ["پوست"],
+        "so": ["maqaar", "dub"],
+        "am": ["ቆዳ"],
+        "sw": ["ngozi"],
+        "ur": ["جلد"]
+      }
+    },
+    "eye": {
+      "category": "anatomy",
+      "priority": "high",
+      "translations": {
+        "es": ["ojo"],
+        "fr": ["œil"],
+        "ar": ["عين"],
+        "zh": ["眼睛", "眼"],
+        "hi": ["आंख"],
+        "fa": ["چشم"],
+        "so": ["il"],
+        "am": ["ዓይን"],
+        "sw": ["jicho"],
+        "ur": ["آنکھ"]
+      }
+    },
+    "ear": {
+      "category": "anatomy",
+      "priority": "medium",
+      "translations": {
+        "es": ["oído", "oreja"],
+        "fr": ["oreille"],
+        "ar": ["أذن"],
+        "zh": ["耳朵", "耳"],
+        "hi": ["कान"],
+        "fa": ["گوش"],
+        "so": ["dheg"],
+        "am": ["ጆሮ"],
+        "sw": ["sikio"],
+        "ur": ["کان"]
+      }
+    }
+  }
+}

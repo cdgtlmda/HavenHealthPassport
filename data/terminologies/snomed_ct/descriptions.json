@@ -1,0 +1,95 @@
+{
+  "22298006": [
+    {
+      "term": "Myocardial infarction",
+      "type": "preferred",
+      "language": "en"
+    },
+    {
+      "term": "MI",
+      "type": "synonym",
+      "language": "en"
+    },
+    {
+      "term": "Heart attack",
+      "type": "synonym",
+      "language": "en"
+    },
+    {
+      "term": "Cardiac infarction",
+      "type": "synonym",
+      "language": "en"
+    },
+    {
+      "term": "Infarto de miocardio",
+      "type": "preferred",
+      "language": "es"
+    }
+  ],
+  "38341003": [
+    {
+      "term": "Hypertension",
+      "type": "preferred",
+      "language": "en"
+    },
+    {
+      "term": "High blood pressure",
+      "type": "synonym",
+      "language": "en"
+    },
+    {
+      "term": "HTN",
+      "type": "synonym",
+      "language": "en"
+    },
+    {
+      "term": "Hypertensive disease",
+      "type": "synonym",
+      "language": "en"
+    },
+    {
+      "term": "Hipertensi\u00f3n",
+      "type": "preferred",
+      "language": "es"
+    }
+  ],
+  "73211009": [
+    {
+      "term": "Diabetes mellitus",
+      "type": "preferred",
+      "language": "en"
+    },
+    {
+      "term": "DM",
+      "type": "synonym",
+      "language": "en"
+    },
+    {
+      "term": "Diabetes",
+      "type": "synonym",
+      "language": "en"
+    },
+    {
+      "term": "Sugar diabetes",
+      "type": "synonym",
+      "language": "en"
+    }
+  ],
+  "195967001": [
+    {
+      "term": "Asthma",
+      "type": "preferred",
+      "language": "en"
+    },
+    {
+      "term": "Bronchial asthma",
+      "type": "synonym",
+      "language": "en"
+    },
+    {
+      "term": "Asthmatic disease",
+      "type": "synonym",
+      "language": "en"
+    }
+  ]
+}

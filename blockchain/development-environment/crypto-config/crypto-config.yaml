@@ -1,0 +1,26 @@
+# Haven Health Passport - Crypto Configuration for Hyperledger Fabric
+# This file defines the organizations and their structure
+
+OrdererOrgs:
+  - Name: Orderer
+    Domain: havenhealthpassport.com
+    EnableNodeOUs: true
+    Specs:
+      - Hostname: orderer
+        CommonName: orderer.havenhealthpassport.com
+      - Hostname: orderer2
+        CommonName: orderer2.havenhealthpassport.com
+      - Hostname: orderer3
+        CommonName: orderer3.havenhealthpassport.com
+
+PeerOrgs:
+  - Name: HavenHealthFoundation
+    Domain: havenhealthfoundation.com
+    EnableNodeOUs: true
+    Template:
+      Count: 3
+      SANS:
+        - localhost
+        - 127.0.0.1
+    Users:
+      Count: 5  # In addition to Admin user

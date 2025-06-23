@@ -1,0 +1,46 @@
+{
+  "medical": {
+    "terminology": {
+      "diagnosis": "Utambuzi",
+      "symptom": "Dalili",
+      "treatment": "Matibabu",
+      "procedure": "Utaratibu",
+      "medication": "Dawa",
+      "dosage": "Kipimo",
+      "frequency": "Mara",
+      "duration": "Muda",
+      "sideEffects": "Athari za dawa",
+      "contraindications": "Mapingamizi",
+      "prescription": "Dawa ya daktari",
+      "referral": "Rufaa",
+      "specialist": "Mtaalamu",
+      "examination": "Uchunguzi",
+      "laboratory": "Maabara",
+      "imaging": "Picha za mwili",
+      "xray": "Eksirei",
+      "ultrasound": "Ultrasauti",
+      "mri": "MRI",
+      "ctScan": "CT Scan",
+      "bloodTest": "Kipimo cha damu",
+      "urineTest": "Kipimo cha mkojo"
+    },
+    "conditions": {
+      "diabetes": "Kisukari",
+      "hypertension": "Shinikizo la damu",
+      "asthma": "Pumu",
+      "heartDisease": "Ugonjwa wa moyo",
+      "cancer": "Saratani",
+      "stroke": "Kiharusi",
+      "epilepsy": "Kifafa",
+      "tuberculosis": "Kifua kikuu",
+      "malaria": "Malaria",
+      "hiv": "VVU",
+      "hepatitis": "Homa ya manjano",
+      "pneumonia": "Nimonia",
+      "bronchitis": "Bronkaiti",
+      "arthritis": "Ugonjwa wa viungo",
+      "depression": "Mfadhaiko",
+      "anxiety": "Wasiwasi"
+    }
+  }
+}

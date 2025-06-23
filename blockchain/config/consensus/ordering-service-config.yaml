@@ -1,0 +1,214 @@
+# Ordering Service Configuration
+# Haven Health Passport - Consensus Mechanism Settings
+
+orderingService:
+  # Service type selection
+  # Options: solo (dev only), kafka (deprecated), raft (recommended for production)
+  type: "raft"
+
+  # Service metadata
+  metadata:
+    name: "haven-health-ordering-service"
+    description: "Raft-based ordering service for Haven Health Passport blockchain"
+    version: "2.2.0"
+
+  # Raft consensus configuration
+  raftConfig:
+    # Raft protocol settings
+    protocol:
+      # Election timeout range (milliseconds)
+      electionTick: 10  # 10 * tickInterval = 5000ms
+      heartbeatTick: 1  # 1 * tickInterval = 500ms
+
+      # Tick interval (milliseconds)
+      tickInterval: 500
+
+      # Maximum number of in-flight blocks
+      maxInflightBlocks: 5
+
+      # Snapshot interval for state machine
+      # Detailed snapshot configuration in snapshot-config.yaml
+      snapshotIntervalSize: 20971520  # 20 MB in bytes (legacy setting)
+      snapshotConfig: "./snapshot-config.yaml"  # Full snapshot configuration
+
+      # Preferred reader configuration for read optimization
+      preferredReaderConfig: "./preferred-reader-config.yaml"
+
+    # Cluster configuration
+    cluster:
+      # Number of orderer nodes (odd number recommended)
+      nodeCount: 5
+
+      # Fault tolerance (can tolerate (nodeCount-1)/2 failures)
+      faultTolerance: 2
+
+      # Node distribution across availability zones
+      azDistribution:
+        - zone: "us-east-1a"
+          nodes: 2
+        - zone: "us-east-1b"
+          nodes: 2
+        - zone: "us-east-1c"
+          nodes: 1
+
+  # Performance configuration
+  performance:
+    # Batching configuration
+    batching:
+      # Maximum time to wait before creating a batch
+      batchTimeout: "2s"
+      batchTimeoutConfig: "./batch-timeout-config.yaml"
+
+      # Maximum number of messages in a batch
+      maxMessageCount: 500
+      maxMessageCountConfig: "./max-message-count-config.yaml"
+
+      # Absolute maximum batch size in bytes
+      absoluteMaxBytes: 10485760  # 10 MB
+
+      # Preferred maximum batch size in bytes
+      preferredMaxBytes: 2097152  # 2 MB
+
+      # Block size configuration details
+      blockSizeLimitsConfig: "./block-size-limits-config.yaml"
+
+    # Resource allocation
+    resources:
+      # CPU allocation per orderer node
+      cpu:
+        requests: "2"
+        limits: "4"
+
+      # Memory allocation per orderer node
+      memory:
+        requests: "4Gi"
+        limits: "8Gi"
+
+      # Storage configuration
+      storage:
+        size: "100Gi"
+        type: "gp3"
+        iops: 3000
+        throughput: 125  # MB/s
+
+  # Security configuration
+  security:
+    # TLS settings
+    tls:
+      enabled: true
+      clientAuthRequired: true
+
+      # Certificate rotation
+      certRotation:
+        enabled: true
+        intervalDays: 90
+        gracePeriodDays: 30
+    # Authentication mechanisms
+    authentication:
+      # Mutual TLS for orderer-to-orderer communication
+      mutualTLS:
+        enabled: true
+        verifyDepth: 3
+
+      # Client certificate validation
+      clientValidation:
+        checkCRL: true
+        checkOCSP: true
+
+    # Access control
+    accessControl:
+      # Admin operations require signatures from
+      adminPolicy: "MAJORITY Admins"
+
+      # Block creation requires signatures from
+      writerPolicy: "ANY Writers"
+
+      # Block reading requires signatures from
+      readerPolicy: "ANY Readers"
+
+  # High availability configuration
+  highAvailability:
+    # Leader election settings
+    leaderElection:
+      # Use AWS Managed Blockchain leader election
+      useAWSElection: true
+
+      # Backup leader election mechanism
+      backupMethod: "raft-native"
+
+    # Channel restrictions configuration
+    channelRestrictions: "./channel-restrictions-config.yaml"
+
+    # Failover configuration
+    failover:
+      # Automatic failover enabled
+      automatic: true
+
+      # Maximum time to wait for leader election
+      electionTimeout: "30s"
+
+      # Health check interval
+      healthCheckInterval: "5s"
+
+      # Unhealthy threshold
+      unhealthyThreshold: 3
+
+  # Monitoring and logging
+  monitoring:
+    # CloudWatch integration
+    cloudWatch:
+      enabled: true
+      namespace: "HavenHealth/Blockchain/Ordering"
+      # Metrics to collect
+      metrics:
+        - "ConsensusLatency"
+        - "BlockHeight"
+        - "TransactionThroughput"
+        - "LeaderChanges"
+        - "MessageBacklog"
+
+    # Log configuration
+    logging:
+      level: "INFO"
+      format: "json"
+
+      # Log categories
+      categories:
+        consensus: "INFO"
+        orderer: "INFO"
+        policies: "WARN"
+        grpc: "ERROR"
+
+    # Alerting
+    alerts:
+      - name: "ConsensusFailure"
+        condition: "ConsensusLatency > 5000"
+        severity: "CRITICAL"
+      - name: "LeaderElectionFrequent"
+        condition: "LeaderChanges > 5 per 5m"
+        severity: "WARNING"
+      - name: "MessageBacklogHigh"
+        condition: "MessageBacklog > 1000"
+        severity: "WARNING"
+
+  # Network integration
+  networkIntegration:
+    # Channel participation
+    systemChannel:
+      name: "haven-system-channel"
+
+    # Application channels
+    applicationChannels:
+      autoJoin: true
+      maxChannels: 10
+
+    # Genesis block configuration
+    genesisMethod: "aws-managed"
+
+    # Consortium settings
+    consortium:
+      name: "HavenHealthConsortium"
+      organizations:
+        - "HavenHealthOrg"
+        - "PartnerHealthOrg"
+        - "GovernmentHealthOrg"

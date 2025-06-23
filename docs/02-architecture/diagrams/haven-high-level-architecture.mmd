@@ -1,0 +1,132 @@
+graph TB
+    subgraph "User Interfaces"
+        MobileApp([Mobile App<br/>React Native + Amplify])
+        WebPortal([Web Portal<br/>React + QuickSight])
+        ProviderPortal([Provider Portal<br/>React + SageMaker Canvas])
+    end
+
+    subgraph "API Layer - AWS Managed"
+        GraphQL[GraphQL API Gateway<br/>AWS AppSync]
+        REST[REST Endpoints<br/>API Gateway + Lambda]
+        WSS[WebSocket API<br/>API Gateway WebSocket]
+    end
+
+    subgraph "Application Services"
+        AuthService[Authentication Service<br/>Cognito + Fraud Detector]
+        HealthRecords[Health Records Management<br/>HealthLake + Comprehend Medical]
+        Translation[Translation Service<br/>Bedrock Claude 3 + Translate]
+        Voice[Voice Processing<br/>Transcribe Medical + Polly]
+        Verification[Verification Service<br/>Managed Blockchain + Rekognition]
+        Notification[Notification Service<br/>Pinpoint + Personalize]
+    end
+
+    subgraph "AI/ML Services - AWS GenAI"
+        LangChain[LangChain Integration<br/>+ Bedrock Agents]
+        LlamaIndex[LlamaIndex Integration<br/>+ OpenSearch Serverless]
+        Bedrock[Amazon Bedrock<br/>Claude 3, Titan, SDXL]
+        SageMaker[Amazon SageMaker<br/>Custom Models + Endpoints]
+        CompMed[Comprehend Medical<br/>Entity Extraction + ICD-10]
+        Textract[Amazon Textract<br/>Medical Forms + OCR]
+    end
+
+    subgraph "Blockchain Services - AWS Managed"
+        SmartContracts[Smart Contract Layer<br/>Hyperledger Fabric]
+        Consensus[Consensus Mechanisms<br/>QLDB + Managed Blockchain]
+        VerificationNetwork[Verification Network<br/>Multi-Region Peers]
+    end
+
+    subgraph "Data Storage - AWS Native"
+        HealthLake[(Amazon HealthLake<br/>FHIR R4 Store)]
+        S3[(S3 Intelligent-Tiering<br/>Documents + ML Artifacts)]
+        OpenSearch[(OpenSearch Serverless<br/>Vector Database)]
+        DynamoDB[(DynamoDB Global Tables<br/>Session + Metadata)]
+        Neptune[(Amazon Neptune<br/>Knowledge Graph)]
+    end
+
+    subgraph "ML Pipeline - AWS Services"
+        SageMakerPipeline[SageMaker Pipelines<br/>Training + Deployment]
+        StepFunctions[Step Functions<br/>Workflow Orchestration]
+        EventBridge[EventBridge<br/>Event-Driven ML]
+    end
+
+    %% User Interface Connections
+    MobileApp <--> GraphQL
+    WebPortal <--> GraphQL
+    ProviderPortal <--> GraphQL
+    MobileApp <--> REST
+    WebPortal <--> REST
+    ProviderPortal <--> REST
+    MobileApp <--> WSS
+
+    %% API Connections with Labels
+    GraphQL <-->|"Subscriptions"| AuthService
+    GraphQL <-->|"Queries"| HealthRecords
+    GraphQL <-->|"Mutations"| Translation
+    GraphQL <-->|"Real-time"| Verification
+    GraphQL <--> Notification
+    REST <-->|"File Upload"| HealthRecords
+    REST <-->|"Streaming"| Voice
+    REST <--> Verification
+    WSS <-->|"Live Updates"| Notification
+
+    %% Service to Service Connections
+    AuthService <-->|"Identity"| Verification
+    HealthRecords <-->|"Medical Terms"| Translation
+    HealthRecords <-->|"Verification"| Verification
+    Voice <-->|"Transcription"| Translation
+    Translation <-->|"Alerts"| Notification
+
+    %% AI Service Connections with AWS Services
+    Translation <-->|"Orchestration"| LangChain
+    Translation <-->|"LLM"| Bedrock
+    Voice <-->|"STT/TTS"| Bedrock
+    HealthRecords <-->|"RAG"| LlamaIndex
+    LangChain <-->|"Custom Models"| SageMaker
+    LlamaIndex <-->|"Embeddings"| Bedrock
+    HealthRecords <-->|"NLP"| CompMed
+    HealthRecords <-->|"OCR"| Textract
+
+    %% ML Pipeline Connections
+    SageMaker <--> SageMakerPipeline
+    SageMakerPipeline <--> StepFunctions
+    StepFunctions <--> EventBridge
+    EventBridge <--> HealthRecords
+
+    %% Blockchain Connections
+    Verification <-->|"Smart Contracts"| SmartContracts
+    SmartContracts <-->|"Consensus"| Consensus
+    Consensus <-->|"Multi-Region"| VerificationNetwork
+
+    %% Data Storage Connections with Purpose
+    HealthRecords <-->|"FHIR Data"| HealthLake
+    HealthRecords <-->|"Documents"| S3
+    Translation <-->|"Vectors"| OpenSearch
+    LlamaIndex <-->|"Embeddings"| OpenSearch
+    AuthService <-->|"Sessions"| DynamoDB
+    Notification <-->|"Preferences"| DynamoDB
+    CompMed <-->|"Knowledge"| Neptune
+    SageMaker <-->|"Models"| S3
+
+    %% Cross-Service AI Connections
+    Bedrock <-.->|"Guardrails"| HealthRecords
+    Bedrock <-.->|"Knowledge Base"| Neptune
+    SageMaker <-.->|"Inference"| Voice
+    CompMed <-.->|"Medical NER"| Translation
+
+    %% Style Classes
+    classDef interface fill:#e1f5fa,stroke:#01579b,stroke-width:2px,color:#000;
+    classDef api fill:#e8f5e9,stroke:#1b5e20,stroke-width:2px,color:#000;
+    classDef service fill:#fff3e0,stroke:#e65100,stroke-width:2px,color:#000;
+    classDef ai fill:#f3e5f5,stroke:#4a148c,stroke-width:2px,color:#000;
+    classDef blockchain fill:#e0f2f1,stroke:#004d40,stroke-width:2px,color:#000;
+    classDef storage fill:#fce4ec,stroke:#880e4f,stroke-width:2px,color:#000;
+    classDef pipeline fill:#e8eaf6,stroke:#283593,stroke-width:2px,color:#000;
+
+    %% Apply Styles
+    class MobileApp,WebPortal,ProviderPortal interface;
+    class GraphQL,REST,WSS api;
+    class AuthService,HealthRecords,Translation,Voice,Verification,Notification service;
+    class LangChain,LlamaIndex,Bedrock,SageMaker,CompMed,Textract ai;
+    class SmartContracts,Consensus,VerificationNetwork blockchain;
+    class HealthLake,S3,OpenSearch,DynamoDB,Neptune storage;
+    class SageMakerPipeline,StepFunctions,EventBridge pipeline;

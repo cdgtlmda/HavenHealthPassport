@@ -1,0 +1,250 @@
+# Raft Election Parameters Configuration
+# Haven Health Passport - Consensus Mechanism
+
+# This configuration defines the election parameters for the Raft consensus protocol
+# These parameters control leader election behavior and timing
+
+electionParameters:
+  # Metadata
+  metadata:
+    name: "haven-health-election-params"
+    description: "Raft election parameters for Haven Health Passport ordering service"
+    version: "1.0.0"
+    lastUpdated: "2025-05-31T00:00:00Z"
+
+  # Core Election Timing Parameters
+  timing:
+    # Election timeout configuration
+    election:
+      # Base election timeout (milliseconds)
+      # This is the time a follower waits before starting an election
+      baseTimeout: 5000
+
+      # Random timeout range to prevent split votes
+      # Actual timeout = baseTimeout + random(0, randomRange)
+      randomRange: 2500
+
+      # Minimum election timeout (safety limit)
+      minTimeout: 3000
+
+      # Maximum election timeout (safety limit)
+      maxTimeout: 10000
+
+    # Heartbeat configuration
+    heartbeat:
+      # Heartbeat interval from leader to followers (milliseconds)
+      interval: 500
+
+      # Heartbeat timeout multiplier
+      # Followers timeout if no heartbeat received for interval * multiplier
+      timeoutMultiplier: 10
+
+    # Request vote RPC timeout
+    requestVote:
+      # Time to wait for vote response (milliseconds)
+      timeout: 3000
+
+      # Maximum retries for vote requests
+      maxRetries: 2
+
+  # Leader Election Policies
+  leaderElection:
+    # Pre-vote mechanism (reduces disruption from partitioned nodes)
+    preVote:
+      enabled: true
+      timeout: 2000
+
+    # Priority-based leader election
+    priorityElection:
+      enabled: true
+
+      # Node priorities (higher value = higher priority)
+      priorities:
+        orderer0: 100  # Primary node
+        orderer1: 80   # Backup primary
+        orderer2: 60   # Secondary
+        orderer3: 60   # Secondary
+        orderer4: 40   # Arbiter
+
+      # Delay before lower priority node can become candidate (milliseconds)
+      priorityDelay: 1000
+
+    # Check quorum before becoming leader
+    checkQuorum:
+      enabled: true
+      interval: 2500
+
+    # Leader lease mechanism
+    leaderLease:
+      enabled: true
+      duration: 10000
+      renewalThreshold: 0.75  # Renew when 75% of lease expired
+
+  # Election Optimization
+  optimization:
+    # Adaptive timeout based on network conditions
+    adaptiveTimeout:
+      enabled: true
+
+      # Increase timeout if elections are failing
+      failureMultiplier: 1.5
+
+      # Decrease timeout if network is stable
+      successDivisor: 1.1
+
+      # Bounds for adaptive timeout
+      minAdaptiveTimeout: 3000
+      maxAdaptiveTimeout: 15000
+
+    # Fast leader election for planned transitions
+    fastElection:
+      enabled: true
+
+      # Timeout for fast election (milliseconds)
+      timeout: 1000
+
+      # Only use for graceful leader stepdown
+      gracefulOnly: true
+
+  # Term Management
+  termManagement:
+    # Persistent term storage
+    persistence:
+      enabled: true
+      location: "/var/hyperledger/production/orderer/consensus/terms"
+
+    # Term validation
+    validation:
+      # Reject votes from nodes with outdated terms
+      rejectOutdatedTerms: true
+
+      # Maximum term difference to accept
+      maxTermDifference: 10
+
+    # Term history
+    history:
+      # Keep term history for debugging
+      enabled: true
+      retention: 1000  # Number of terms to keep
+
+  # Split Brain Prevention
+  splitBrainPrevention:
+    # Require majority for leader election
+    requireMajority: true
+
+    # Network partition detection
+    partitionDetection:
+      enabled: true
+
+      # Time before declaring partition (milliseconds)
+      detectionTimeout: 30000
+
+      # Action when partition detected
+      onPartition: "stepdown"  # Options: stepdown, readonly, continue
+
+    # Witness nodes for tie-breaking
+    witness:
+      enabled: false  # Not needed with 5 nodes
+      nodes: []
+
+  # Election Monitoring
+  monitoring:
+    # Metrics collection
+    metrics:
+      # Election duration histogram
+      - name: "election_duration_ms"
+        type: "histogram"
+        description: "Time taken to complete leader election"
+        buckets: [100, 500, 1000, 2000, 5000, 10000]
+
+      # Election attempt counter
+      - name: "election_attempts_total"
+        type: "counter"
+        description: "Total number of election attempts"
+
+      # Current leader gauge
+      - name: "current_leader"
+        type: "gauge"
+        description: "ID of current Raft leader"
+
+      # Term changes counter
+      - name: "term_changes_total"
+        type: "counter"
+        description: "Total number of term changes"
+
+      # Split vote occurrences
+      - name: "split_votes_total"
+        type: "counter"
+        description: "Number of elections resulting in split vote"
+
+    # Alerting rules
+    alerts:
+      # Frequent elections indicate instability
+      - name: "FrequentElections"
+        condition: "rate(election_attempts_total[5m]) > 0.5"
+        severity: "warning"
+        description: "More than 3 elections in 5 minutes"
+
+      # Long election duration
+      - name: "SlowElection"
+        condition: "election_duration_ms > 5000"
+        severity: "warning"
+        description: "Election took longer than 5 seconds"
+
+      # No leader elected
+      - name: "NoLeader"
+        condition: "current_leader == -1 for 30s"
+        severity: "critical"
+        description: "No leader elected for 30 seconds"
+
+  # Recovery Procedures
+  recovery:
+    # Automatic recovery from election failures
+    autoRecovery:
+      enabled: true
+
+      # Reset election timer after repeated failures
+      resetAfterFailures: 5
+
+      # Backoff strategy
+      backoffStrategy: "exponential"
+      backoffBase: 2
+      backoffMax: 60000
+
+    # Manual intervention thresholds
+    manualIntervention:
+      # Alert ops team after this many failed elections
+      failureThreshold: 10
+
+      # Notification channels
+      notifications:
+        - type: "pagerduty"
+          severity: "high"
+        - type: "email"
+          recipients: ["blockchain-ops@havenhealthpassport.com"]
+
+  # Testing Configuration
+  testing:
+    # Chaos testing parameters
+    chaos:
+      # Simulate leader failures
+      leaderFailure:
+        enabled: false
+        probability: 0.01
+        duration: 5000
+
+      # Simulate network partitions
+      networkPartition:
+        enabled: false
+        probability: 0.005
+        duration: 10000
+
+    # Election testing mode
+    testMode:
+      enabled: false
+
+      # Force specific election scenarios
+      scenarios:
+        - "split_vote"
+        - "leader_isolation"
+        - "cascading_failure"

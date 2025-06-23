@@ -1,0 +1,111 @@
+version: '3.8'
+
+services:
+  # FHIR Server for Certification Testing
+  fhir-server:
+    image: hapiproject/hapi:v6.2.0
+    container_name: haven-fhir-cert
+    environment:
+      - SPRING_CONFIG_LOCATION=/config/application.yaml
+      - HAPI_FHIR_VALIDATION_ENABLED=true
+      - HAPI_FHIR_SUBSCRIPTION_ENABLED=true
+      - HAPI_FHIR_CORS_ENABLED=true
+      - HAPI_FHIR_AUDIT_ENABLED=true
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./fhir-config:/config
+      - fhir-cert-data:/data
+    networks:
+      - cert-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/fhir/metadata"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  # PostgreSQL for Certification
+  postgres-cert:
+    image: postgres:14.7-alpine
+    container_name: haven-postgres-cert
+    environment:
+      - POSTGRES_DB=haven_cert
+      - POSTGRES_USER=haven_cert_user
+      - POSTGRES_PASSWORD=${POSTGRES_CERT_PASSWORD}
+      - POSTGRES_INITDB_ARGS=--encoding=UTF8
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres-cert-data:/var/lib/postgresql/data
+      - ./init-scripts:/docker-entrypoint-initdb.d
+    networks:
+      - cert-network
+
+  # HL7 Interface Engine
+  hl7-engine:
+    build:
+      context: ./hl7-engine
+      dockerfile: Dockerfile.cert
+    container_name: haven-hl7-cert
+    environment:
+      - HL7_PORT=2575
+      - FHIR_SERVER_URL=http://fhir-server:8080/fhir
+      - ENABLE_AUDIT=true
+    ports:
+      - "2575:2575"
+    networks:
+      - cert-network
+
+  # Terminology Service
+  terminology-service:
+    build:
+      context: ./terminology
+      dockerfile: Dockerfile
+    container_name: haven-terminology-cert
+    environment:
+      - LOINC_VERSION=2.74
+      - SNOMED_VERSION=20230901
+      - ICD10_VERSION=2024
+      - RXNORM_VERSION=20240101
+    ports:
+      - "8090:8090"
+    volumes:
+      - terminology-data:/data
+    networks:
+      - cert-network
+
+  # Test Data Generator
+  test-data-generator:
+    build:
+      context: ./test-tools
+      dockerfile: Dockerfile.generator
+    container_name: haven-test-generator
+    environment:
+      - FHIR_SERVER_URL=http://fhir-server:8080/fhir
+      - GENERATE_PATIENTS=100
+      - GENERATE_OBSERVATIONS=1000
+      - GENERATE_CONDITIONS=500
+    networks:
+      - cert-network
+
+  # Monitoring Stack
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: haven-prometheus-cert
+    volumes:
+      - ./monitoring/prometheus-cert.yml:/etc/prometheus/prometheus.yml
+      - prometheus-cert-data:/prometheus
+    ports:
+      - "9091:9090"
+    networks:
+      - cert-network
+
+volumes:
+  fhir-cert-data:
+  postgres-cert-data:
+  terminology-data:
+  prometheus-cert-data:
+
+networks:
+  cert-network:
+    driver: bridge

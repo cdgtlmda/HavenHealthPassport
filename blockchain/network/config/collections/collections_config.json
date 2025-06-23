@@ -1,0 +1,62 @@
+[
+  {
+    "name": "personalHealthData",
+    "policy": "OR('HealthcareProvider1MSP.member', 'HealthcareProvider2MSP.member', 'RefugeeOrgMSP.member')",
+    "requiredPeerCount": 2,
+    "maxPeerCount": 4,
+    "blockToLive": 0,
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('HealthcareProvider1MSP.member', 'HealthcareProvider2MSP.member')"
+    }
+  },
+  {
+    "name": "sensitiveRecords",
+    "policy": "AND(OR('HealthcareProvider1MSP.member', 'HealthcareProvider2MSP.member'), OR('UNHCROrgMSP.member', 'PatientOrgMSP.member'))",
+    "requiredPeerCount": 3,
+    "maxPeerCount": 5,
+    "blockToLive": 1000000,
+    "memberOnlyRead": true,
+    "memberOnlyWrite": false,
+    "endorsementPolicy": {
+      "signaturePolicy": "OutOf(2, 'HealthcareProvider1MSP.member', 'HealthcareProvider2MSP.member', 'UNHCROrgMSP.admin')"
+    }
+  },
+  {
+    "name": "verificationData",
+    "policy": "OR('HealthcareProvider1MSP.member', 'HealthcareProvider2MSP.member', 'UNHCROrgMSP.member')",
+    "requiredPeerCount": 1,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "memberOnlyRead": false,
+    "memberOnlyWrite": true,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('HealthcareProvider1MSP.member', 'HealthcareProvider2MSP.member')"
+    }
+  },
+  {
+    "name": "emergencyAccessData",
+    "policy": "OR('HealthcareProvider1MSP.member', 'HealthcareProvider2MSP.member', 'RefugeeOrgMSP.member', 'UNHCROrgMSP.member')",
+    "requiredPeerCount": 1,
+    "maxPeerCount": 2,
+    "blockToLive": 259200,
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "endorsementPolicy": {
+      "signaturePolicy": "OR('HealthcareProvider1MSP.member', 'HealthcareProvider2MSP.member', 'RefugeeOrgMSP.member')"
+    }
+  },
+  {
+    "name": "auditTrailData",
+    "policy": "OR('UNHCROrgMSP.member', 'OrdererOrg.member')",
+    "requiredPeerCount": 2,
+    "maxPeerCount": 4,
+    "blockToLive": 0,
+    "memberOnlyRead": true,
+    "memberOnlyWrite": false,
+    "endorsementPolicy": {
+      "signaturePolicy": "AND('UNHCROrgMSP.admin', 'OrdererOrg.admin')"
+    }
+  }
+]

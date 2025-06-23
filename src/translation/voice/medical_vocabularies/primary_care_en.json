@@ -1,0 +1,78 @@
+{
+  "vocabulary_name": "refugee_health_primary_care",
+  "language_code": "en-US",
+  "terms": [
+    {
+      "phrase": "malaria",
+      "sounds_like": ["muh-LAIR-ee-uh"],
+      "ipa": "məˈlɛriə",
+      "display_as": "Malaria"
+    },
+    {
+      "phrase": "tuberculosis",
+      "sounds_like": ["too-ber-kyoo-LOH-sis", "TB"],
+      "ipa": "tuˌbɜrkyəˈloʊsɪs",
+      "display_as": "Tuberculosis"
+    },
+    {
+      "phrase": "cholera",
+      "sounds_like": ["KAH-luh-ruh"],
+      "ipa": "ˈkɒlərə",
+      "display_as": "Cholera"
+    },
+    {
+      "phrase": "diabetes mellitus",
+      "sounds_like": ["dahy-uh-BEE-teez meh-LY-tus"],
+      "ipa": "ˌdaɪəˈbiːtiːz ˈmɛlɪtəs",
+      "display_as": "Diabetes Mellitus"
+    },
+    {
+      "phrase": "hypertension",
+      "sounds_like": ["hahy-per-TEN-shun"],
+      "ipa": "ˌhaɪpərˈtɛnʃən",
+      "display_as": "Hypertension"
+    },
+    {
+      "phrase": "post traumatic stress disorder",
+      "sounds_like": ["pohst traw-MAT-ik stres dis-OR-der", "P-T-S-D"],
+      "ipa": "poʊst trɔˈmætɪk strɛs dɪsˈɔrdər",
+      "display_as": "PTSD"
+    },
+    {
+      "phrase": "acute malnutrition",
+      "sounds_like": ["uh-KYOOT mal-noo-TRISH-un"],
+      "ipa": "əˈkyut ˌmælnuˈtrɪʃən",
+      "display_as": "Acute Malnutrition"
+    },
+    {
+      "phrase": "oral rehydration salts",
+      "sounds_like": ["OR-ul ree-hahy-DREY-shun sawlts", "O-R-S"],
+      "ipa": "ˈɔrəl ˌrihaɪˈdreɪʃən sɔlts",
+      "display_as": "ORS"
+    },
+    {
+      "phrase": "antenatal care",
+      "sounds_like": ["an-tee-NEY-tl kair", "A-N-C"],
+      "ipa": "ˌæntiˈneɪtl kɛr",
+      "display_as": "Antenatal Care"
+    },
+    {
+      "phrase": "measles mumps rubella",
+      "sounds_like": ["MEE-zuls mumps roo-BEL-uh", "M-M-R"],
+      "ipa": "ˈmizəlz mʌmps ruˈbɛlə",
+      "display_as": "MMR Vaccine"
+    }
+  ],
+  "medical_abbreviations": [
+    {"abbreviation": "BP", "expansion": "blood pressure"},
+    {"abbreviation": "HR", "expansion": "heart rate"},
+    {"abbreviation": "RR", "expansion": "respiratory rate"},
+    {"abbreviation": "TB", "expansion": "tuberculosis"},
+    {"abbreviation": "ORS", "expansion": "oral rehydration salts"},
+    {"abbreviation": "ANC", "expansion": "antenatal care"},
+    {"abbreviation": "PTSD", "expansion": "post traumatic stress disorder"},
+    {"abbreviation": "MMR", "expansion": "measles mumps rubella"},
+    {"abbreviation": "BCG", "expansion": "Bacillus Calmette Guerin"},
+    {"abbreviation": "MUAC", "expansion": "mid upper arm circumference"}
+  ]
+}

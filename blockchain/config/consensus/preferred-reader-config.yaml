@@ -1,0 +1,343 @@
+# Preferred Reader Configuration
+# Haven Health Passport - Read Optimization for Raft Consensus
+
+# Overview
+# Preferred reader allows non-leader nodes to serve read requests
+# reducing load on the leader and improving read performance
+
+preferredReader:
+  # Global configuration
+  global:
+    # Enable preferred reader optimization
+    enabled: true
+
+    # Read consistency level
+    consistencyLevel: "bounded-staleness"  # Options: strong, bounded-staleness, eventual
+
+    # Maximum staleness for bounded reads
+    maxStaleness: "5s"
+
+    # Load balancing strategy
+    loadBalancing:
+      strategy: "round-robin"  # Options: round-robin, least-connections, geographic
+
+      # Health check for reader nodes
+      healthCheck:
+        enabled: true
+        interval: "10s"
+        timeout: "2s"
+        unhealthyThreshold: 3
+        healthyThreshold: 2
+
+    # Reader selection criteria
+    readerSelection:
+      # Prefer readers in same availability zone
+      preferSameAZ: true
+
+      # Prefer readers with lowest latency
+      preferLowLatency: true
+      latencyThreshold: "10ms"
+
+      # Prefer readers with available resources
+      considerResources: true
+      minAvailableCPU: 20      # Percentage
+      minAvailableMemory: 30   # Percentage
+
+      # Exclude readers under maintenance
+      excludeMaintenance: true
+
+  # Node-specific configurations
+  nodeConfigurations:
+    # Leader node settings
+    leader:
+      # Percentage of reads to handle directly
+      readPercentage: 20
+
+      # Forward read requests to followers
+      enableReadForwarding: true
+
+      # Maximum concurrent forwarded reads
+      maxForwardedReads: 100
+
+    # Follower node settings
+    follower:
+      # Accept read requests
+      acceptReads: true
+
+      # Maximum concurrent reads to handle
+      maxConcurrentReads: 500
+
+      # Cache configuration for reads
+      readCache:
+        enabled: true
+        size: "1GB"
+        ttl: "60s"
+        evictionPolicy: "lru"
+
+    # Candidate node settings (during elections)
+    candidate:
+      # Don't accept reads during election
+      acceptReads: false
+
+  # Read request routing
+  routing:
+    # Client-side routing
+    clientRouting:
+      # Enable smart client routing
+      enabled: true
+
+      # Update routing table interval
+      updateInterval: "30s"
+
+      # Fallback to leader if preferred reader fails
+      fallbackToLeader: true
+
+      # Retry configuration
+      retry:
+        maxAttempts: 3
+        initialBackoff: "100ms"
+        maxBackoff: "2s"
+        backoffMultiplier: 2
+
+    # Server-side routing
+    serverRouting:
+      # Route based on request characteristics
+      requestBased:
+        # Route by data freshness requirements
+        freshness:
+          - requirement: "< 1s"
+            routeTo: "leader"
+          - requirement: "1s - 5s"
+            routeTo: "any-follower"
+          - requirement: "> 5s"
+            routeTo: "nearest-follower"
+
+        # Route by query complexity
+        complexity:
+          - type: "simple-key-lookup"
+            routeTo: "any-reader"
+          - type: "range-query"
+            routeTo: "resource-available-reader"
+          - type: "complex-query"
+            routeTo: "leader"
+
+        # Route by data type
+        dataType:
+          - type: "configuration"
+            routeTo: "leader"
+          - type: "transaction-history"
+            routeTo: "any-reader"
+          - type: "current-state"
+            routeTo: "leader-or-recent-follower"
+
+  # Performance optimization
+  optimization:
+    # Read request batching
+    batching:
+      enabled: true
+      maxBatchSize: 100
+      maxWaitTime: "10ms"
+
+    # Parallel read processing
+    parallelProcessing:
+      enabled: true
+      maxParallelReads: 10
+
+    # Read-ahead caching
+    readAhead:
+      enabled: true
+      cacheSize: "500MB"
+      prefetchCount: 10
+
+    # Connection pooling
+    connectionPooling:
+      minConnections: 10
+      maxConnections: 100
+      idleTimeout: "5m"
+
+  # Monitoring and metrics
+  monitoring:
+    # Metrics to collect
+    metrics:
+      - name: "PreferredReaderHitRate"
+        type: "gauge"
+        unit: "percentage"
+        description: "Percentage of reads served by non-leader nodes"
+
+      - name: "ReadLatency"
+        type: "histogram"
+        unit: "milliseconds"
+        description: "Read request latency by node type"
+        labels: ["node_type", "consistency_level"]
+
+      - name: "ReaderNodeUtilization"
+        type: "gauge"
+        unit: "percentage"
+        description: "CPU/Memory utilization of reader nodes"
+
+      - name: "ReadRequestsPerNode"
+        type: "counter"
+        unit: "count"
+        description: "Number of read requests per node"
+
+      - name: "StaleReads"
+        type: "counter"
+        unit: "count"
+        description: "Number of stale reads served"
+
+    # CloudWatch integration
+    cloudWatch:
+      namespace: "HavenHealth/Blockchain/PreferredReader"
+
+      # Alarms
+      alarms:
+        - name: "LowReaderHitRate"
+          metric: "PreferredReaderHitRate"
+          threshold: 50
+          comparison: "LessThan"
+          description: "Too many reads going to leader"
+
+        - name: "HighReadLatency"
+          metric: "ReadLatency.p95"
+          threshold: 100
+          comparison: "GreaterThan"
+          description: "Read latency exceeding target"
+
+        - name: "ReaderOverload"
+          metric: "ReaderNodeUtilization"
+          threshold: 80
+          comparison: "GreaterThan"
+          description: "Reader nodes overloaded"
+
+  # Geographic distribution
+  geographic:
+    # Enable geo-aware routing
+    enabled: true
+
+    # Region configurations
+    regions:
+      - name: "us-east-1"
+        priority: 1
+        readers:
+          - "orderer0.haven-health.com"
+          - "orderer1.haven-health.com"
+
+      - name: "us-west-2"
+        priority: 2
+        readers:
+          - "orderer2.haven-health.com"
+          - "orderer3.haven-health.com"
+
+      - name: "eu-west-1"
+        priority: 3
+        readers:
+          - "orderer4.haven-health.com"
+          - "orderer5.haven-health.com"
+
+    # Cross-region routing rules
+    crossRegion:
+      # Allow cross-region reads
+      allowed: true
+
+      # Maximum additional latency tolerated
+      maxAdditionalLatency: "50ms"
+
+      # Prefer same-region reads
+      sameRegionPreference: 0.9  # 90% preference
+
+  # Failover configuration
+  failover:
+    # Automatic failover for reader nodes
+    automatic: true
+
+    # Detection settings
+    detection:
+      method: "health-check"
+      failureThreshold: 3
+      checkInterval: "5s"
+
+    # Failover process
+    process:
+      # Remove failed reader from rotation
+      removeFromRotation: true
+
+      # Redistribute load
+      redistributionStrategy: "weighted-round-robin"
+
+      # Alert on failover
+      alerting:
+        enabled: true
+        channels: ["sns", "cloudwatch"]
+
+    # Recovery
+    recovery:
+      # Automatic recovery when node healthy
+      automatic: true
+
+      # Gradual traffic increase
+      gradualTrafficIncrease: true
+      trafficIncreaseRate: "10%/minute"
+
+  # Security considerations
+  security:
+    # Authentication for read requests
+    authentication:
+      required: true
+      method: "mutual-tls"
+
+    # Authorization
+    authorization:
+      # Check read permissions
+      checkPermissions: true
+
+      # Cache permission checks
+      cachePermissions: true
+      cacheTTL: "5m"
+
+    # Audit
+    audit:
+      # Log read requests
+      logReads: true
+
+      # Include in audit trail
+      includeInAudit: true
+
+      # Sensitive data handling
+      maskSensitiveData: true
+
+  # Testing configuration
+  testing:
+    # Test scenarios
+    scenarios:
+      - name: "reader-load-distribution"
+        description: "Verify even distribution across readers"
+        readRate: 1000
+        duration: "10m"
+        expectedDistribution: "uniform"
+
+      - name: "reader-failover"
+        description: "Test failover when reader fails"
+        simulateFailure: true
+        failureNode: "orderer1"
+        expectedBehavior: "seamless-failover"
+
+      - name: "consistency-verification"
+        description: "Verify read consistency"
+        writeRate: 100
+        readRate: 1000
+        consistencyCheck: true
+
+      - name: "geographic-routing"
+        description: "Test geo-aware routing"
+        clientRegions: ["us-east-1", "us-west-2", "eu-west-1"]
+        expectedRouting: "same-region-preference"
+
+  # Best practices
+  bestPractices:
+    - "Monitor reader hit rate to ensure effectiveness"
+    - "Set appropriate staleness bounds for your use case"
+    - "Ensure adequate resources on reader nodes"
+    - "Test failover scenarios regularly"
+    - "Consider geographic distribution of readers"
+    - "Use caching to reduce read load"
+    - "Monitor for hot spots in read distribution"

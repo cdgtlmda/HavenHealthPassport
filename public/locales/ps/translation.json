@@ -1,0 +1,92 @@
+{
+  "common": {
+    "appName": "د هیون روغتیا پاسپورټ",
+    "loading": "بارول...",
+    "error": "تېروتنه",
+    "success": "بریالیتوب",
+    "cancel": "لغوه کول",
+    "save": "ساتل",
+    "delete": "ړنګول",
+    "edit": "سمول",
+    "close": "بندول",
+    "confirm": "تایید",
+    "back": "شاته",
+    "next": "بل",
+    "previous": "مخکینی",
+    "done": "بشپړ شو",
+    "skip": "پرېښودل",
+    "yes": "هو",
+    "no": "نه",
+    "ok": "سمه ده",
+    "search": "لټون",
+    "filter": "فلټر",
+    "sort": "ترتیبول",
+    "refresh": "تازه کول",
+    "retry": "بیا هڅه",
+    "submit": "سپارل",
+    "continue": "دوام"
+  },
+  "auth": {
+    "login": {
+      "title": "بېرته ښه راغلاست",
+      "subtitle": "خپلو روغتیایي ریکارډونو ته د لاسرسي لپاره ننوځئ",
+      "email": "برېښنالیک",
+      "emailPlaceholder": "خپل برېښنالیک ولیکئ",
+      "password": "پټنوم",
+      "passwordPlaceholder": "خپل پټنوم ولیکئ",
+      "forgotPassword": "پټنوم مو هېر شوی؟",
+      "signIn": "ننوتل",
+      "noAccount": "حساب نلرئ؟",
+      "signUp": "نوملیکنه",
+      "invalidCredentials": "ناسم برېښنالیک یا پټنوم",
+      "emailRequired": "برېښنالیک اړین دی",
+      "passwordRequired": "پټنوم اړین دی"
+    },    "register": {
+      "title": "حساب جوړول",
+      "subtitle": "د خپلو روغتیایي ریکارډونو د مدیریت لپاره راسره یوځای شئ",
+      "firstName": "نوم",
+      "lastName": "تخلص",
+      "dateOfBirth": "د زېږېدنې نېټه",
+      "email": "د برېښنالیک پته",
+      "password": "پټنوم",
+      "confirmPassword": "پټنوم تایید کړئ",
+      "createAccount": "حساب جوړول",
+      "alreadyHaveAccount": "مخکې حساب لرئ؟",
+      "passwordsDoNotMatch": "پټنومونه سره نه ورته کېږي"
+    }
+  },
+  "health": {
+    "records": "روغتیایي ریکارډونه",
+    "medications": "درمل",
+    "allergies": "حساسیتونه",
+    "conditions": "روغتیایي حالتونه",
+    "immunizations": "واکسینونه",
+    "appointments": "ملاقاتونه",
+    "vitals": "حیاتي نښې",
+    "bloodPressure": "د وینې فشار",
+    "heartRate": "د زړه ضربان",
+    "temperature": "تودوخه",
+    "weight": "وزن",
+    "height": "قد",
+    "bloodType": "د وینې ډول",
+    "emergency": "بېړنی",
+    "emergencyContact": "بېړنی اړیکه"
+  },
+  "medical": {
+    "terminology": {
+      "diagnosis": "تشخیص",
+      "symptom": "نښه",
+      "treatment": "درملنه",
+      "procedure": "کړنلاره",
+      "medication": "درمل",
+      "dosage": "دوز",
+      "frequency": "ځلې",
+      "prescription": "نسخه",
+      "specialist": "متخصص",
+      "examination": "معاینه",
+      "laboratory": "لابراتوار",
+      "xray": "ایکسرې",
+      "bloodTest": "د وینې معاینه"
+    }
+  }
+}

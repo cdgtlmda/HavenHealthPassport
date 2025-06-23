@@ -1,0 +1,178 @@
+{
+  "chain_of_thought_medical_reasoning": {
+    "explaining_chronic_conditions": {
+      "diabetes_to_low_literacy_patient": {
+        "scenario": "Explain type 2 diabetes to patient with low health literacy",
+        "language": "ur",
+        "reasoning_chain": [
+          {
+            "step": 1,
+            "thought": "Start with what the patient already knows",
+            "action": "Ask about 'sugar disease' (شوگر کی بیماری) - familiar term",
+            "output": "آپ نے شوگر کی بیماری کے بارے میں سنا ہے؟"
+          },
+          {
+            "step": 2,
+            "thought": "Use simple analogy for blood sugar",
+            "action": "Compare blood to a river, sugar to boats",
+            "output": "جیسے دریا میں کشتیاں ہوتی ہیں، ویسے خون میں شکر ہوتی ہے"
+          },
+          {
+            "step": 3,
+            "thought": "Explain the problem simply",
+            "action": "Too many boats (sugar) block the river",
+            "output": "جب بہت زیادہ شکر ہو، تو خون صحیح طریقے سے کام نہیں کرتا"
+          },
+          {
+            "step": 4,
+            "thought": "Connect to symptoms they experience",
+            "action": "Relate to tiredness, thirst, frequent urination",
+            "output": "اسی لیے آپ کو پیاس لگتی ہے اور بار بار پیشاب آتا ہے"
+          },
+          {
+            "step": 5,
+            "thought": "Introduce management positively",
+            "action": "Focus on control, not cure",
+            "output": "دوا اور کھانے سے اسے کنٹرول کر سکتے ہیں"
+          }
+        ]
+      }
+    },
+    "emergency_situation_communication": {
+      "anaphylaxis_to_family": {
+        "scenario": "Explain severe allergic reaction urgency",
+        "languages": ["ar", "so", "fa"],
+        "reasoning_chain": [
+          {
+            "step": 1,
+            "thought": "Convey urgency without panic",
+            "action": "Use clear, direct language",
+            "ar": "حالة طارئة - يحتاج دواء فوراً",
+            "so": "Xaalad degdeg ah - wuxuu u baahan yahay dawo hadda",
+            "fa": "وضعیت اورژانسی - فوراً به دارو نیاز دارد"
+          },
+          {
+            "step": 2,
+            "thought": "Explain what's happening simply",
+            "action": "Body fighting food/medicine wrongly",
+            "ar": "الجسم يحارب الطعام/الدواء بشكل خاطئ",
+            "so": "Jirka wuxuu la dagaallamayaa cunto/dawo si khalad ah",
+            "fa": "بدن به اشتباه با غذا/دارو می‌جنگد"
+          },
+          {
+            "step": 3,
+            "thought": "Give clear action",
+            "action": "Emphasize immediate medical help",
+            "ar": "يجب الذهاب للمستشفى الآن",
+            "so": "Waa in aan hadda aadno isbitaalka",
+            "fa": "باید همین الان به بیمارستان برویم"
+          }
+        ]
+      }
+    },
+    "mental_health_destigmatization": {
+      "depression_in_cultural_context": {
+        "scenario": "Discuss depression with stigma-conscious patient",
+        "approach": "Progressive disclosure with normalization",
+        "reasoning_chain": [
+          {
+            "step": 1,
+            "thought": "Start with physical symptoms they mentioned",
+            "action": "Validate physical complaints",
+            "example": "Your headaches and fatigue are real"
+          },
+          {
+            "step": 2,
+            "thought": "Introduce mind-body connection gently",
+            "action": "Explain stress affects body",
+            "example": "When we have many worries, our body feels tired"
+          },
+          {
+            "step": 3,
+            "thought": "Normalize the experience",
+            "action": "Many people in difficult situations feel this way",
+            "example": "After what you've been through, these feelings are natural"
+          },
+          {
+            "step": 4,
+            "thought": "Reframe as medical condition",
+            "action": "Like diabetes affects sugar, stress affects mood chemicals",
+            "example": "Brain chemicals can be out of balance, like sugar in diabetes"
+          },
+          {
+            "step": 5,
+            "thought": "Offer hope and treatment options",
+            "action": "Emphasize treatability without stigma",
+            "example": "We have ways to help - talking, medication, or both"
+          }
+        ]
+      }
+    },
+    "complex_diagnosis_explanation": {
+      "cancer_diagnosis": {
+        "scenario": "Explain cancer diagnosis sensitively",
+        "cultural_considerations": {
+          "directness": "Varies by culture - some prefer indirect",
+          "family_involvement": "Often need family present",
+          "hope_maintenance": "Critical in all cultures"
+        },
+        "reasoning_chain": [
+          {
+            "step": 1,
+            "thought": "Assess readiness and preferences",
+            "action": "Ask how much detail they want",
+            "script": "Some people want all details, others prefer simple explanation"
+          },
+          {
+            "step": 2,
+            "thought": "Use appropriate metaphor",
+            "action": "Choose culturally resonant comparison",
+            "options": {
+              "garden": "Cells growing where they shouldn't, like weeds",
+              "construction": "Body's building blocks making mistakes",
+              "military": "Some cells not following body's rules"
+            }
+          },
+          {
+            "step": 3,
+            "thought": "Explain in stages",
+            "action": "Build understanding progressively",
+            "progression": [
+              "There are cells that are not normal",
+              "These cells are growing too fast",
+              "We need to stop them from spreading"
+            ]
+          },
+          {
+            "step": 4,
+            "thought": "Focus on action plan",
+            "action": "Shift to what can be done",
+            "message": "We have treatments that can help"
+          }
+        ]
+      }
+    }
+  },
+  "reasoning_patterns_by_topic": {
+    "medication_compliance": {
+      "challenge": "Patient stops medication when feeling better",
+      "reasoning_approach": [
+        "Acknowledge improvement",
+        "Use analogy (fixing roof before rain)",
+        "Explain hidden work of medicine",
+        "Connect to patient goals",
+        "Address specific barriers"
+      ]
+    },
+    "preventive_care": {
+      "challenge": "Explaining need for screening when not sick",
+      "reasoning_approach": [
+        "Start with familiar prevention concepts",
+        "Use culturally relevant examples",
+        "Emphasize early detection benefits",
+        "Address cost/time concerns",
+        "Involve trusted community members"
+      ]
+    }
+  }
+}

@@ -1,0 +1,255 @@
+{
+  "common_medications": {
+    "aspirin": {
+      "category": "medication",
+      "priority": "high",
+      "rxnorm_codes": ["1191"],
+      "preserve_exact": true,
+      "translations": {
+        "es": ["aspirina"],
+        "fr": ["aspirine"],
+        "ar": ["أسبرين", "الأسبرين"],
+        "zh": ["阿司匹林", "阿斯匹林"],
+        "hi": ["एस्पिरिन"],
+        "fa": ["آسپرین"],
+        "so": ["asbirin"],
+        "am": ["አስፕሪን"],
+        "sw": ["aspirini"],
+        "ur": ["اسپرین"]
+      }
+    },
+    "paracetamol": {
+      "category": "medication",
+      "priority": "high",
+      "aliases": ["acetaminophen"],
+      "rxnorm_codes": ["161"],
+      "translations": {
+        "es": ["paracetamol", "acetaminofén"],
+        "fr": ["paracétamol"],
+        "ar": ["باراسيتامول"],
+        "zh": ["对乙酰氨基酚", "扑热息痛"],
+        "hi": ["पैरासिटामोल"],
+        "fa": ["پاراستامول"],
+        "so": ["barasitamol"],
+        "am": ["ፓራሲታሞል"],
+        "sw": ["paracetamol"],
+        "ur": ["پیراسیٹامول"]
+      }
+    },
+    "ibuprofen": {
+      "category": "medication",
+      "priority": "high",
+      "rxnorm_codes": ["5640"],
+      "preserve_exact": true,
+      "translations": {
+        "es": ["ibuprofeno"],
+        "fr": ["ibuprofène"],
+        "ar": ["إيبوبروفين"],
+        "zh": ["布洛芬"],
+        "hi": ["आइबुप्रोफेन"],
+        "fa": ["ایبوپروفن"],
+        "so": ["ibuprofen"],
+        "am": ["አይቡፕሮፈን"],
+        "sw": ["ibuprofen"],
+        "ur": ["آئبوپروفین"]
+      }
+    },
+    "antibiotic": {
+      "category": "medication",
+      "priority": "high",
+      "translations": {
+        "es": ["antibiótico"],
+        "fr": ["antibiotique"],
+        "ar": ["مضاد حيوي"],
+        "zh": ["抗生素", "抗菌药"],
+        "hi": ["एंटीबायोटिक"],
+        "fa": ["آنتی‌بیوتیک"],
+        "so": ["dawo anti-baayootik"],
+        "am": ["አንቲባዮቲክ"],
+        "sw": ["dawa ya antibiotiki"],
+        "ur": ["اینٹی بائیوٹک"]
+      }
+    },
+    "insulin": {
+      "category": "medication",
+      "priority": "critical",
+      "preserve_exact": true,
+      "translations": {
+        "es": ["insulina"],
+        "fr": ["insuline"],
+        "ar": ["إنسولين", "الأنسولين"],
+        "zh": ["胰岛素"],
+        "hi": ["इंसुलिन"],
+        "fa": ["انسولین"],
+        "so": ["insulin"],
+        "am": ["ኢንሱሊን"],
+        "sw": ["insulini"],
+        "ur": ["انسولین"]
+      }
+    },
+    "vaccine": {
+      "category": "medication",
+      "priority": "high",
+      "translations": {
+        "es": ["vacuna"],
+        "fr": ["vaccin"],
+        "ar": ["لقاح", "تطعيم"],
+        "zh": ["疫苗", "预防针"],
+        "hi": ["टीका", "वैक्सीन"],
+        "fa": ["واکسن"],
+        "so": ["tallaal"],
+        "am": ["ክትባት"],
+        "sw": ["chanjo"],
+        "ur": ["ویکسین", "ٹیکہ"]
+      }
+    }
+  },
+  "dosage_forms": {
+    "tablet": {
+      "category": "dosage_form",
+      "priority": "medium",
+      "translations": {
+        "es": ["tableta", "comprimido"],
+        "fr": ["comprimé"],
+        "ar": ["قرص", "حبة"],
+        "zh": ["片剂", "药片"],
+        "hi": ["गोली", "टैबलेट"],
+        "fa": ["قرص"],
+        "so": ["kiniin"],
+        "am": ["ክኒን"],
+        "sw": ["kidonge"],
+        "ur": ["گولی"]
+      }
+    },
+    "capsule": {
+      "category": "dosage_form",
+      "priority": "medium",
+      "translations": {
+        "es": ["cápsula"],
+        "fr": ["capsule", "gélule"],
+        "ar": ["كبسولة"],
+        "zh": ["胶囊"],
+        "hi": ["कैप्सूल"],
+        "fa": ["کپسول"],
+        "so": ["kaabsul"],
+        "am": ["ካፕሱል"],
+        "sw": ["kapsuli"],
+        "ur": ["کیپسول"]
+      }
+    },
+    "injection": {
+      "category": "dosage_form",
+      "priority": "high",
+      "translations": {
+        "es": ["inyección"],
+        "fr": ["injection"],
+        "ar": ["حقنة"],
+        "zh": ["注射", "打针"],
+        "hi": ["इंजेक्शन", "सुई"],
+        "fa": ["تزریق"],
+        "so": ["irbad", "muddo"],
+        "am": ["መርፌ"],
+        "sw": ["sindano"],
+        "ur": ["انجکشن", "ٹیکہ"]
+      }
+    },
+    "syrup": {
+      "category": "dosage_form",
+      "priority": "medium",
+      "translations": {
+        "es": ["jarabe"],
+        "fr": ["sirop"],
+        "ar": ["شراب"],
+        "zh": ["糖浆", "药水"],
+        "hi": ["सिरप"],
+        "fa": ["شربت"],
+        "so": ["sharoob"],
+        "am": ["ሽሮፕ"],
+        "sw": ["shurubeti", "dawa ya kumeza"],
+        "ur": ["شربت"]
+      }
+    }
+  },
+  "medication_instructions": {
+    "take": {
+      "category": "procedure",
+      "priority": "high",
+      "translations": {
+        "es": ["tomar", "tome"],
+        "fr": ["prendre", "prenez"],
+        "ar": ["خذ", "تناول"],
+        "zh": ["服用", "吃"],
+        "hi": ["लें", "लीजिए"],
+        "fa": ["مصرف کنید", "بخورید"],
+        "so": ["qaado", "cab"],
+        "am": ["ውሰድ", "ይውሰዱ"],
+        "sw": ["meza", "tumia"],
+        "ur": ["لیں", "استعمال کریں"]
+      }
+    },
+    "before meals": {
+      "category": "frequency",
+      "priority": "high",
+      "translations": {
+        "es": ["antes de las comidas"],
+        "fr": ["avant les repas"],
+        "ar": ["قبل الأكل", "قبل الوجبات"],
+        "zh": ["饭前", "餐前"],
+        "hi": ["भोजन से पहले"],
+        "fa": ["قبل از غذا"],
+        "so": ["cuntada ka hor"],
+        "am": ["ከምግብ በፊት"],
+        "sw": ["kabla ya chakula"],
+        "ur": ["کھانے سے پہلے"]
+      }
+    },
+    "after meals": {
+      "category": "frequency",
+      "priority": "high",
+      "translations": {
+        "es": ["después de las comidas"],
+        "fr": ["après les repas"],
+        "ar": ["بعد الأكل", "بعد الوجبات"],
+        "zh": ["饭后", "餐后"],
+        "hi": ["भोजन के बाद"],
+        "fa": ["بعد از غذا"],
+        "so": ["cuntada ka dib"],
+        "am": ["ከምግብ በኋላ"],
+        "sw": ["baada ya chakula"],
+        "ur": ["کھانے کے بعد"]
+      }
+    },
+    "once daily": {
+      "category": "frequency",
+      "priority": "high",
+      "translations": {
+        "es": ["una vez al día"],
+        "fr": ["une fois par jour"],
+        "ar": ["مرة واحدة يوميا"],
+        "zh": ["每天一次"],
+        "hi": ["दिन में एक बार"],
+        "fa": ["روزی یک بار"],
+        "so": ["hal mar maalintii"],
+        "am": ["በቀን አንድ ጊዜ"],
+        "sw": ["mara moja kwa siku"],
+        "ur": ["دن میں ایک بار"]
+      }
+    },
+    "twice daily": {
+      "category": "frequency",
+      "priority": "high",
+      "translations": {
+        "es": ["dos veces al día"],
+        "fr": ["deux fois par jour"],
+        "ar": ["مرتين يوميا"],
+        "zh": ["每天两次"],
+        "hi": ["दिन में दो बार"],
+        "fa": ["روزی دو بار"],
+        "so": ["laba jeer maalintii"],
+        "am": ["በቀን ሁለት ጊዜ"],
+        "sw": ["mara mbili kwa siku"],
+        "ur": ["دن میں دو بار"]
+      }
+    }
+  }
+}

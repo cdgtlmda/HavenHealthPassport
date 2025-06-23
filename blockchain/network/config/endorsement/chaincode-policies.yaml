@@ -1,0 +1,545 @@
+# Copyright Haven Health Passport. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+################################################################################
+#
+#   Chaincode-Level Endorsement Policies
+#
+#   This document defines function-specific endorsement requirements for
+#   Haven Health Passport smart contracts.
+#
+################################################################################
+
+# Global Chaincode Settings
+ChaincodeDefaults:
+  Name: "health-records-chaincode"
+  Version: "1.0.0"
+  Sequence: 1
+  InitRequired: true
+  EndorsementPlugin: "escc"
+  ValidationPlugin: "vscc"
+
+################################################################################
+# Health Record Contract Policies
+################################################################################
+
+HealthRecordContract:
+  # Create Record Functions
+  CreateRecord:
+    Policy:
+      Type: "OR"
+      Identities:
+        - Role: "member"
+          MspId: "HealthcareProvider1MSP"
+        - Role: "member"
+          MspId: "HealthcareProvider2MSP"
+        - Role: "member"
+          MspId: "RefugeeOrgMSP"
+    RequiredAttributes:
+      - "healthcare_provider"
+      - "active_license"
+    ValidationRules:
+      - "Patient consent verified"
+      - "Data encryption confirmed"
+      - "Compliance checks passed"
+
+  CreateRecordBatch:
+    Policy:
+      Type: "AND"
+      Rules:
+        - Type: "OR"
+          Identities:
+            - Role: "member"
+              MspId: "HealthcareProvider1MSP"
+            - Role: "member"
+              MspId: "HealthcareProvider2MSP"
+        - Type: "OR"
+          Identities:
+            - Role: "admin"
+              MspId: "UNHCROrgMSP"
+            - Role: "member"
+              MspId: "RefugeeOrgMSP"
+    RequiredAttributes:
+      - "batch_upload_authorized"
+      - "data_validation_certified"
+    Limits:
+      MaxBatchSize: 1000
+      Timeout: "5 minutes"
+
+  # Update Record Functions
+  UpdateRecord:
+    Policy:
+      Type: "OR"
+      Identities:
+        - Role: "member"
+          MspId: "HealthcareProvider1MSP"
+        - Role: "member"
+          MspId: "HealthcareProvider2MSP"
+    RequiredAttributes:
+      - "assigned_provider"
+      - "update_permission"
+    ValidationRules:
+      - "Version control maintained"
+      - "Audit trail created"
+      - "Previous version archived"
+    RestrictedFields:
+      - "patientId"
+      - "recordId"
+      - "createdAt"
+      - "previousVersions"
+
+  UpdateRecordEmergency:
+    Policy:
+      Type: "OR"
+      Identities:
+        - Role: "member"
+          MspId: "HealthcareProvider1MSP"
+        - Role: "member"
+          MspId: "HealthcareProvider2MSP"
+        - Role: "member"
+          MspId: "RefugeeOrgMSP"
+    RequiredAttributes:
+      - "emergency_responder"
+      - "active_emergency_declared"
+    OverridePermissions:
+      - "consent_requirements"
+      - "access_restrictions"
+    TimeLimit: "72 hours"
+    PostActionRequired: "Review within 24 hours"
+
+  # Read Record Functions
+  ReadRecord:
+    Policy:
+      Type: "OR"
+      Identities:
+        - Role: "member"
+          MspId: "HealthcareProvider1MSP"
+        - Role: "member"
+          MspId: "HealthcareProvider2MSP"
+        - Role: "member"
+          MspId: "RefugeeOrgMSP"
+        - Role: "client"
+          MspId: "UNHCROrgMSP"
+    RequiredAttributes:
+      - "valid_access_grant"
+    AuditRequired: true
+    RateLimits:
+      PerMinute: 100
+      PerHour: 1000
+      PerDay: 10000
+
+  QueryRecordsByPatient:
+    Policy:
+      Type: "OR"
+      Identities:
+        - Role: "member"
+          MspId: "HealthcareProvider1MSP"
+        - Role: "member"
+          MspId: "HealthcareProvider2MSP"
+    RequiredAttributes:
+      - "treating_physician"
+      - "patient_consent"
+    ResultFiltering:
+      - "Only accessible records"
+      - "Active status only"
+      - "Redact sensitive fields"
+
+  # Delete Record Functions
+  DeleteRecord:
+    Policy:
+      Type: "OutOf"
+      N: 2
+      Identities:
+        - Role: "admin"
+          MspId: "HealthcareProvider1MSP"
+        - Role: "admin"
+          MspId: "HealthcareProvider2MSP"
+        - Role: "admin"
+          MspId: "UNHCROrgMSP"
+    RequiredAttributes:
+      - "deletion_authority"
+      - "compliance_approved"
+    ValidationRules:
+      - "Retention period met"
+      - "Legal hold checked"
+      - "Patient notified"
+    ActionType: "Soft delete only"
+
+################################################################################
+# Verification Contract Policies
+################################################################################
+
+VerificationContract:
+  RequestVerification:
+    Policy:
+      Type: "OR"
+      Identities:
+        - Role: "member"
+          MspId: "HealthcareProvider1MSP"
+        - Role: "member"
+          MspId: "HealthcareProvider2MSP"
+        - Role: "member"
+          MspId: "UNHCROrgMSP"
+    RequiredAttributes:
+      - "verification_requester"
+      - "valid_reason"
+    Limits:
+      PendingRequests: 10
+      RequestsPerDay: 50
+
+  ApproveVerification:
+    Policy:
+      Type: "AND"
+      Rules:
+        - Type: "OR"
+          Identities:
+            - Role: "member"
+              MspId: "HealthcareProvider1MSP"
+            - Role: "member"
+              MspId: "HealthcareProvider2MSP"
+        - Type: "SignedBy"
+          SignedBy: 0  # Must be signed by the designated verifier
+    RequiredAttributes:
+      - "verification_authority"
+      - "medical_license_valid"
+    ValidationRules:
+      - "Evidence reviewed"
+      - "Credentials checked"
+      - "No conflicts of interest"
+
+  RejectVerification:
+    Policy:
+      Type: "OR"
+      Identities:
+        - Role: "member"
+          MspId: "HealthcareProvider1MSP"
+        - Role: "member"
+          MspId: "HealthcareProvider2MSP"
+    RequiredAttributes:
+      - "verification_authority"
+    RequiredFields:
+      - "rejection_reason"
+      - "evidence_review_notes"
+
+  RevokeVerification:
+    Policy:
+      Type: "OutOf"
+      N: 2
+      Identities:
+        - Role: "admin"
+          MspId: "HealthcareProvider1MSP"
+        - Role: "admin"
+          MspId: "HealthcareProvider2MSP"
+        - Role: "admin"
+          MspId: "UNHCROrgMSP"
+    RequiredAttributes:
+      - "revocation_authority"
+      - "senior_management"
+    ValidationRules:
+      - "Valid revocation reason"
+      - "Investigation completed"
+      - "Appeals process offered"
+
+################################################################################
+# Access Control Contract Policies
+################################################################################
+
+AccessControlContract:
+  GrantAccess:
+    Policy:
+      Type: "OR"
+      Identities:
+        - Role: "member"
+          MspId: "HealthcareProvider1MSP"
+        - Role: "member"
+          MspId: "HealthcareProvider2MSP"
+        - Role: "client"
+          MspId: "UNHCROrgMSP"
+        - Role: "patient"
+          MspId: "PatientOrgMSP"
+    RequiredAttributes:
+      - "access_grantor"
+    ValidationRules:
+      - "Grantor owns resource or has delegation"
+      - "Grantee identity verified"
+      - "Permissions scope valid"
+    DefaultDuration: "30 days"
+    MaxDuration: "365 days"
+
+  RevokeAccess:
+    Policy:
+      Type: "OR"
+      Identities:
+        - Role: "member"
+          MspId: "HealthcareProvider1MSP"
+        - Role: "member"
+          MspId: "HealthcareProvider2MSP"
+        - Role: "client"
+          MspId: "UNHCROrgMSP"
+        - Role: "patient"
+          MspId: "PatientOrgMSP"
+    RequiredAttributes:
+      - "access_revoker"
+    ValidationRules:
+      - "Revoker is grantor or has override permission"
+      - "Valid revocation reason"
+      - "Notification sent to grantee"
+
+  CheckAccess:
+    Policy:
+      Type: "OR"
+      Identities:
+        - Role: "peer"
+          MspId: "HealthcareProvider1MSP"
+        - Role: "peer"
+          MspId: "HealthcareProvider2MSP"
+        - Role: "peer"
+          MspId: "RefugeeOrgMSP"
+        - Role: "peer"
+          MspId: "UNHCROrgMSP"
+    RequiredAttributes: []  # No special attributes needed
+    CachingAllowed: true
+    CacheDuration: "5 minutes"
+
+  CreateAccessPolicy:
+    Policy:
+      Type: "OutOf"
+      N: 3
+      Identities:
+        - Role: "admin"
+          MspId: "HealthcareProvider1MSP"
+        - Role: "admin"
+          MspId: "HealthcareProvider2MSP"
+        - Role: "admin"
+          MspId: "UNHCROrgMSP"
+        - Role: "admin"
+          MspId: "RefugeeOrgMSP"
+    RequiredAttributes:
+      - "policy_administrator"
+      - "governance_committee"
+    ValidationRules:
+      - "Policy schema valid"
+      - "No conflicts with existing policies"
+      - "Compliance requirements met"
+
+################################################################################
+# Private Data Collection Policies
+################################################################################
+
+PrivateDataCollections:
+  personalHealthData:
+    Policy:
+      Type: "OR"
+      Members:
+        - "HealthcareProvider1MSP"
+        - "HealthcareProvider2MSP"
+        - "RefugeeOrgMSP"
+    RequiredPeerCount: 2
+    MaxPeerCount: 4
+    BlockToLive: 0  # No automatic purging
+    MemberOnlyRead: true
+    MemberOnlyWrite: true
+    EndorsementPolicy:
+      Type: "OR"
+      Identities:
+        - Role: "member"
+          MspId: "HealthcareProvider1MSP"
+        - Role: "member"
+          MspId: "HealthcareProvider2MSP"
+
+  sensitiveRecords:
+    Policy:
+      Type: "AND"
+      Rules:
+        - Type: "OR"
+          Members:
+            - "HealthcareProvider1MSP"
+            - "HealthcareProvider2MSP"
+        - Type: "OR"
+          Members:
+            - "UNHCROrgMSP"
+            - "PatientOrgMSP"
+    RequiredPeerCount: 3
+    MaxPeerCount: 5
+    BlockToLive: 1000000  # Retained for ~3 months
+    MemberOnlyRead: true
+    MemberOnlyWrite: false
+    EndorsementPolicy:
+      Type: "OutOf"
+      N: 2
+      Identities:
+        - Role: "member"
+          MspId: "HealthcareProvider1MSP"
+        - Role: "member"
+          MspId: "HealthcareProvider2MSP"
+        - Role: "admin"
+          MspId: "UNHCROrgMSP"
+
+  verificationData:
+    Policy:
+      Type: "OR"
+      Members:
+        - "HealthcareProvider1MSP"
+        - "HealthcareProvider2MSP"
+        - "UNHCROrgMSP"
+    RequiredPeerCount: 1
+    MaxPeerCount: 3
+    BlockToLive: 0
+    MemberOnlyRead: false
+    MemberOnlyWrite: true
+    EndorsementPolicy:
+      Type: "OR"
+      Identities:
+        - Role: "member"
+          MspId: "HealthcareProvider1MSP"
+        - Role: "member"
+          MspId: "HealthcareProvider2MSP"
+
+################################################################################
+# Channel Configuration Policies
+################################################################################
+
+ChannelPolicies:
+  # Channel Creation
+  ChannelCreation:
+    Policy:
+      Type: "ImplicitMeta"
+      Rule: "MAJORITY Admins"
+    RequiredOrganizations:
+      - "OrdererOrg"
+      - "UNHCROrgMSP"
+      - "HealthcareProvider1MSP"
+
+  # Channel Updates
+  ChannelUpdate:
+    Policy:
+      Type: "ImplicitMeta"
+      Rule: "MAJORITY Admins"
+    RestrictedUpdates:
+      - "Orderer addresses"
+      - "Consensus type"
+      - "Block cutting parameters"
+    RequiresApproval:
+      - "Add/Remove organizations"
+      - "Modify policies"
+      - "Change capabilities"
+
+  # Member Management
+  AddOrganization:
+    Policy:
+      Type: "Signature"
+      Identities:
+        - Role: "admin"
+          MspId: "OrdererOrg"
+        - Role: "admin"
+          MspId: "UNHCROrgMSP"
+      Rule: "OutOf(2, 'OrdererOrg.admin', 'UNHCROrgMSP.admin', 'HealthcareProvider1MSP.admin', 'HealthcareProvider2MSP.admin')"
+    ValidationRequirements:
+      - "Organization credentials verified"
+      - "Technical capabilities assessed"
+      - "Legal agreements signed"
+      - "Security audit completed"
+
+  RemoveOrganization:
+    Policy:
+      Type: "Signature"
+      Rule: "OutOf(3, 'OrdererOrg.admin', 'UNHCROrgMSP.admin', 'HealthcareProvider1MSP.admin', 'HealthcareProvider2MSP.admin')"
+    RequiredSteps:
+      - "30-day notice period"
+      - "Data migration plan"
+      - "Access revocation schedule"
+      - "Final audit"
+
+################################################################################
+# Lifecycle Policies
+################################################################################
+
+ChaincodeLifecycle:
+  # Installation
+  InstallChaincode:
+    Policy:
+      Type: "OR"
+      Identities:
+        - Role: "admin"
+          MspId: "HealthcareProvider1MSP"
+        - Role: "admin"
+          MspId: "HealthcareProvider2MSP"
+        - Role: "admin"
+          MspId: "UNHCROrgMSP"
+        - Role: "admin"
+          MspId: "RefugeeOrgMSP"
+    Requirements:
+      - "Security scan passed"
+      - "Code review completed"
+      - "Test coverage > 80%"
+
+  # Approval
+  ApproveChaincode:
+    Policy:
+      Type: "MAJORITY"
+      Organizations:
+        - "HealthcareProvider1MSP"
+        - "HealthcareProvider2MSP"
+        - "UNHCROrgMSP"
+        - "RefugeeOrgMSP"
+    ApprovalTimeout: "7 days"
+    RequiredChecks:
+      - "Endorsement policy defined"
+      - "Private data collections configured"
+      - "Upgrade compatibility verified"
+
+  # Commit
+  CommitChaincode:
+    Policy:
+      Type: "MAJORITY"
+      Organizations:
+        - "HealthcareProvider1MSP"
+        - "HealthcareProvider2MSP"
+        - "UNHCROrgMSP"
+        - "RefugeeOrgMSP"
+    CommitRequirements:
+      - "All approvals collected"
+      - "Readiness check passed"
+      - "Rollback plan prepared"
+
+################################################################################
+# Policy Metadata
+################################################################################
+
+PolicyMetadata:
+  Version: "1.0.0"
+  EffectiveDate: "2024-01-20"
+  ReviewCycle: "Quarterly"
+
+  PolicyGovernance:
+    Owner: "Network Policy Committee"
+    Reviewers:
+      - "Security Team"
+      - "Compliance Team"
+      - "Technical Architecture Board"
+    ApprovalRequired: "MAJORITY of all member organizations"
+
+  Monitoring:
+    PolicyViolations:
+      Detection: "Automated monitoring"
+      Response: "Immediate notification"
+      Escalation: "To governance committee"
+
+    PerformanceMetrics:
+      - "Endorsement success rate"
+      - "Average endorsement time"
+      - "Policy override frequency"
+      - "Access denial rate"
+
+  Enforcement:
+    ViolationPenalties:
+      Minor: "Warning and remediation"
+      Major: "Temporary suspension"
+      Severe: "Permanent removal"
+
+    AppealProcess:
+      Timeline: "30 days"
+      ReviewBody: "Governance Committee"
+      FinalAuthority: "Network Consortium"
+
+# End of Chaincode Policies Configuration
